@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Dashboard Design</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+        <style>
+            body {
+                font-family: "Calibri", serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container m-4 border border-dark rounded py-2 px-4">
+            <div class="row">
+                <div class="col">
+                    <h5>COVID-19 Analyzer</h5>
+                </div>
+                <div class="col text-right">
+                    <button class="btn btn-dark">Doc</button>
+                    <button class="btn btn-secondary" disabled>Export</button>
+                    <button class="btn btn-danger">X</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">Full Time</div>
+                <div class="col-6">Compare to this 7 Days Period (Mar.29 ~ Apr.5)</div>
+            </div>
+
+            <div class="row">
+                <div class="col-2 card">
+                    <h4>Confirmed</h4>
+                    <code class="h2 text-dark text-center">300K</code>
+                </div>
+                <div class="col-2 card">
+                    <h4 class="text-success">Recovered</h4>
+                    <code class="h2 text-success text-center">10K</code>
+                </div>
+                <div class="col-2 card">
+                    <h4 class="text-danger">Death</h4>
+                    <code class="h2 text-danger text-center">2K</code>
+                </div>
+
+                <div class="col-2 card">
+                    <h4>Confirmed</h4>
+                    <code class="h2 text-dark text-center">+40K</code>
+                </div>
+                <div class="col-2 card">
+                    <h4 class="text-success">Recovered</h4>
+                    <code class="h2 text-success text-center">+2K</code>
+                </div>
+                <div class="col-2 card">
+                    <h4 class="text-danger">Death</h4>
+                    <code class="h2 text-danger text-center">+300</code>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mb-3">
+                <div class="input-group col p-0">
+                    <input type="text" class="form-control" placeholder="Filter syntax here">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary col">Filter</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2 card">
+                    <h5>Confirmed</h5>
+                    <code class="h2 text-dark text-center">-</code>
+                </div>
+                <div class="col-2 card">
+                    <h5 class="text-success">Recovered</h5>
+                    <code class="h2 text-success text-center">-</code>
+                </div>
+                <div class="col-2 card">
+                    <h5 class="text-danger">Death</h5>
+                    <code class="h2 text-danger text-center">-</code>
+                </div>
+                <div class="col-2 card">
+                    <h5>Confirmed / 100K</h5>
+                    <code class="h2 text-dark text-center">-</code>
+                </div>
+                <div class="col-2 card">
+                    <h5 class="text-success">Recovered / 100K</h5>
+                    <code class="h2 text-success text-center">-</code>
+                </div>
+                <div class="col-2 card">
+                    <h5 class="text-danger">Death / 100K</h5>
+                    <code class="h2 text-danger text-center">-</code>
+                </div>
+            </div>
+
+            <canvas id="chart" style="max-height: 300px;"></canvas>
+
+            <div class="row">
+                <div class="col">
+                    <table class="table table-striped" style="min-height: 300px;">
+                        <thead>
+                            <tr>
+                                <th class="align-middle text-center" rowspan="2">Date</th>
+                                <th class="align-middle text-center" rowspan="2">State</th>
+                                <th class="align-middle text-center" rowspan="2">City</th>
+                                <th class="align-middle text-center" colspan="3">Case</th>
+                                <th class="align-middle text-center" colspan="3">Case per 100K residents</th>
+                            </tr>
+                            <tr>
+                                <th class="align-middle text-center">Confirmed</th>
+                                <th class="align-middle text-center text-success">Recovered</th>
+                                <th class="align-middle text-center text-danger">Death</th>
+                                <th class="align-middle text-center">Confirmed</th>
+                                <th class="align-middle text-center text-success">Recovered</th>
+                                <th class="align-middle text-center text-danger">Death</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+        <!--suppress JSUnresolvedFunction -->
+        <script type="text/javascript">
+            Chart.defaults.global.defaultFontFamily = "\"Calibri\", serif, sans-serif;";
+
+            new Chart(document.getElementById("chart").getContext("2d"), {
+                type: "line",
+
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: "Confirmed",
+                            data: []
+                        },
+                        {
+                            label: "Recovered",
+                            backgroundColor: '#28a745',
+                            data: []
+                        },
+                        {
+                            label: "Death",
+                            backgroundColor: '#dc3545',
+                            data: []
+                        }
+                    ]
+                },
+
+                options: {
+                    maintainAspectRatio: false,
+                }
+            });
+        </script>
+    </body>
+</html>
