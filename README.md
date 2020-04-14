@@ -10,6 +10,8 @@ COVID-19 data analyzer for the final project of UW-Madison CS 400 Spring 2020 at
 
 ### References
 Main source
+- https://covid-19-apis.postman.com/
+    - COVID 19 APi collection on Postman
 - https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest
     - Documentation
 - https://api.covid19api.com/country/united-states/status/confirmed
@@ -26,3 +28,14 @@ Info links
 Population Data
 - https://simplemaps.com/data/us-cities
     - Used to calculate cases/100K population.
+    
+# Notes
+
+### Case data(csv) header convention
+
+| Date | City | City Code | Latitude | Longitude | Cases |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+
+### Date of recovered cases
+
+Not available for individual cities.
