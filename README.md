@@ -31,11 +31,8 @@ Population Data
     
 # Notes
 
-### Case data(csv) header convention
+About commit
+- #4
 
-| Date | City | City Code | Latitude | Longitude | Cases |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-
-### Date of recovered cases
-
-Not available for individual cities.
+Case data
+- #5
