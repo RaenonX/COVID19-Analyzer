@@ -32,7 +32,7 @@ Population Data
 # Notes
 
 About commit
-- #4
+- [#4](https://github.com/RaenonX/CS400-AT87/issues/4)
 
 Case data
-- #5
+- [#5](https://github.com/RaenonX/CS400-AT87/issues/5)
