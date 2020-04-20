@@ -5,7 +5,9 @@ out
 
 # Eclipse
 .project
+.classpath
 .settings
+bin
 
 # Compiled files
 *.class
