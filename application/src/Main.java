@@ -6,6 +6,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Main extends Application {
     private static final int WINDOW_WIDTH = 600;
     private static final int WINDOW_HEIGHT = 300;
@@ -16,7 +18,7 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
         // Test Chart
- /*
+        /*
         Number date1 = 1;
         Number date2 = 3;
         Number date3 = 5;
@@ -32,12 +34,12 @@ public class Main extends Application {
         cases.add(32);
 
 
-        XYChart.Series<Number, Number> s1 = graph.makeSeries(dates,cases);
+        XYChart.Series<Number, Number> s1 = ChartMaker.makeSeries(dates,cases);
         s1.setName("Data Series 1");
 
         ArrayList<XYChart.Series<Number,Number>> seriesList = new ArrayList<>();
         seriesList.add(s1);
-        LineChart<Number, Number> chart = graph.makeChart(seriesList);
+        LineChart<Number, Number> chart = ChartMaker.makeChart(seriesList);
 
         primaryStage.setTitle(APP_TITLE);
         root.setCenter(chart);
