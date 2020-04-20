@@ -11,28 +11,21 @@ import java.util.ArrayList;
 public class Main extends Application {
     private static final int WINDOW_WIDTH = 600;
     private static final int WINDOW_HEIGHT = 300;
-    private static final String APP_TITLE = "LINE GRAPH";
+    private static final String APP_TITLE = "COVID-19 Analyzer";
 
-    @Override
-    public void start(Stage primaryStage) {
+    private void testChart(Stage primaryStage) {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
-        // Test Chart
-        /*
-        Number date1 = 1;
-        Number date2 = 3;
-        Number date3 = 5;
 
         ArrayList<Number> dates = new ArrayList<>();
-        dates.add(date1);
-        dates.add(date2);
-        dates.add(date3);
+        dates.add(1);
+        dates.add(3);
+        dates.add(5);
 
         ArrayList<Number> cases = new ArrayList<>();
         cases.add(1);
         cases.add(43);
         cases.add(32);
-
 
         XYChart.Series<Number, Number> s1 = ChartMaker.makeSeries(dates,cases);
         s1.setName("Data Series 1");
@@ -41,19 +34,26 @@ public class Main extends Application {
         seriesList.add(s1);
         LineChart<Number, Number> chart = ChartMaker.makeChart(seriesList);
 
-        primaryStage.setTitle(APP_TITLE);
         root.setCenter(chart);
 
-		Scene scene = new Scene(root,200,100);
-		primaryStage.setScene(scene);
-		*/
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        primaryStage.setScene(scene);
+    }
 
-        // Test Table
-        /*
+    private void testTable(Stage primaryStage) {
         TempDataHolder tmc = new TempDataHolder();
         primaryStage.setScene(new Scene(new BorderPane(TableMaker.makeTable(tmc)), WINDOW_WIDTH, WINDOW_HEIGHT));
-         */
+    }
 
+    @Override
+    public void start(Stage primaryStage) {
+        // Test Chart
+        // testChart(primaryStage);
+
+        // Test Table
+        // testTable(primaryStage);
+
+        primaryStage.setTitle(APP_TITLE);
         primaryStage.show();
     }
 
