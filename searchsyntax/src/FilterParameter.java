@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 /**
  * Parameter to be used in {@code FilterCondition}.
  */
@@ -5,52 +7,54 @@ public enum FilterParameter implements FilterElement {
     /**
      * State name / State abbreviation
      */
-    STATE("%state%"),
+    STATE("%state%", State.class),
     /**
-     * City name
+     * County name
      */
-    CITY("%city%"),
+    COUNTY("%city%", County.class),
     /**
      * Confirmed cases
      */
-    CONFIRMED("%confirmed%"),
+    CONFIRMED("%confirmed%", int.class),
     /**
      * Death cases
      */
-    FATAL("%fatal%"),
+    FATAL("%fatal%", int.class),
     /**
      * Confirmed cases per 100K population
      */
-    CONFIRMED_PER100K("%confirmed_100k%"),
+    CONFIRMED_PER100K("%confirmed_100k%", double.class),
     /**
      * Fatal cases per 100K population
      */
-    FATAL_PER100K("%fatal_100k%"),
+    FATAL_PER100K("%fatal_100k%", double.class),
     /**
      * Death Rate (%)
      */
-    DEATH_RATE("%death_rate%"),
+    DEATH_RATE("%death_rate%", double.class),
     /**
      * Latitude
      */
-    LATITUDE("%lat%"),
+    LATITUDE("%lat%", double.class),
     /**
      * Longitude
      */
-    LONGITUDE("%lon%"),
+    LONGITUDE("%lon%", double.class),
     /**
      * ZIP code of the city
      */
-    ZIP_CODE("%zip%"),
+    ZIP_CODE("%zip%", LocalDate.class),
     /**
      * Date of the data entry
      */
-    DATE("%date%");
+    DATE("%date%", LocalDate.class);
 
-    private String syntax;
+    private final String syntax;
+    private final Class<?> type;
 
-    FilterParameter(String syntax) {
+    FilterParameter(String syntax, Class<?> type) {
         this.syntax = syntax;
+        this.type = type;
     }
 
     /**
@@ -74,5 +78,15 @@ public enum FilterParameter implements FilterElement {
     @Override
     public String getSyntax() {
         return this.syntax;
+    }
+
+    /**
+     * Cast the item to the target type.
+     *
+     * @param item item to be casted
+     * @return casted object
+     */
+    public Object cast(String item) {
+        return this.type.cast(item);
     }
 }
