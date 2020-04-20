@@ -8,7 +8,7 @@ bin
 .project
 .classpath
 .settings
-bin
+.DS_Store
 
 # Compiled files
 *.class
