@@ -10,20 +10,8 @@ COVID-19 data analyzer for the final project of UW-Madison CS 400 Spring 2020 at
 
 ### References
 Main source
-- https://covid-19-apis.postman.com/
-    - COVID 19 APi collection on Postman
-- https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest
-    - Documentation
-- https://api.covid19api.com/country/united-states/status/confirmed
-    - Confirmed cases in the united states. 
-- https://api.covid19api.com/country/united-states/status/recovered
-    - Recovered cases in the united states. 
-- https://api.covid19api.com/country/united-states/status/deaths
-    - Death cases in the united states. 
-
-Info links
-- https://covidtracking.com/api/states/info
-    - Info links of each states
+- https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports
+    - JHU CSSE Data
     
 Population Data
 - https://simplemaps.com/data/us-cities

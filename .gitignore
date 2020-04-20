@@ -1,4 +1,15 @@
+# IntelliJ IDEA
 out
 .idea
 *.iml
-/bin/
+bin
+
+# Eclipse
+.project
+.settings
+
+# Compiled files
+*.class
+
+# Python
+venv
