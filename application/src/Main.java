@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -11,13 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        root.setPadding(new Insets(10));
-
-        Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        primaryStage.setTitle(APP_TITLE);
-        primaryStage.setScene(mainScene);
+        // Test Table
+        /*
+        TempDataHolder tmc = new TempDataHolder();
+        primaryStage.setScene(new Scene(new BorderPane(TableMaker.makeTable(tmc)), WINDOW_WIDTH, WINDOW_HEIGHT));
+         */
 
         primaryStage.show();
     }
