@@ -1,3 +1,6 @@
+/**
+ * A class represents a single filter condition.
+ */
 public class FilterConditionEntity {
     private FilterParameter parameter;
     private FilterComparator comparator;

@@ -3,6 +3,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FilterQueryParser {
+    /**
+     * Parse the given string to `FilterCondition`.
+     *
+     * @param query string to be parsed
+     * @return parsed condition
+     * @throws FilterSyntaxError thrown if there's any error in the filter query
+     */
     public static FilterCondition parse(String query) throws FilterSyntaxError {
         if (query.contains("(") || query.contains(")")) {
             throw new FilterSyntaxError(FilterSyntaxErrorReason.PARENTHESES_NOT_ALLOWED);
