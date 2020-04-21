@@ -1,59 +1,48 @@
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class Main extends Application {
-    private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 300;
-    private static final String APP_TITLE = "COVID-19 Analyzer";
+    private static final int WINDOW_WIDTH = 1200;
+    private static final int WINDOW_HEIGHT = 800;
+    private static final String APP_TITLE = "COVID-19 Analyzer (CS400 / AT87)";
 
-    private void testChart(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        root.setPadding(new Insets(10));
+    /**
+     * Load the CSS style sheet file to the scene.
+     */
+    private void loadStylesheet(Scene scene) {
+        String cssPath;
+        try {
+            cssPath = new File(".res/main.css").toURI().toURL().toString();
+        } catch (MalformedURLException e) {
+            System.out.println("Unable to load the css file.");
+            return;
+        }
 
-        ArrayList<Number> dates = new ArrayList<>();
-        dates.add(1);
-        dates.add(3);
-        dates.add(5);
-
-        ArrayList<Number> cases = new ArrayList<>();
-        cases.add(1);
-        cases.add(43);
-        cases.add(32);
-
-        XYChart.Series<Number, Number> s1 = ChartMaker.makeSeries(dates,cases);
-        s1.setName("Data Series 1");
-
-        ArrayList<XYChart.Series<Number,Number>> seriesList = new ArrayList<>();
-        seriesList.add(s1);
-        LineChart<Number, Number> chart = ChartMaker.makeChart(seriesList);
-
-        root.setCenter(chart);
-
-        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        primaryStage.setScene(scene);
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(cssPath);
     }
 
-    private void testTable(Stage primaryStage) {
-        TempDataHolder tmc = new TempDataHolder();
-        primaryStage.setScene(new Scene(new BorderPane(TableMaker.makeTable(tmc)), WINDOW_WIDTH, WINDOW_HEIGHT));
+    private void configurePrimaryStage(Scene mainScene, Stage primaryStage) {
+        loadStylesheet(mainScene);
+
+        // Set properties
+        primaryStage.setTitle(APP_TITLE);
+        primaryStage.setResizable(true);
+        primaryStage.setWidth(WINDOW_WIDTH);
+        primaryStage.setHeight(WINDOW_HEIGHT);
+
+        primaryStage.setScene(mainScene);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        // Test Chart
-        // testChart(primaryStage);
+        MainLayout ml = new MainLayout(WINDOW_WIDTH);
 
-        // Test Table
-        // testTable(primaryStage);
-
-        primaryStage.setTitle(APP_TITLE);
+        configurePrimaryStage(new Scene(ml.layout()), primaryStage);
         primaryStage.show();
     }
 

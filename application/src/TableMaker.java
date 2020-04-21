@@ -1,7 +1,18 @@
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 public class TableMaker {
+    /**
+     * A {@code BorderPane} which contains the sample table GUI.
+     *
+     * @return prepared table GUI element
+     */
+    public static Pane sampleTable() {
+        return new BorderPane(TableMaker.makeTable(new TempDataHolder()));
+    }
+
     /**
      * Same as {@code makeTable} with an additional empty table placeholder parameter.
      *
