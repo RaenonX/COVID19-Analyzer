@@ -1,8 +1,11 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,11 +16,13 @@ public class MainLayout {
     private static final String DEFAULT_STATUS_MSG = "Ready";
     private static final String DEFAULT_TEXT = "30.3K";
 
+    private final Stage stage;
     private final int presetWidth;
 
     private final Region growRegion;
 
-    public MainLayout(int presetWidth) {
+    public MainLayout(Stage stage, int presetWidth) {
+        this.stage = stage;
         this.presetWidth = presetWidth;
 
         this.growRegion = new Region();
@@ -66,6 +71,7 @@ public class MainLayout {
         }};
         Button b1_doc = new Button("Filter Syntax Manual") {{
             setId("doc");
+            setOnAction(e -> FilterSyntaxDocGUI.documentationDialog(stage).show());
         }};
         Button b2_export = new Button("Export Result") {{
             setId("export");

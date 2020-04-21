@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COVID-19 Analyzer Documentation</title>
+    <style>
+        body {
+            font-family: "Calibri", serif;
+        }
+    </style>
+</head>
+<body>
+<h2>Intro</h2>
+<p>
+    There are three parts of a filter condition: filter parameter, filter comparator and the value.<br>
+    Conditions can be combined with | (OR) and & (AND) to perform multi condition filtering.<br>
+</p>
+<ul>
+    <li>AND (&) have a higher precedence than OR (|), meaning that the conditions combined with AND (&) will be considered first.</li>
+    <li>Parentheses currently not allowed.</li>
+</ul>
+<p>
+    All expressions are <b>case-sensitive</b>.
+</p>
+<h2>Valid Values</h2>
+<h3>Filter Parameters</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Parameter</th>
+        <th>Expression</th>
+        <th>Description</th>
+        <th>Valid Values</th>
+        <th>Example</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>State</td>
+        <td><code>%state%</code></td>
+        <td>Name or abbreviation of the state.</td>
+        <td>(as described)</td>
+        <td>WI or Wisconsin</td>
+    </tr>
+    <tr>
+        <td>County</td>
+        <td><code>%county%</code></td>
+        <td>Name of the county. When using this, state abbreviation needs to be attached.</td>
+        <td>(as described)</td>
+        <td>Dane, WI</td>
+    </tr>
+    <tr>
+        <td>Confirmed Cases</td>
+        <td><code>%confirmed%</code></td>
+        <td>Confirmed cases count.</td>
+        <td>Positive Integer</td>
+        <td>57</td>
+    </tr>
+    <tr>
+        <td>Fatal Cases</td>
+        <td><code>%fatal%</code></td>
+        <td>Fatal cases count.</td>
+        <td>Positive Integer</td>
+        <td>57</td>
+    </tr>
+    <tr>
+        <td>Confirmed Cases Per 100K Residents</td>
+        <td><code>%confirmed_100k%</code></td>
+        <td>Confirmed cases count per 100K residents.</td>
+        <td>Positive Float Number which is &le; 100K</td>
+        <td>157.8</td>
+    </tr>
+    <tr>
+        <td>Fatal Cases Per 100K Residents</td>
+        <td><code>%fatal_100k%</code></td>
+        <td>Fatal cases count per 100K residents.</td>
+        <td>Positive Float Number which is &le; 100K</td>
+        <td>157.8</td>
+    </tr>
+    <tr>
+        <td>Death Rate (%)</td>
+        <td><code>%death_rate%</code></td>
+        <td>Death Rate.</td>
+        <td>0.0 &le; x &le; 100.0</td>
+        <td>57.8</td>
+    </tr>
+    <tr>
+        <td>Latitude</td>
+        <td><code>%lat%</code></td>
+        <td>Latitude of the location.</td>
+        <td>-90.0 &le; x &le; 90.0</td>
+        <td>57.8</td>
+    </tr>
+    <tr>
+        <td>Longitude</td>
+        <td><code>%lon%</code></td>
+        <td>Longitude of the location.</td>
+        <td>-180.0 &le; x &le; 180.0</td>
+        <td>57.8</td>
+    </tr>
+    <tr>
+        <td>ZIP Code</td>
+        <td><code>%zip%</code></td>
+        <td>ZIP code of the location.</td>
+        <td>5-digit number</td>
+        <td>53716</td>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td><code>%date%</code></td>
+        <td>Date of the data.</td>
+        <td>YYYY-MM-DD</td>
+        <td>2020-04-21</td>
+    </tr>
+    </tbody>
+</table>
+<h3>Filter Comparator</h3>
+<ul>
+    <li><code><b>&gt;&equals;</b></code>&nbsp;&dash;&nbsp;Greater than or equals</li>
+    <li><code><b>&gt;</b></code>&nbsp;&dash;&nbsp;Greater than</li>
+    <li><code><b>&lt;&equals;</b></code>&nbsp;&dash;&nbsp;Less than or equals</li>
+    <li><code><b>&lt;</b></code>&nbsp;&dash;&nbsp;Less than or equals</li>
+    <li><code><b>&equals;</b></code>&nbsp;&dash;&nbsp;Equals</li>
+</ul>
+<h2>Examples</h2>
+<ul>
+    <li>
+        <code>%confirmed% > 70</code><br>
+        Confirmed case is greater than 70.
+    <li>
+        <code>%fatal% > 100 & %fatal_100k% > 3.1</code><br>
+        Fatal case is greater than 100 and fatal case per 100K residents is greater than 3.1.
+    </li>
+    <li>
+        <code>%state% = WI | %state% = NY</code><br>
+        Filter the data to be the data of WI (Wisconsin) only or NY (New York).
+    </li>
+    <li>
+        <code>%state% = WI & %confirmed% > 300 | %state% = IN & %confirmed% > 400</code><br>
+        Get the data in Wisconsin with the confirmed case count over 300 or the data in Indiana with the confirmed case count over 400.
+    </li>
+</ul>
+</body>
+</html>
