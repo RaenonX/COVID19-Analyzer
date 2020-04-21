@@ -10,7 +10,7 @@ public class TableMaker {
      * @return prepared table GUI element
      */
     public static Pane sampleTable() {
-        return new BorderPane(TableMaker.makeTable(new TempDataHolder()));
+        return new BorderPane(TableMaker.makeTable(DataHolder.sampleData()));
     }
 
     /**

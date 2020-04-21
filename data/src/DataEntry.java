@@ -1,16 +1,16 @@
 import java.time.LocalDate;
 
-public class TempDataEntry implements IGUITableEntry {
+public class DataEntry implements IGUITableEntry {
     private final LocalDate date;
-    private final String state;
-    private final String county;
+    private final State state;
+    private final County county;
     private final int confirmed;
     private final int fatal;
     private final double confirmedPer100K;
     private final double fatalPer100K;
 
-    public TempDataEntry(
-            LocalDate date, String state, String county, int confirmed, int fatal, int population) {
+    public DataEntry(
+            LocalDate date, State state, County county, int confirmed, int fatal, int population) {
         this.date = date;
         this.state = state;
         this.county = county;
@@ -24,11 +24,11 @@ public class TempDataEntry implements IGUITableEntry {
         return date;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public String getCounty() {
+    public County getCounty() {
         return county;
     }
 
