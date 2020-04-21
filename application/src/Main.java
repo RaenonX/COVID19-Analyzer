@@ -43,7 +43,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MainLayout ml = new MainLayout(WINDOW_WIDTH);
+        MainLayout ml = new MainLayout(primaryStage, WINDOW_WIDTH);
 
         configurePrimaryStage(new Scene(ml.layout()), primaryStage);
         primaryStage.show();
