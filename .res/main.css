@@ -1,0 +1,76 @@
+/* region Root */
+.root {
+    -fx-font: 14 Calibri;
+    -fx-text-fill: #101010;
+}
+/* endregion */
+
+/* region Label */
+.label {
+    -fx-padding: 2;
+}
+
+.label#status {
+    -fx-text-fill: black;
+    -fx-font-size: 13;
+    -fx-alignment: bottom-left;
+}
+
+.label.section-title {
+    -fx-text-fill: purple;
+    -fx-font-size: 24;
+}
+
+.label.summary-type {
+    -fx-font-size: 16;
+    -fx-text-alignment: left;
+    -fx-padding: 5;
+}
+
+.label.summary-count {
+    -fx-font-size: 24;
+    -fx-padding: 5;
+}
+/* endregion */
+
+/* region Button */
+.button {
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+}
+
+.button#doc {
+    -fx-background-color: black;
+}
+
+.button#export {
+    -fx-background-color: grey;
+}
+/* endregion */
+
+/* region Pane */
+VBox.case {
+    -fx-alignment: center;
+}
+
+VBox.summary-section {
+    -fx-border-color: lightgray;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+}
+/* endregion */
+
+/* region Miscellaneous */
+.section {
+    -fx-padding: 5;
+    -fx-spacing: 3;
+}
+
+.confirmed {
+    -fx-text-fill: #003574;
+}
+
+.fatal {
+    -fx-text-fill: #DC3545;
+}
+/* endregion */
