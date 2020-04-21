@@ -23,9 +23,9 @@ class FilterParameterParsingTest {
 
     @Test
     void test_cast() throws FilterSyntaxError {
-        assertNull(FilterParameter.STATE.cast("WI")); // FIXME: Should not be null after #7 is completed
-        assertNull(FilterParameter.STATE.cast("Wisconsin")); // FIXME: Should not be null after #7 is completed
-        assertNull(FilterParameter.COUNTY.cast("Dane, WI")); // FIXME: Should not be null after #7 is completed
+        assertNull(FilterParameter.STATE.cast("WI")); // TODO: Should not be null after #7 is completed
+        assertNull(FilterParameter.STATE.cast("Wisconsin")); // TODO: Should not be null after #7 is completed
+        assertNull(FilterParameter.COUNTY.cast("Dane, WI")); // TODO: Should not be null after #7 is completed
 
         assertEquals(70, FilterParameter.CONFIRMED.cast("70"));
         assertEquals(70, FilterParameter.FATAL.cast("70"));
