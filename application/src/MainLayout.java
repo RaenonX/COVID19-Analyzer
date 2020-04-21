@@ -64,10 +64,10 @@ public class MainLayout {
         Label status = new Label(DEFAULT_STATUS_MSG) {{
             setId("status");
         }};
-        Button b1_doc = new Button("Doc") {{
+        Button b1_doc = new Button("Filter Syntax Manual") {{
             setId("doc");
         }};
-        Button b2_export = new Button("Export") {{
+        Button b2_export = new Button("Export Result") {{
             setId("export");
         }};
 
