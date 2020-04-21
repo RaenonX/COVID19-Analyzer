@@ -26,6 +26,9 @@ public class Main extends Application {
         scene.getStylesheets().add(cssPath);
     }
 
+    /**
+     * Configure the primary stage.
+     */
     private void configurePrimaryStage(Scene mainScene, Stage primaryStage) {
         loadStylesheet(mainScene);
 
