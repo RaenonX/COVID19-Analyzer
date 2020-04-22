@@ -211,13 +211,11 @@ class DataEntry:
             self.date_.strftime("%Y-%m-%d"),
             self.county,
             self.state,
-            self.lat,
-            self.lon,
-            self.confirmed,
-            self.fatal
+            self.confirmed or "0",
+            self.fatal or "0"
         ]
 
-        return ",".join([f'"{txt}"' for txt in data])
+        return ",".join([txt.strip() for txt in data])
 
     @property
     def can_be_used(self) -> bool:

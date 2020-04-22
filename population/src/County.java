@@ -15,8 +15,17 @@ public class County implements IPopulation {
         this.zips = zips;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public int getPopulation() {
         return population;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

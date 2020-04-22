@@ -12,6 +12,18 @@ public class State implements IPopulation, IPopulationCondition<County> {
         this.counties = counties;
     }
 
+    public String getAbbr() {
+        return abbr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<County> getCounties() {
+        return counties;
+    }
+
     @Override
     public int getPopulation() {
         // TODO: Sum of the population of all counties
@@ -40,5 +52,10 @@ public class State implements IPopulation, IPopulationCondition<County> {
         int result = abbr.hashCode();
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return this.abbr;
     }
 }
