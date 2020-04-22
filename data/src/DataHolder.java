@@ -13,6 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A class holding multiple {@code DataEntry}.
+ */
 public class DataHolder implements IGUITableDataCollection<DataEntry> {
     private List<DataEntry> entries;
 
@@ -20,6 +23,11 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         this.entries = entries.collect(Collectors.toList());
     }
 
+    /**
+     * Returns a {@code DataHolder} which contains some sample data.
+     *
+     * @return {@code DataHolder} which contains some sample data
+     */
     public static DataHolder sampleData() {
         County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
         State wi = new State("WI", "Wisconsin", new ArrayList<>() {{ add(dane); }});
@@ -36,11 +44,17 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
                         wi, dane, 361, 19)));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<DataEntry> getTableDataEntry() {
         return this.entries;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setTableColumns(TableView<DataEntry> table) {
         new TableColumn<DataEntry, LocalDate>("Date") {{
@@ -97,6 +111,13 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         table.getColumns().forEach(x -> x.setReorderable(false));
     }
 
+    /**
+     * Parse the data file into a single {@code DataHolder}.
+     *
+     * @param path path of the data file
+     * @return parsed {@code DataHolder}
+     * @throws IOException thrown if file does not exist or occupied
+     */
     public static DataHolder parseFile(String path) throws IOException {
         return new DataHolder(
                 Files.lines(Paths.get(path))

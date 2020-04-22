@@ -47,6 +47,9 @@ public enum FilterComparator implements FilterElement {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSyntax() {
         return this.syntax;

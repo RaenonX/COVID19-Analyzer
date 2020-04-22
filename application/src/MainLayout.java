@@ -14,6 +14,9 @@ public class MainLayout {
     private static final String DEFAULT_STATUS_MSG = "Ready";
     private static final String DEFAULT_TEXT = "30.3K";
 
+    /**
+     * {@code Stage} for this layout to attach.
+     */
     private final Stage stage;
     private final int presetWidth;
 
@@ -69,7 +72,7 @@ public class MainLayout {
         }};
         Button b1_doc = new Button("Filter Syntax Manual") {{
             setId("doc");
-            setOnAction(e -> FilterSyntaxDocGUI.documentationDialog(stage).show());
+            setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(stage).show());
         }};
         Button b2_export = new Button("Export Result") {{
             setId("export");

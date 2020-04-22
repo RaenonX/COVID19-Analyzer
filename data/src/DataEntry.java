@@ -1,5 +1,8 @@
 import java.time.LocalDate;
 
+/**
+ * Represents a single data entry.
+ */
 public class DataEntry implements IGUITableEntry {
     private final LocalDate date;
     private final State state;

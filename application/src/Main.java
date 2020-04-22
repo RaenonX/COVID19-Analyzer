@@ -13,6 +13,11 @@ public class Main extends Application {
 
     private static DataHolder mainData;
 
+    /**
+     * Load the necessary data files.
+     *
+     * @throws IOException thrown if any of the resource file does not exist
+     */
     private void loadFile() throws IOException {
         StateNameConverter converter = new StateNameConverter(".res/data/usstates.csv");
         PopulationDataParser.loadUsPopFile(".res/data/uspops.csv", converter);

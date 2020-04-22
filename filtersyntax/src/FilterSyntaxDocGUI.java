@@ -15,7 +15,14 @@ public class FilterSyntaxDocGUI {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 800;
 
+    /**
+     * Load the documentation HTML to a GUI element and return it.
+     *
+     * @return GUI element which contains the documentation of {@code FilterSyntax}
+     */
     private static Node loadDocHtml() {
+        // TODO: Handle the case where the doc html file does not exist
+
         String htmlPath;
         try {
             htmlPath = new File(".res/filterdoc.html").toURI().toURL().toString();
@@ -29,7 +36,13 @@ public class FilterSyntaxDocGUI {
         return main;
     }
 
-    public static Stage documentationDialog(Stage ownerStage) {
+    /**
+     * A {@code Stage} which contains the documentation.
+     *
+     * @param ownerStage {@code Stage} which opens this popup
+     * @return popup {@code Stage}
+     */
+    public static Stage documentationPopup(Stage ownerStage) {
         final Stage dialog = new Stage();
         dialog.initModality(Modality.NONE);
         dialog.initOwner(ownerStage);

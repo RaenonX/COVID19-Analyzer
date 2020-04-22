@@ -170,12 +170,12 @@ class FilterParameterParsingTest {
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LATITUDE.cast("A"))).getReason());
         assertEquals(
-                FilterSyntaxErrorReason.LATITUDE_OVER_RANGE,
+                FilterSyntaxErrorReason.LATITUDE_OUT_OF_RANGE,
                 assertThrows(
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LATITUDE.cast("91"))).getReason());
         assertEquals(
-                FilterSyntaxErrorReason.LATITUDE_OVER_RANGE,
+                FilterSyntaxErrorReason.LATITUDE_OUT_OF_RANGE,
                 assertThrows(
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LATITUDE.cast("-91"))).getReason());
@@ -189,12 +189,12 @@ class FilterParameterParsingTest {
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LONGITUDE.cast("A"))).getReason());
         assertEquals(
-                FilterSyntaxErrorReason.LONGITUDE_OVER_RANGE,
+                FilterSyntaxErrorReason.LONGITUDE_OUT_OF_RANGE,
                 assertThrows(
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LONGITUDE.cast("181"))).getReason());
         assertEquals(
-                FilterSyntaxErrorReason.LONGITUDE_OVER_RANGE,
+                FilterSyntaxErrorReason.LONGITUDE_OUT_OF_RANGE,
                 assertThrows(
                         FilterSyntaxError.class,
                         () -> assertNull(FilterParameter.LONGITUDE.cast("-181"))).getReason());
