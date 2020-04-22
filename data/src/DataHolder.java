@@ -55,6 +55,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
 
         new TableColumn<DataEntry, LocalDate>("County") {{
             setCellValueFactory(new PropertyValueFactory<>("county"));
+            setMinWidth(100);
             table.getColumns().add(this);
         }};
 
