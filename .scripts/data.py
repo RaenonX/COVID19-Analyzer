@@ -211,13 +211,11 @@ class DataEntry:
             self.date_.strftime("%Y-%m-%d"),
             self.county,
             self.state,
-            self.lat,
-            self.lon,
-            self.confirmed,
-            self.fatal
+            self.confirmed or "0",
+            self.fatal or "0"
         ]
 
-        return ",".join([f'"{txt}"' for txt in data])
+        return ",".join([txt.strip() for txt in data])
 
     @property
     def can_be_used(self) -> bool:
@@ -288,7 +286,8 @@ def write_data(dir_: str, data: List[DataEntry]):
 
     entry_count = len(data)
 
-    _write_to_file_(Header.default().to_header_str() + "\n")
+    # Write header
+    # _write_to_file_(Header.default().to_header_str() + "\n")
 
     temp = ""
 

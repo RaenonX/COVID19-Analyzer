@@ -29,7 +29,7 @@ def main():
     print("Writing minimized population file...")
     with open("../.res/data/uspops.csv", "a+", encoding="utf-8") as f:
         # Write header
-        f.write("state,county,population,lat,lon,zips\n")
+        # f.write("state,county,population,lat,lon,zips\n")
 
         for state, county_pop in pop_count.items():
             print(f"Writing {state}...")

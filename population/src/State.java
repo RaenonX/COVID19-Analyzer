@@ -1,6 +1,7 @@
 import java.util.List;
+import java.util.function.Predicate;
 
-public class State implements IPopulation {
+public class State implements IPopulation, IPopulationCondition<County> {
     private String abbr;
     private String name;
     private List<County> counties;
@@ -11,8 +12,27 @@ public class State implements IPopulation {
         this.counties = counties;
     }
 
+    public String getAbbr() {
+        return abbr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<County> getCounties() {
+        return counties;
+    }
+
     @Override
     public int getPopulation() {
+        // TODO: Sum of the population of all counties
+        return 0;
+    }
+
+    @Override
+    public int getPopulation(Predicate<? super County> predicate) {
+        // TODO: Sum of the population of filtered `County`
         return 0;
     }
 
@@ -32,5 +52,10 @@ public class State implements IPopulation {
         int result = abbr.hashCode();
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return this.abbr;
     }
 }

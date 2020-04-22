@@ -96,7 +96,7 @@ public class MainLayout {
     /**
      * A {@code VBox} unit containing the case type and the case data.
      *
-     * @param titleText case type title text
+     * @param titleText  case type title text
      * @param styleClass css class to style
      * @return a prepared {@code VBox} unit
      */
@@ -193,34 +193,43 @@ public class MainLayout {
 
     /**
      * Filter section.
+     *
+     * @param data a {@code DataHolder} which holds
      */
-    public Pane filterSection() {
-        VBox main = new VBox() {{
-            getStyleClass().add("section");
-        }};
-
-        main.getChildren().addAll(
-                sectionTitle("Filtered"),
-                filterPrompt(),
-                filterDataSection()
+    public Pane filterSection(DataHolder data) {
+        GridPane gp = generateHGridPane(
+                new VBox() {{
+                    getStyleClass().add("section");
+                    getChildren().addAll(
+                            filterDataSection(),
+                            ChartMaker.sampleChart()
+                    );
+                }},
+                TableMaker.makeTable(data)
         );
+        gp.getStyleClass().add("section");
 
-        return main;
+        return new VBox() {{
+            getStyleClass().add("section");
+            getChildren().addAll(
+                    sectionTitle("Filtered"),
+                    filterPrompt(),
+                    gp
+            );
+        }};
     }
 
     /**
      * Constructed GUI layout.
      */
-    public BorderPane layout() {
+    public BorderPane layout(DataHolder data) {
         BorderPane main = new BorderPane();
 
         // Main part
         VBox vBox = new VBox();
         vBox.getChildren().addAll(
                 summarySection(),
-                filterSection(),
-                ChartMaker.sampleChart(),
-                TableMaker.sampleTable()
+                filterSection(data)
         );
 
         // Status bar

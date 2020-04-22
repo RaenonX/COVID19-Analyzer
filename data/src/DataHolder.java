@@ -4,35 +4,36 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DataHolder implements IGUITableDataCollection<DataEntry> {
-    private List<DataEntry> entries;  // TODO: temporary, will be removed
+    private List<DataEntry> entries;
 
-    public DataHolder(List<DataEntry> entries) {
-        this.entries = entries;
-        // FIXME: Data Reader
-        // FIXME: Sort and insert data here (#6)
+    public DataHolder(Stream<DataEntry> entries) {
+        this.entries = entries.collect(Collectors.toList());
     }
 
     public static DataHolder sampleData() {
-        County dane = new County("Dane", 45, 120);
+        County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
         State wi = new State("WI", "Wisconsin", new ArrayList<>() {{ add(dane); }});
 
-        return new DataHolder(Arrays.asList(
+        return new DataHolder(Stream.of(
                 new DataEntry(
                         LocalDate.of(2020, Month.APRIL, 17),
-                        wi, dane, 359, 17, 439553),
+                        wi, dane, 359, 17),
                 new DataEntry(
                         LocalDate.of(2020, Month.APRIL, 18),
-                        wi, dane, 360, 17, 439553),
+                        wi, dane, 360, 17),
                 new DataEntry(
                         LocalDate.of(2020, Month.APRIL, 19),
-                        wi, dane, 361, 19, 439553)));
+                        wi, dane, 361, 19)));
     }
 
     @Override
@@ -54,6 +55,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
 
         new TableColumn<DataEntry, LocalDate>("County") {{
             setCellValueFactory(new PropertyValueFactory<>("county"));
+            setMinWidth(100);
             table.getColumns().add(this);
         }};
 
@@ -95,8 +97,10 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         table.getColumns().forEach(x -> x.setReorderable(false));
     }
 
-    public static DataHolder parseFile() {
-        // TODO: pass in the file path and parse it to be the main data holder
-        return new DataHolder(new ArrayList<>());
+    public static DataHolder parseFile(String path) throws IOException {
+        return new DataHolder(
+                Files.lines(Paths.get(path))
+                        .map(x -> x.split(","))
+                        .map(DataEntryParser::parse));
     }
 }
