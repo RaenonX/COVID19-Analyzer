@@ -10,14 +10,14 @@ public class DataEntry implements IGUITableEntry {
     private final double fatalPer100K;
 
     public DataEntry(
-            LocalDate date, State state, County county, int confirmed, int fatal, int population) {
+            LocalDate date, State state, County county, int confirmed, int fatal) {
         this.date = date;
         this.state = state;
         this.county = county;
         this.confirmed = confirmed;
         this.fatal = fatal;
-        this.confirmedPer100K = confirmed / (double)population * 100000;
-        this.fatalPer100K = fatal / (double)population * 100000;
+        this.confirmedPer100K = confirmed / (double)county.getPopulation() * 100000;
+        this.fatalPer100K = fatal / (double)county.getPopulation() * 100000;
     }
 
     public LocalDate getDate() {

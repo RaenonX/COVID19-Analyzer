@@ -3,12 +3,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class Main extends Application {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 800;
     private static final String APP_TITLE = "COVID-19 Analyzer (CS400 / AT87)";
+
+    private void loadFile() throws IOException {
+        StateNameConverter converter = new StateNameConverter(".res/data/usstates.csv");
+        PopulationDataParser.loadUsPopFile(".res/data/uspops.csv", converter);
+    }
 
     /**
      * Load the CSS style sheet file to the scene.
@@ -42,7 +48,9 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+        loadFile();
+
         MainLayout ml = new MainLayout(primaryStage, WINDOW_WIDTH);
 
         configurePrimaryStage(new Scene(ml.layout()), primaryStage);

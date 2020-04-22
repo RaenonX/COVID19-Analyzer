@@ -288,7 +288,8 @@ def write_data(dir_: str, data: List[DataEntry]):
 
     entry_count = len(data)
 
-    _write_to_file_(Header.default().to_header_str() + "\n")
+    # Write header
+    # _write_to_file_(Header.default().to_header_str() + "\n")
 
     temp = ""
 
