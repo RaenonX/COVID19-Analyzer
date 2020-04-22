@@ -6,6 +6,12 @@ public class FilterConditionEntity {
     private FilterComparator comparator;
     private String val;
 
+    /**
+     * @param parameter parameter to be compared
+     * @param comparator comparing relationship
+     * @param val value of the comparing base
+     * @throws FilterSyntaxError thrown if the value is considered invalid for the parameter
+     */
     public FilterConditionEntity(
             FilterParameter parameter, FilterComparator comparator, String val) throws FilterSyntaxError {
         this.parameter = parameter;

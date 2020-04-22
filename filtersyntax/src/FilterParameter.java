@@ -51,6 +51,9 @@ public enum FilterParameter implements FilterElement {
 
     private final String syntax;
 
+    /**
+     * @param syntax expression syntax of an {@code Enum}.
+     */
     FilterParameter(String syntax) {
         this.syntax = syntax;
     }
@@ -73,11 +76,22 @@ public enum FilterParameter implements FilterElement {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSyntax() {
         return this.syntax;
     }
 
+    /**
+     * Cast {@code item} to {@code int}.
+     *
+     * @param item item to be casted
+     * @param failReason failure reason to be attached if uncastable
+     * @return casted {@code int}
+     * @throws FilterSyntaxError thrown if uncastable
+     */
     private int castInt(String item, FilterSyntaxErrorReason failReason) throws FilterSyntaxError {
         try {
             return Integer.parseInt(item);
@@ -86,6 +100,14 @@ public enum FilterParameter implements FilterElement {
         }
     }
 
+    /**
+     * Cast {@code item} to {@code double}.
+     *
+     * @param item item to be casted
+     * @param failReason failure reason to be attached if uncastable
+     * @return casted {@code double}
+     * @throws FilterSyntaxError thrown if uncastable
+     */
     private double castDouble(String item, FilterSyntaxErrorReason failReason) throws FilterSyntaxError {
         try {
             return Double.parseDouble(item);
@@ -145,14 +167,14 @@ public enum FilterParameter implements FilterElement {
             case LATITUDE:
                 double lat = castDouble(item, FilterSyntaxErrorReason.LATITUDE_UNCASTABLE);
                 if (lat < -90 || lat > 90) {
-                    throw new FilterSyntaxError(FilterSyntaxErrorReason.LATITUDE_OVER_RANGE, Double.toString(lat));
+                    throw new FilterSyntaxError(FilterSyntaxErrorReason.LATITUDE_OUT_OF_RANGE, Double.toString(lat));
                 }
                 return lat;
 
             case LONGITUDE:
                 double lon = castDouble(item, FilterSyntaxErrorReason.LONGITUDE_UNCASTABLE);
                 if (lon < -180 || lon > 180) {
-                    throw new FilterSyntaxError(FilterSyntaxErrorReason.LONGITUDE_OVER_RANGE, Double.toString(lon));
+                    throw new FilterSyntaxError(FilterSyntaxErrorReason.LONGITUDE_OUT_OF_RANGE, Double.toString(lon));
                 }
                 return lon;
 

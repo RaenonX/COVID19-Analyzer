@@ -23,11 +23,11 @@ public class FilterQueryParser {
         while (scOR.hasNext()) {
             List<FilterConditionEntity> entityAND = new ArrayList<>();
 
-            Scanner scAND = new Scanner(scOR.next().trim());
+            Scanner scAND = new Scanner(scOR.next().strip());
             scAND.useDelimiter("&");
 
             while (scAND.hasNext()) {
-                String exprStr = scAND.next().trim();
+                String exprStr = scAND.next().strip();
                 String[] expr = exprStr.split(" ");
 
                 if (expr.length != 3) {

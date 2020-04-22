@@ -1,4 +1,7 @@
 public class FilterSyntaxError extends Exception {
+    /**
+     * Filter syntax parsing failure reason.
+     */
     public final FilterSyntaxErrorReason reason;
 
     public FilterSyntaxError(FilterSyntaxErrorReason reason, String message) {
