@@ -1,4 +1,4 @@
-public class StringParser {
+public class StringUtils {
     /**
      * Return {@code str} if not empty. Otherwise, return {@code defaultStr}.
      *
@@ -12,5 +12,18 @@ public class StringParser {
         } else {
             return str;
         }
+    }
+
+    /**
+     * Test if the given {@code str} is alphabets only.
+     *
+     * Return {@code false} on empty string.
+     *
+     * @param str str to be checked
+     * @return if {@code str} only contains alphabets
+     */
+    public static boolean isAlphabets(String str) {
+        // TODO: Could be used for checking both state and county names
+        return false;
     }
 }

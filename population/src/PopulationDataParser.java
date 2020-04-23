@@ -50,6 +50,6 @@ public class PopulationDataParser {
             usData.add(new State(x, converter.getFullName(x), counties));
         });
 
-        UnitedStates.current = new UnitedStates(usData);
+        UnitedStates.load(usData);
     }
 }

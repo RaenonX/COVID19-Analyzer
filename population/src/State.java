@@ -6,6 +6,15 @@ public class State implements IPopulation, IPopulationCondition<County> {
     private String name;
     private List<County> counties;
 
+    /**
+     * Construct a state.
+     *
+     * Both {@code abbr} and {@code name} should be alphabets only.
+     *
+     * @param abbr state abbreviation
+     * @param name state name
+     * @param counties list of counties which is in this state
+     */
     public State(String abbr, String name, List<County> counties) {
         this.abbr = abbr;
         this.name = name;

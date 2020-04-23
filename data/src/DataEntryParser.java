@@ -19,8 +19,8 @@ public class DataEntryParser {
         LocalDate date = LocalDate.parse(lineEntry[IDX_DATE]);
         County county = UnitedStates.current.getCounty(lineEntry[IDX_COUNTY], lineEntry[IDX_STATE]);
         State state = UnitedStates.current.getState(lineEntry[IDX_STATE]);
-        int confirmed = Integer.parseInt(StringParser.defaultEmptyString(lineEntry[IDX_CONFIRMED], "0"));
-        int fatal = Integer.parseInt(StringParser.defaultEmptyString(lineEntry[IDX_FATAL], "0"));
+        int confirmed = Integer.parseInt(StringUtils.defaultEmptyString(lineEntry[IDX_CONFIRMED], "0"));
+        int fatal = Integer.parseInt(StringUtils.defaultEmptyString(lineEntry[IDX_FATAL], "0"));
         return new DataEntry(date, state, county, confirmed, fatal);
     }
 }

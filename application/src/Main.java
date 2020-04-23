@@ -58,7 +58,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        loadFile(); // TODO: Handle the case where the file does not exist
+        loadFile(); // TODO: Handle file does not exist
 
         MainLayout ml = new MainLayout(primaryStage, WINDOW_WIDTH);
 
