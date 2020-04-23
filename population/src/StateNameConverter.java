@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Class to convert the state abbreviation to full name.
+ * Convert the state abbreviation to full name.
  */
 public class StateNameConverter {
     private static final int IDX_ABBR = 0;
@@ -13,6 +13,11 @@ public class StateNameConverter {
 
     private Map<String, String> dict;  // abbr, full name
 
+    /**
+     * Construct the converter.
+     *
+     * @param filePath the path of the file which contains the abbreviation and the full name of the states
+     */
     public StateNameConverter(String filePath) throws IOException {
         this.dict = new TreeMap<>();
 

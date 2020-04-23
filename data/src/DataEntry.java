@@ -23,8 +23,8 @@ public class DataEntry implements IGUITableEntry {
         if (county != null) {
             int countyPop = county.getPopulation();
 
-            this.confirmedPer100K = confirmed / (double)county.getPopulation() * 100000;
-            this.fatalPer100K = fatal / (double)county.getPopulation() * 100000;
+            this.confirmedPer100K = confirmed / (double)countyPop * 100000;
+            this.fatalPer100K = fatal / (double)countyPop * 100000;
         } else {
             this.confirmedPer100K = -1;
             this.fatalPer100K = -1;

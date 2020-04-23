@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilterQueryParsingTest {
+class TestFilterQueryParsing {
     @Test
     void test_parse_single() {
         try {

@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FilterComparatorParsingTest {
+class TestFilterComparatorParsing {
     @Test
     void test_parse() {
         assertEquals(FilterComparator.GT, FilterComparator.parse(">"));

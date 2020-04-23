@@ -1,11 +1,19 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilterParameterParsingTest {
+class TestFilterParameterParsing {
+    @BeforeAll
+    static void prepare() throws IOException {
+        StateNameConverter converter = new StateNameConverter(".res/data/usstates.csv");
+        PopulationDataParser.loadUsPopFile(".res/data/uspops.csv", converter);
+    }
+
     @Test
     void test_parse() {
         assertEquals(FilterParameter.STATE, FilterParameter.parse("%state%"));
@@ -23,9 +31,12 @@ class FilterParameterParsingTest {
 
     @Test
     void test_cast() throws FilterSyntaxError {
-        assertNull(FilterParameter.STATE.cast("WI")); // TODO: Should not be null after #7 is completed
-        assertNull(FilterParameter.STATE.cast("Wisconsin")); // TODO: Should not be null after #7 is completed
-        assertNull(FilterParameter.COUNTY.cast("Dane, WI")); // TODO: Should not be null after #7 is completed
+        State state = (State)FilterParameter.STATE.cast("WI");
+        assertEquals("WI", state.getAbbr());
+        state = (State)FilterParameter.STATE.cast("Wisconsin");
+        assertEquals("WI", state.getAbbr());
+        County county = (County)FilterParameter.COUNTY.cast("Dane, WI");
+        assertEquals("Dane", county.getName());
 
         assertEquals(70, FilterParameter.CONFIRMED.cast("70"));
         assertEquals(70, FilterParameter.FATAL.cast("70"));

@@ -45,6 +45,22 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
     }
 
     /**
+     * Filter the data using the given {@code condition}
+     * and return a {@code DataHolder} which contains the filtered data.
+     *
+     * @param condition condition to be used to filter the data
+     * @return a {@code DataHolder} containing the filtered data
+     */
+    public DataHolder filterData(FilterCondition condition) {
+        // TODO: Filter the data
+        return null;
+    }
+
+    public int getDataCount() {
+        return this.entries.size();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

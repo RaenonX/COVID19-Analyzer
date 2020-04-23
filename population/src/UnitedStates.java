@@ -2,13 +2,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * A class which holds all population data of the United States.
+ *
+ * Access this through the static class variable {@code current} for Singleton.
+ */
 public class UnitedStates implements IPopulation, IPopulationCondition<State> {
+    /**
+     * Class static variable to be accessed in the application for Singleton.
+     */
     public static UnitedStates current = new UnitedStates(new ArrayList<>());
 
     private List<State> states;
 
-    public UnitedStates(List<State> states) {
+    /**
+     * Construct an object which holds all population data of the United States.
+     *
+     * Should update {@code UnitedStates.current} after this is called immediately.
+     *
+     * @param states list of the states of the United States
+     */
+    private UnitedStates(List<State> states) {
         this.states = states;
+    }
+
+    /**
+     * Load the population data to {@code UnitedStates.current} for future use.
+     *
+     * @param usData list of the states of the United States
+     */
+    public static void load(List<State> usData) {
+        UnitedStates.current = new UnitedStates(usData);
     }
 
     /**
@@ -22,6 +46,10 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State> {
                 .filter(x -> x.getAbbr().equalsIgnoreCase(state) || x.getName().equalsIgnoreCase(state))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<State> getStates() {
+        return states;
     }
 
     /**
