@@ -10,12 +10,12 @@ public class TestPopulationDataParser {
 
     @BeforeAll
     static void prepare() throws IOException {
-        converter = new StateNameConverter("/states.csv");
+        converter = new StateNameConverter("res/states.csv");
     }
 
     @Test
     void test_parse_pop_file() throws IOException {
-        PopulationDataParser.loadUsPopFile("/pops.csv", converter);
+        PopulationDataParser.loadUsPopFile("res/pops.csv", converter);
 
         State wa = UnitedStates.current.getState("WA");
         assertNotNull(wa);
