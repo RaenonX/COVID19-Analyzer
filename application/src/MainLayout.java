@@ -8,23 +8,20 @@ import javafx.stage.Stage;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class MainLayout {
+public class MainLayout extends LayoutBase {
     // TODO: needs a local variable storing the case data label to update the data
     //  Mechanism of how the layout needs to be changed to accomplish the above
     private static final String DEFAULT_STATUS_MSG = "Ready";
     private static final String DEFAULT_TEXT = "30.3K";
 
-    /**
-     * {@code Stage} for this layout to attach.
-     */
-    private final Stage stage;
-    private final int presetWidth;
+    private final DataHolder holder;
 
     private final Region growRegion;
 
-    public MainLayout(Stage stage, int presetWidth) {
-        this.stage = stage;
-        this.presetWidth = presetWidth;
+    public MainLayout(Stage stage, String title, int width, int height, DataHolder holder) {
+        super(stage, title, width, height, true);
+
+        this.holder = holder;
 
         this.growRegion = new Region();
 
@@ -47,7 +44,7 @@ public class MainLayout {
                 IntStream
                         .range(0, count)
                         .mapToObj(x -> new ColumnConstraints() {{
-                            setPrefWidth(presetWidth / (double) count);
+                            setPrefWidth(width / (double) count);
                             setPercentWidth(100 / (double) count);
                             setHgrow(Priority.ALWAYS);
                         }})
@@ -225,14 +222,14 @@ public class MainLayout {
     /**
      * Constructed GUI layout.
      */
-    public BorderPane layout(DataHolder data) {
+    public BorderPane layout() {
         BorderPane main = new BorderPane();
 
         // Main part
         VBox vBox = new VBox();
         vBox.getChildren().addAll(
                 summarySection(),
-                filterSection(data)
+                filterSection(holder)
         );
 
         // Status bar

@@ -1,0 +1,72 @@
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.MalformedURLException;
+
+public abstract class LayoutBase {
+    /**
+     * {@code Stage} for the layout to attach.
+     */
+    protected final Stage stage;
+    protected final String title;
+    protected final int width;
+    protected final int height;
+    protected final boolean resizable;
+
+    protected LayoutBase(Stage stage, String title, int width, int height, boolean resizable) {
+        this.stage = stage;
+        this.title = title;
+        this.width = width;
+        this.height = height;
+        this.resizable = resizable;
+    }
+
+    /**
+     * Get the layout of the class.
+     *
+     * @return prepared GUI layout
+     */
+    abstract BorderPane layout();
+
+    /**
+     * Load the CSS style sheet file to the scene.
+     *
+     * Show a dialog if failed to load.
+     */
+    private void loadStylesheet(Scene scene) {
+        String cssPath;
+        try {
+            cssPath = new File(".res/main.css").toURI().toURL().toString();
+        } catch (MalformedURLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("CSS Loading failed");
+            alert.setHeaderText("Unable to find the CSS stylesheet file.");
+            alert.setContentText(
+                    "Unable to load the CSS stylesheet. " +
+                    "Make sure that it is located in `.res/main.css`.");
+            return;
+        }
+
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(cssPath);
+    }
+
+    /**
+     * Apply the configurations and the layout to {@code Stage}.
+     */
+    public void applyLayout() {
+        Scene scene = new Scene(layout());
+        loadStylesheet(scene);
+
+        stage.setTitle(title);
+        stage.setResizable(resizable);
+        stage.setWidth(width);
+        stage.setHeight(height);
+
+        stage.setScene(scene);
+    }
+}
