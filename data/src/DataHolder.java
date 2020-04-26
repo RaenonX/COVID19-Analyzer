@@ -18,9 +18,15 @@ import java.util.stream.Stream;
  */
 public class DataHolder implements IGUITableDataCollection<DataEntry> {
     private List<DataEntry> entries;
+    private FilterCondition condition;
 
     public DataHolder(Stream<DataEntry> entries) {
+        this(entries, new FilterCondition());
+    }
+
+    public DataHolder(Stream<DataEntry> entries, FilterCondition condition) {
         this.entries = entries.collect(Collectors.toList());
+        this.condition = condition;
     }
 
     /**
@@ -58,6 +64,69 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
 
     public int getDataCount() {
         return this.entries.size();
+    }
+
+    public int getConfirmedCaseCount() {
+        return this.entries
+                .stream()
+                .mapToInt(DataEntry::getConfirmed)
+                .sum();
+    }
+
+    public int getFatalCaseCount() {
+        return this.entries
+                .stream()
+                .mapToInt(DataEntry::getFatal)
+                .sum();
+    }
+
+    public int getPopulation() {
+        return this.entries
+                .stream()
+                .map(DataEntry::getState)
+                .distinct()
+                .mapToInt(State::getPopulation)
+                .sum();
+    }
+
+    public double getConfirmedCasePer100K() {
+        return this.getConfirmedCaseCount() / (double)this.getPopulation() * 100000;
+    }
+
+    public double getFatalCasePer100K() {
+        return this.getFatalCaseCount() / (double)this.getPopulation() * 100000;
+    }
+
+    /**
+     * Returns a {@code StringBuilder} containing the summary string of the data in this {@code DataHolder}.
+     * <br>
+     * The summary string contains the following data:
+     * <ul>
+     *     <li>Condition used to filter the data</li>
+     *     <li>Confirmed / Fatal Case Count</li>
+     *     <li>Confirmed / Fatal Case Count per 100K residents</li>
+     *     <li>Data entries in this {@code DataHolder}</li>
+     * </ul>
+     *
+     * @return {@code StringBuilder} containing the summary string of the data
+     */
+    public StringBuilder summaryString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format(
+                "Condition: %s\n", this.condition.toString()));
+        sb.append(String.format(
+                "Confirmed / Fatal case count: %d / %d\n",
+                this.getConfirmedCaseCount(), this.getFatalCaseCount()));
+        sb.append(String.format(
+                "Confirmed / Fatal case per 100K residents: %.2f / %.2f\n",
+                this.getConfirmedCasePer100K(), this.getFatalCasePer100K()));
+        sb.append("\n");
+        sb.append("Data Entries:\n");
+        sb.append(DataEntryFileProcessor.tableHeader());
+        sb.append(this.entries.stream().map(DataEntry::toTableEntry).collect(Collectors.joining("\n")));
+
+        return sb;
     }
 
     /**
@@ -138,6 +207,6 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         return new DataHolder(
                 Files.lines(Paths.get(path))
                         .map(x -> x.split(","))
-                        .map(DataEntryParser::parse));
+                        .map(DataEntryFileProcessor::parse));
     }
 }
