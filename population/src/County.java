@@ -52,4 +52,32 @@ public class County implements IPopulation {
     public String toString() {
         return this.name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        County county = (County) o;
+
+        if (population != county.population) return false;
+        if (Double.compare(county.latitude, latitude) != 0) return false;
+        if (Double.compare(county.longitude, longitude) != 0) return false;
+        if (!name.equals(county.name)) return false;
+        return zips.equals(county.zips);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name.hashCode();
+        result = 31 * result + population;
+        temp = Double.doubleToLongBits(latitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(longitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + zips.hashCode();
+        return result;
+    }
 }
