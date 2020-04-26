@@ -1,21 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class holding all `FilterConditionEntity`.
- *
+ * <p>
  * This class will be used to get the condition to filter the data.
  */
 public class FilterCondition {
     /**
      * All filter conditions.
-     *
+     * <p>
      * The relationship and the dimension is as below:
      * <ul>
      *     <li>1st dimension - OR</li>
      *     <li>2nd dimension - AND</li>
      * </ul>
-     *
+     * <p>
      * Example:
      * <ul>
      *     <li>
@@ -42,5 +43,16 @@ public class FilterCondition {
 
     public List<List<FilterConditionEntity>> getConditions() {
         return conditions;
+    }
+
+    @Override
+    public String toString() {
+        return conditions
+                .stream()
+                .map(x -> x
+                        .stream()
+                        .map(FilterConditionEntity::toString)
+                        .collect(Collectors.joining(" AND ")))
+                .collect(Collectors.joining(" OR "));
     }
 }
