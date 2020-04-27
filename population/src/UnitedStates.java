@@ -86,7 +86,6 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State> {
 	 * @return county of the given state and name. {@code null} if not found.
 	 */
 	public County getCounty(String county, String state) {
-		// TODO: Handle malformed string
 		State stateObj = getState(state);
 		if (stateObj == null) {
 			return null;

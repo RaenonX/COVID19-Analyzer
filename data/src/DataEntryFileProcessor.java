@@ -13,6 +13,7 @@ public class DataEntryFileProcessor {
     public static final int IDX_FATAL = 4;
     public static final int IDX_CONFIRMED_PER_100K = 5;
     public static final int IDX_FATAL_PER_100K = 6;
+    public static final int IDX_DEATH_RATE = 7;
     // endregion
 
     // region Length including padding of each Data Entry
@@ -23,6 +24,7 @@ public class DataEntryFileProcessor {
     public static final int LEN_FATAL = 6;
     public static final int LEN_CONFIRMED_PER_100K = 9;
     public static final int LEN_FATAL_PER_100K = 9;
+    public static final int LEN_DEATH_RATE = 7; // max(len("Death %"), <death rate % with 2 floating points>)
     // endregion
 
     public static final String TBL_SPLITTER = " | ";
@@ -49,6 +51,8 @@ public class DataEntryFileProcessor {
                         String.format("%" + DataEntryFileProcessor.LEN_CONFIRMED_PER_100K + "s", "CC / 100K"));
                 put(DataEntryFileProcessor.IDX_FATAL_PER_100K,
                         String.format("%" + DataEntryFileProcessor.LEN_FATAL_PER_100K + "s", "FC / 100K"));
+                put(DataEntryFileProcessor.IDX_DEATH_RATE,
+                        String.format("%" + DataEntryFileProcessor.LEN_DEATH_RATE + "s", "Death %"));
             }
         };
 

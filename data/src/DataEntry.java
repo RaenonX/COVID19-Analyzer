@@ -15,6 +15,7 @@ public class DataEntry implements IGUITableEntry {
     private final int fatal;
     private final double confirmedPer100K;
     private final double fatalPer100K;
+    private final double deathRatePercent;
 
     public DataEntry(LocalDate date, State state, County county, int confirmed, int fatal)
             throws Exception {
@@ -62,9 +63,10 @@ public class DataEntry implements IGUITableEntry {
         this.county = county;
         this.confirmed = confirmed;
         this.fatal = fatal;
+        this.deathRatePercent = fatal == 0 ? 0 : fatal / (double) confirmed * 100;
     }
 
-    /* accessors */
+    // region Accessors
     public LocalDate getDate() {
         return date;
     }
@@ -92,7 +94,11 @@ public class DataEntry implements IGUITableEntry {
     public double getFatalPer100K() {
         return fatalPer100K;
     }
-    /* end of accessors */
+
+    public double getDeathRatePercent() {
+        return deathRatePercent;
+    }
+    // endregion
 
     /**
      * Convert the data entry to a line of string following the convention in {@code DataEntryParser}.
@@ -120,6 +126,9 @@ public class DataEntry implements IGUITableEntry {
                 put(DataEntryFileProcessor.IDX_FATAL_PER_100K,
                         String.format("%" + DataEntryFileProcessor.LEN_FATAL_PER_100K + "s",
                                 getFatalPer100K() == -1 ? "-" : String.format("%.2f", getFatalPer100K())));
+                put(DataEntryFileProcessor.IDX_DEATH_RATE,
+                        String.format("%" + DataEntryFileProcessor.LEN_DEATH_RATE + "s",
+                                String.format("%.2f", getDeathRatePercent())));
             }
         };
 
