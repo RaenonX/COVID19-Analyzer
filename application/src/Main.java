@@ -32,7 +32,7 @@ public class Main extends Application {
 
         try {
             loadFile();
-            ml = new MainLayout(primaryStage, APP_TITLE, 1500, 800, mainData);
+            ml = new MainLayout(primaryStage, APP_TITLE, 1500, 1000, mainData);
         } catch (IOException e) {
             ml = new FileLoadFailedLayout(primaryStage, APP_TITLE, 600, 600, e);
         } 

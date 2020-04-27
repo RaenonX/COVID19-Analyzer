@@ -1,3 +1,4 @@
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -5,16 +6,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * A class which holds multiple {@code DailyCaseCounts}.
  */
-public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts> {
+public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>, IGUIChartSeries<String, Number> {
     private final List<DailyCaseCounts> caseCounts;
 
     public DailyCaseStats(List<DailyCaseCounts> caseCounts) {
-        this.caseCounts = caseCounts;
+        this.caseCounts = caseCounts.stream()
+                .sorted(DailyCaseCounts.cmpDate)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -110,5 +116,34 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts> 
         }};
 
         table.getColumns().forEach(x -> x.setReorderable(false));
+    }
+
+    private XYChart.Series<String, Number> makeSeries(String name, Function<DailyCaseCounts, Number> numberFunction) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+        series.getData().addAll(caseCounts
+                .stream()
+                .map(x -> new XYChart.Data<>(x.getDate().toString(), numberFunction.apply(x)))
+                .collect(Collectors.toList()));
+        series.setName(name);
+
+        return series;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<XYChart.Series<String, Number>> getSeries() {
+        List<XYChart.Series<String, Number>> series = new ArrayList<>();
+
+        series.add(makeSeries("Confirmed Case", DailyCaseCounts::getConfirmed));
+        series.add(makeSeries("Fatal Case", DailyCaseCounts::getFatal));
+        series.add(makeSeries("Confirmed +/-", DailyCaseCounts::getConfirmedDiff));
+        series.add(makeSeries("Fatal +/-", DailyCaseCounts::getFatalDiff));
+        series.add(makeSeries("Confirmed / 100K", DailyCaseCounts::getConfirmedPer100K));
+        series.add(makeSeries("Fatal / 100K", DailyCaseCounts::getFatalPer100K));
+
+        return series;
     }
 }
