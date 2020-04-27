@@ -12,6 +12,7 @@ public class DataChartGUI<T extends IGUIChartSeries<String, Number>> implements 
 
     public DataChartGUI(T defaultData) {
         this.chart = new LineChart<>(new CategoryAxis(), new NumberAxis());
+        this.chart.setCreateSymbols(false);
         updateChartData(defaultData);
     }
 
