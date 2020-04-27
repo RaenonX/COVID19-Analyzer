@@ -21,7 +21,7 @@ public class ExportPreviewLayout extends LayoutBase {
     private final StringBuilder stringBuilder;
 
     public ExportPreviewLayout(Stage stage, String title, int width, int height, StringBuilder stringBuilder) {
-        super(stage, title, width, height, false);
+        super(stage, title, width, height, true);
 
         this.stringBuilder = stringBuilder;
     }
@@ -73,7 +73,8 @@ public class ExportPreviewLayout extends LayoutBase {
         }};
     }
 
-    // FIXME: Add button to export the file
+
+    // TODO: Add button to export the file
 
     /**
      * {@inheritDoc}
