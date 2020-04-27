@@ -2,7 +2,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -10,10 +9,10 @@ import javafx.scene.layout.VBox;
  * Filter Prompt GUI section class.
  */
 public class FilterPrompt implements IGuiUnit {
-    private VBox box;
+    private final VBox box;
 
-    private TextField textField;
-    private Label messageLabel;
+    private final TextField textField;
+    private final Label messageLabel;
 
     public FilterPrompt(int width, EventHandler<ActionEvent> eventHandler) {
         // Error label
@@ -28,7 +27,7 @@ public class FilterPrompt implements IGuiUnit {
             messageLabel.setVisible(false);
             setOnAction(eventHandler);
         }};
-        GridPane pane = Utils.generateHGridPane(width, this.textField);
+        Pane pane = Utils.generateHGridPane(width, this.textField);
         pane.getStyleClass().add("section");
 
         // Main layout element

@@ -1,5 +1,4 @@
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -21,7 +20,7 @@ public class CaseSection implements IGuiUnit {
         this.confirmed = new CaseUnit("Confirmed Cases", "confirmed", defaultConfirmed);
         this.fatal = new CaseUnit("Fatal Cases", "fatal", defaultFatal);
 
-        GridPane gp = Utils.generateHGridPane(width, confirmed.getGuiElement(), fatal.getGuiElement());
+        Pane gp = Utils.generateHGridPane(width, confirmed.getGuiElement(), fatal.getGuiElement());
 
         this.box = new VBox();
         this.box.getStyleClass().addAll("summary-section", "section");

@@ -15,7 +15,15 @@ public class State implements IPopulation, IPopulationCondition<County> {
 	 * @param name state name
 	 * @param counties list of counties which is in this state
 	 */
-	public State(String abbr, String name, List<County> counties) {
+	public State(String abbr, String name, List<County> counties) throws InvalidStateNameException {
+		if (!StringUtils.isAlphabets(abbr.strip())) {
+			throw new InvalidStateNameException(abbr.strip());
+		}
+
+		if (!StringUtils.isAlphabets(name.strip())) {
+			throw new InvalidStateNameException(name.strip());
+		}
+
 		this.abbr = abbr;
 		this.name = name;
 		this.counties = counties;

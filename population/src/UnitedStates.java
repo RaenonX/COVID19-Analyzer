@@ -103,7 +103,6 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State> {
 	 *
 	 * @return total population of the United States
 	 */
-
 	@Override
 	public int getPopulation() {
 		return states.stream()				

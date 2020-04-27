@@ -1,10 +1,5 @@
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
 public class FilterSection implements IGuiUnit {
@@ -51,7 +46,7 @@ public class FilterSection implements IGuiUnit {
 
         this.prompt = new FilterPrompt(width, x -> onFilterEntered());
 
-        GridPane gp = Utils.generateHGridPane(
+        Pane gp = Utils.generateHGridPane(
                 width,
                 new VBox() {{
                     getStyleClass().add("section");
@@ -62,7 +57,6 @@ public class FilterSection implements IGuiUnit {
                 }},
                 TableMaker.makeTable(this.currentHolder)
         );
-        gp.getStyleClass().add("section");
 
         // Main GUI element
         this.box = new VBox() {{

@@ -23,7 +23,7 @@ public class StringUtils {
      * @return if {@code str} only contains alphabets
      */
     public static boolean isAlphabets(String str) {
-        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z '.-]*$"));
+        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z][a-zA-Z '.-]*$"));
     }
 
     private static final String[] numUnit = new String[] {"", "K", "M", "G", "T"};

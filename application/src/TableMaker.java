@@ -9,6 +9,7 @@ public class TableMaker {
      *
      * @return prepared table GUI element
      */
+    @SuppressWarnings("unused")
     public static Pane sampleTable() throws Exception {
         return new BorderPane(TableMaker.makeTable(DataHolder.sampleData()));
     }

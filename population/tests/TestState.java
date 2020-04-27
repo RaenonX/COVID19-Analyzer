@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class TestState {
     @Test
-    void test_state_properties() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
+    void test_state_properties() throws Exception {
         County dane = new County(
                 "Dane", 47.0, -120.0, 50000, Arrays.asList(53714, 53715, 53716));
         County laCrosse = new County(
