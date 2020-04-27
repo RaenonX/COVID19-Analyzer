@@ -73,9 +73,9 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 		if (str.length != 2) {
 			return null;
 		}
+		
 		String countyStr = str[0].strip();
 		String stateStr = str[1].strip();
-
 
 		return getCounty(countyStr, stateStr);
 	}
