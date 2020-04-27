@@ -28,7 +28,15 @@ public class PopulationDataParser {
 			int population = Integer.parseInt(line[IDX_POPULATION]);
 			double latitude = Double.parseDouble(line[IDX_LAT]);
 			double longitude = Double.parseDouble(line[IDX_LON]);
-			List<Integer> zips = Arrays.stream(line[IDX_ZIPS].split(" "))
+
+			String[] zipcodes;
+			if (line.length > IDX_ZIPS) {
+				zipcodes = line[IDX_ZIPS].split(" ");
+			} else {
+				zipcodes = new String[] {};
+			}
+
+			List<Integer> zips = Arrays.stream(zipcodes)
 					.filter(x -> x.length() > 0)
 					.map(Integer::valueOf)
 					.collect(Collectors.toList());

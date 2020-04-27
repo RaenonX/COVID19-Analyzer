@@ -36,14 +36,15 @@ public class State implements IPopulation, IPopulationCondition<County> {
 	@Override
 	public int getPopulation() {
 		return counties.stream()				
-				.mapToInt(x -> x.getPopulation())
-				.sum();	}
+				.mapToInt(County::getPopulation)
+				.sum();
+	}
 
 	@Override
 	public int getPopulation(Predicate<? super County> predicate) {
 		return counties.stream()
 				.filter(predicate)
-				.mapToInt(x -> x.getPopulation())
+				.mapToInt(County::getPopulation)
 				.sum();
 	}
 
