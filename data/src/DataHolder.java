@@ -17,24 +17,70 @@ import java.util.stream.Stream;
  * A class holding multiple {@code DataEntry}.
  */
 public class DataHolder implements IGUITableDataCollection<DataEntry> {
-    private List<DataEntry> entries;
+    private final List<DataEntry> entries;
+    private final FilterCondition condition;
+
+    private final DailyCaseStats dailyCaseStats;
 
     public DataHolder(Stream<DataEntry> entries) {
-        this.entries = entries.collect(Collectors.toList());
+        this(entries, new FilterCondition());
+    }
+
+    public DataHolder(Stream<DataEntry> entries, FilterCondition condition) {
+        this.entries = entries.filter(Objects::nonNull).collect(Collectors.toList());
+        this.condition = condition;
+
+        this.dailyCaseStats = prepareDailyStats();
+    }
+
+    public List<LocalDate> sortedListOfDates() {
+        return this.entries.stream()
+                .map(DataEntry::getDate)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    private DailyCaseStats prepareDailyStats() {
+        int totalPop = getPopulation();
+        List<LocalDate> dates = sortedListOfDates();
+        Map<LocalDate, Integer> confirmedCount = new TreeMap<>();
+        Map<LocalDate, Integer> fatalCount = new TreeMap<>();
+
+        this.entries.forEach(x -> {
+            LocalDate date = x.getDate();
+            confirmedCount.put(date, confirmedCount.getOrDefault(date, 0) + x.getConfirmed());
+            fatalCount.put(date, fatalCount.getOrDefault(date, 0) + x.getFatal());
+        });
+
+        List<DailyCaseCounts> counts = dates.stream()
+                .map(x -> {
+                    int confirmed = confirmedCount.getOrDefault(x, 0);
+                    int confirmedDiff = confirmed - confirmedCount.getOrDefault(x.minusDays(1), 0);
+                    int fatal = fatalCount.getOrDefault(x, 0);
+                    int fatalDiff = fatal - fatalCount.getOrDefault(x.minusDays(1), 0);
+                    return new DailyCaseCounts(x, confirmed, confirmedDiff, fatal, fatalDiff, totalPop);
+                })
+                .collect(Collectors.toList());
+
+        return new DailyCaseStats(counts);
     }
 
     /**
      * Returns a {@code DataHolder} which contains some sample data.
      *
      * @return {@code DataHolder} which contains some sample data
-     * @throws InvalidPopulationCount 
-     * @throws InvalidLongitudeException 
-     * @throws InvalidLatitudeException 
-     * @throws InvalidCountyNameException 
+     * @throws InvalidPopulationCount     thrown if population count is invalid
+     * @throws InvalidLongitudeException  thrown if longitude is invalid
+     * @throws InvalidLatitudeException   thrown if latitude is invalid
+     * @throws InvalidCountyNameException thrown if county name is invalid
      */
-    public static DataHolder sampleData() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
+    public static DataHolder sampleData()
+            throws InvalidCountyNameException, InvalidLatitudeException,
+            InvalidLongitudeException, InvalidPopulationCount {
         County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
-        State wi = new State("WI", "Wisconsin", new ArrayList<>() {{ add(dane); }});
+        State wi = new State("WI", "Wisconsin", new ArrayList<>() {{
+            add(dane);
+        }});
 
         return new DataHolder(Stream.of(
                 new DataEntry(
@@ -62,6 +108,53 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
 
     public int getDataCount() {
         return this.entries.size();
+    }
+
+    public DailyCaseStats getDailyCaseStats() {
+        return dailyCaseStats;
+    }
+
+    /**
+     * Get the total population of all entries' location.
+     *
+     * @return total population of all entries' location
+     */
+    public int getPopulation() {
+        return this.entries
+                .stream()
+                .map(DataEntry::getState)
+                .distinct()
+                .mapToInt(State::getPopulation)
+                .sum();
+    }
+
+    /**
+     * Returns a {@code StringBuilder} containing the summary string of the data in this {@code DataHolder}.
+     * <br>
+     * The summary string contains the following data:
+     * <ul>
+     *     <li>Condition used to filter the data</li>
+     *     <li>Confirmed / Fatal Case Count</li>
+     *     <li>Confirmed / Fatal Case Count per 100K residents</li>
+     *     <li>Data entries in this {@code DataHolder}</li>
+     * </ul>
+     *
+     * @return {@code StringBuilder} containing the summary string of the data
+     */
+    public StringBuilder summaryString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format(
+                "Condition: %s\n", this.condition.toString()));
+        sb.append("\n");
+        sb.append("# Daily Case Counts\n");
+        sb.append(DailyStatsTableMaker.tableString(getDailyCaseStats())).append("\n");
+        sb.append("\n");
+        sb.append("# Data Entries\n");
+        sb.append(DataEntryFileProcessor.tableHeader()).append("\n");
+        sb.append(this.entries.stream().map(DataEntry::toTableEntry).collect(Collectors.joining("\n")));
+
+        return sb;
     }
 
     /**
@@ -138,10 +231,13 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * @return parsed {@code DataHolder}
      * @throws IOException thrown if file does not exist or occupied
      */
-    public static DataHolder parseFile(String path) throws IOException {
-        return new DataHolder(
-                Files.lines(Paths.get(path))
-                        .map(x -> x.split(","))
-                        .map(DataEntryParser::parse));
+    public static DataHolder parseFile(String path) throws IOException, InvalidFatalCaseException {
+        return new DataHolder(Files.lines(Paths.get(path)).map(x -> x.split(",")).map(lineEntry -> {
+            try {
+                return DataEntryFileProcessor.parse(lineEntry);
+            } catch (Exception e) {
+                return null;
+            }
+        }).filter(Objects::nonNull));
     }
 }

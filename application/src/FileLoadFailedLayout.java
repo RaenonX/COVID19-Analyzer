@@ -15,7 +15,7 @@ public class FileLoadFailedLayout extends LayoutBase {
     private final IOException ioe;
 
     public FileLoadFailedLayout(Stage stage, String title, int width, int height, IOException e) {
-        super(stage, title, width, height, true);
+        super(stage, title, width, height, false);
 
         this.ioe = e;
     }

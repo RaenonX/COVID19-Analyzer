@@ -23,7 +23,7 @@ public enum FilterComparator implements FilterElement {
      */
     EQ("=");
 
-    private String syntax;
+    private final String syntax;
 
     FilterComparator(String syntax) {
         this.syntax = syntax;

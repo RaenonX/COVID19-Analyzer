@@ -17,7 +17,13 @@ public class Main extends Application {
         StateNameConverter converter = new StateNameConverter(".res/data/usstates.csv");
         PopulationDataParser.loadUsPopFile(".res/data/uspops.csv", converter);
 
-        mainData = DataHolder.parseFile(".res/data/data.csv");
+        try {
+          mainData = DataHolder.parseFile(".res/data/data.csv");
+        }
+        catch (Exception e) {
+          e.printStackTrace();
+        }
+        
     }
 
     @Override
@@ -29,11 +35,8 @@ public class Main extends Application {
             ml = new MainLayout(primaryStage, APP_TITLE, 1500, 800, mainData);
         } catch (IOException e) {
             ml = new FileLoadFailedLayout(primaryStage, APP_TITLE, 600, 600, e);
-        }
-
-        ml.applyLayout();
-
-        primaryStage.show();
+        } 
+        ml.applyAndShow();
     }
 
     public static void main(String[] args) {

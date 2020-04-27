@@ -121,9 +121,8 @@ public enum FilterParameter implements FilterElement {
      *
      * @param item item to be casted
      * @return casted object
-     * @throws InvalidStateNameException 
      */
-    public Object cast(String item) throws FilterSyntaxError, InvalidStateNameException {
+    public Object cast(String item) throws FilterSyntaxError {
         switch (this) {
             case STATE:
                 return UnitedStates.current.getState(item);
