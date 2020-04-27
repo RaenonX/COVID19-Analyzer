@@ -25,7 +25,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
     }
 
     public DataHolder(Stream<DataEntry> entries, FilterCondition condition) {
-        this.entries = entries.collect(Collectors.toList());
+        this.entries = entries.filter(Objects::nonNull).collect(Collectors.toList());
         this.condition = condition;
     }
 
@@ -123,7 +123,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
                 this.getConfirmedCasePer100K(), this.getFatalCasePer100K()));
         sb.append("\n");
         sb.append("Data Entries:\n");
-        sb.append(DataEntryFileProcessor.tableHeader());
+        sb.append(DataEntryFileProcessor.tableHeader() + "\n");
         sb.append(this.entries.stream().map(DataEntry::toTableEntry).collect(Collectors.joining("\n")));
 
         return sb;

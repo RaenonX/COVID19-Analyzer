@@ -48,6 +48,7 @@ public abstract class LayoutBase {
             alert.setContentText(
                     "Unable to load the CSS stylesheet. " +
                     "Make sure that it is located in `.res/main.css`.");
+            alert.show();
             return;
         }
 
@@ -56,9 +57,9 @@ public abstract class LayoutBase {
     }
 
     /**
-     * Apply the configurations and the layout to {@code Stage}.
+     * Apply the configurations and the layout to {@code stage}.
      */
-    public void applyLayout() {
+    private void applyLayout() {
         Scene scene = new Scene(layout());
         loadStylesheet(scene);
 
@@ -68,5 +69,13 @@ public abstract class LayoutBase {
         stage.setHeight(height);
 
         stage.setScene(scene);
+    }
+
+    /**
+     * Apply the layout to {@code stage} and show it.
+     */
+    public void applyAndShow() {
+        applyLayout();
+        stage.show();
     }
 }

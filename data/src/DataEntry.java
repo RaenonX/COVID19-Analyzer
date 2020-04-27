@@ -75,10 +75,13 @@ public class DataEntry implements IGUITableEntry {
                     String.format("%" + DataEntryFileProcessor.LEN_DATE + "s", getDate().toString()));
             put(
                     DataEntryFileProcessor.IDX_COUNTY,
-                    String.format("%" + DataEntryFileProcessor.LEN_COUNTY + "s", getCounty().getName()));
+                    String.format(
+                            "%" + DataEntryFileProcessor.LEN_COUNTY + "s",
+                            getCounty() == null ? "" : getCounty().getName()));
             put(
                     DataEntryFileProcessor.IDX_STATE,
-                    String.format("%" + DataEntryFileProcessor.LEN_STATE + "s", getState().getAbbr()));
+                    String.format("%" + DataEntryFileProcessor.LEN_STATE + "s",
+                            getState() == null ? "" : getState().getAbbr()));
             put(
                     DataEntryFileProcessor.IDX_CONFIRMED,
                     String.format("%" + DataEntryFileProcessor.LEN_CONFIRMED + "d", getConfirmed()));

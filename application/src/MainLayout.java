@@ -18,6 +18,12 @@ public class MainLayout extends LayoutBase {
 
     private final Region growRegion;
 
+    /**
+     * Flag to indicate if the export dialog has been called
+     * to display to prevent the user from opening multiple export dialogs.
+     */
+    private boolean exportDialogOpened;
+
     public MainLayout(Stage stage, String title, int width, int height, DataHolder holder) {
         super(stage, title, width, height, true);
 
@@ -55,6 +61,22 @@ public class MainLayout extends LayoutBase {
     }
 
     /**
+     * Function to be called when the export button is clicked.
+     */
+    private void onExportClicked() {
+        if (!exportDialogOpened) {
+            Stage stage = new Stage();
+            stage.setOnHiding(event -> exportDialogOpened = false);
+
+            LayoutBase layoutBase = new ExportPreviewLayout(
+                    stage, "Export Preview", 1000, 600, holder.summaryString());
+
+            layoutBase.applyAndShow();
+            exportDialogOpened = true;
+        }
+    }
+
+    /**
      * Bottom part of the main layout.
      *
      * @return GUI element of the layout
@@ -72,8 +94,8 @@ public class MainLayout extends LayoutBase {
             setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(stage).show());
         }};
         Button b2_export = new Button("Export Result") {{
-            // FIXME: Display a summary text preview dialog
             setId("export");
+            setOnAction(e -> onExportClicked());
         }};
 
         hBox.getChildren().addAll(status, growRegion, b1_doc, b2_export);
