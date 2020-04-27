@@ -1,11 +1,18 @@
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Layout class to be called if failed to load any file of the program.
@@ -19,6 +26,33 @@ public class ExportPreviewLayout extends LayoutBase {
         super(stage, title, width, height, true);
 
         this.stringBuilder = stringBuilder;
+    }
+
+    /**
+     * Method to be called on "Export" being clicked.
+     */
+    private void onExportClick() {
+        String path = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss").format(LocalDateTime.now()) + ".txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)))) {
+            writer.append(stringBuilder);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("File exporting completed");
+            alert.setHeaderText("File exported.");
+            alert.setContentText(String.format("The summary has been exported to `%s`.", path));
+            alert.show();
+
+            this.stage.close();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("File exporting failed");
+            alert.setHeaderText("Unable to export the file.");
+            alert.setContentText(String.format("Unable to export the file to %s.", path));
+            alert.show();
+        }
     }
 
     /**
@@ -55,6 +89,22 @@ public class ExportPreviewLayout extends LayoutBase {
     }
 
     /**
+     * Footer of the export preview layout.
+     *
+     * @return footer GUI element
+     */
+    private HBox footer() {
+        return new HBox() {{
+            getChildren().add(new Button() {{
+                setText("Export");
+                setOnAction(e -> onExportClick());
+                setId("export");
+            }});
+            setAlignment(Pos.CENTER_RIGHT);
+        }};
+    }
+
+    /**
      * Get a {@code GridPane} containing the preview info.
      *
      * @return a prepared {@code GridPane} containing the preview info
@@ -62,16 +112,15 @@ public class ExportPreviewLayout extends LayoutBase {
     private GridPane exportPreviewPane() {
         return new GridPane() {{
             setPadding(new Insets(10));
+            setVgap(10);
             getColumnConstraints().add(0, new ColumnConstraints() {{
                 setPrefWidth(width);
                 setPercentWidth(100);
                 setHgrow(Priority.ALWAYS);
             }});
-            addColumn(0, previewTitleLabel(), previewTextArea());
+            addColumn(0, previewTitleLabel(), previewTextArea(), footer());
         }};
     }
-
-    // TODO: Add button to export the file
 
     /**
      * {@inheritDoc}
