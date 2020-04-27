@@ -8,8 +8,12 @@ public class TableMaker {
      * A {@code BorderPane} which contains the sample table GUI.
      *
      * @return prepared table GUI element
+     * @throws InvalidPopulationCount 
+     * @throws InvalidLongitudeException 
+     * @throws InvalidLatitudeException 
+     * @throws InvalidCountyNameException 
      */
-    public static Pane sampleTable() {
+    public static Pane sampleTable() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
         return new BorderPane(TableMaker.makeTable(DataHolder.sampleData()));
     }
 
