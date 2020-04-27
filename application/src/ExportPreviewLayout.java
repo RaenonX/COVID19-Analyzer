@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * Layout class to be called if failed to load any file of the program.
  */
 public class ExportPreviewLayout extends LayoutBase {
-    private static final int PREVIEW_LEN_LIMIT = 10000;
+    private static final int PREVIEW_LEN_LIMIT = 30000;
 
     private final StringBuilder stringBuilder;
 
@@ -42,10 +42,13 @@ public class ExportPreviewLayout extends LayoutBase {
      * @return GUI {@code TextArea} containing the text to be exported
      */
     private TextArea previewTextArea() {
+        String preview = stringBuilder.length() > PREVIEW_LEN_LIMIT ?
+                stringBuilder.substring(0, PREVIEW_LEN_LIMIT) : stringBuilder.toString();
+
         TextArea textArea = new TextArea();
         textArea.setEditable(false);
         textArea.getStyleClass().add("export-preview");
-        textArea.setText(stringBuilder.substring(0, PREVIEW_LEN_LIMIT));
+        textArea.setText(preview);
         textArea.setPrefHeight(height);
 
         return textArea;
