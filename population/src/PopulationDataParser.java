@@ -28,10 +28,16 @@ public class PopulationDataParser {
             int population = Integer.parseInt(line[IDX_POPULATION]);
             double latitude = Double.parseDouble(line[IDX_LAT]);
             double longitude = Double.parseDouble(line[IDX_LON]);
-            List<Integer> zips = Arrays.stream(line[IDX_ZIPS].split(" "))
+            List<Integer> zips = new ArrayList<>();
+            try {
+              if (line[IDX_ZIPS] != null) {
+                zips = Arrays.stream(line[IDX_ZIPS].split(" "))
                     .filter(x -> x.length() > 0)
                     .map(Integer::valueOf)
                     .collect(Collectors.toList());
+              }
+            } catch (Exception e) { /* ignore if zipcode is missing */ }
+            
 
             List<County> countyList = data.get(stateAbbr);
 

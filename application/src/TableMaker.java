@@ -4,44 +4,52 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class TableMaker {
-    /**
-     * A {@code BorderPane} which contains the sample table GUI.
-     *
-     * @return prepared table GUI element
-     */
-    public static Pane sampleTable() {
-        return new BorderPane(TableMaker.makeTable(DataHolder.sampleData()));
+  /**
+   * A {@code BorderPane} which contains the sample table GUI.
+   *
+   * @return prepared table GUI element
+   */
+  public static Pane sampleTable() {
+    BorderPane bp = null;
+    try {
+      bp = new BorderPane(TableMaker.makeTable(DataHolder.sampleData()));
+    } 
+    catch (Exception e) {
+      e.printStackTrace();
     }
+    return bp;
+  }
 
-    /**
-     * Same as {@code makeTable} with an additional empty table placeholder parameter.
-     *
-     * @param emptyTablePlaceholder text to be displayed if empty
-     */
-    public static <T extends IGUITableDataCollection<S>, S extends IGUITableEntry> TableView<S> makeTable(
-            T data, String emptyTablePlaceholder) {
-        TableView<S> table = new TableView<>();
+  /**
+   * Same as {@code makeTable} with an additional empty table placeholder parameter.
+   *
+   * @param emptyTablePlaceholder text to be displayed if empty
+   */
+  public static <T extends IGUITableDataCollection<S>, S extends IGUITableEntry> TableView<S> makeTable(
+      T data, String emptyTablePlaceholder) {
+    TableView<S> table = new TableView<>();
 
-        table.getItems().addAll(data.getTableDataEntry());
+    table.getItems().addAll(data.getTableDataEntry());
 
-        // Placeholder
-        table.setPlaceholder(new Label(emptyTablePlaceholder));
+    // Placeholder
+    table.setPlaceholder(new Label(emptyTablePlaceholder));
 
-        // Fill column
-        data.setTableColumns(table);
+    // Fill column
+    data.setTableColumns(table);
 
-        return table;
-    }
+    return table;
+  }
 
-    /**
-     * Create a GUI table element.
-     *
-     * @param data an entry collection class instance
-     * @param <T> class which holds all entries ({@code S})
-     * @param <S> class which represents a data entry
-     * @return prepared GUI table view
-     */
-    public static <T extends IGUITableDataCollection<S>, S extends IGUITableEntry> TableView<S> makeTable(T data) {
-        return makeTable(data, "NO DATA");
-    }
+  /**
+   * Create a GUI table element.
+   *
+   * @param data an entry collection class instance
+   * @param <T>  class which holds all entries ({@code S})
+   * @param <S>  class which represents a data entry
+   * @return prepared GUI table view
+   */
+  public static <T extends IGUITableDataCollection<S>, S extends IGUITableEntry> TableView<S> makeTable(
+      T data) {
+    return makeTable(data, "NO DATA");
+  }
 }
