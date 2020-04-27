@@ -13,7 +13,6 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	 * Class static variable to be accessed in the application for Singleton.
 	 */
 	public static UnitedStates current = new UnitedStates(new ArrayList<>());
-
 	private List<State> states; 
 
 	/**p
