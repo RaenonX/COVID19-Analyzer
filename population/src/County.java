@@ -27,19 +27,19 @@ public class County implements IPopulation {
 	InvalidPopulationCount, InvalidCountyNameException {
 		this.name = name;
 		//TODO: check isAlphabets()
-		if(name == null||name == "" || name == " ")  { 
+		if (name == null || name == "" || name == " ")  { 
  			throw new InvalidCountyNameException();
 		}
 		this.latitude = latitude;
-		if(latitude < -90 || latitude > 90) {
+		if (latitude < -90 || latitude > 90) {
 			throw new InvalidLatitudeException(latitude);
 		}
 		this.longitude = longitude;
-		if(longitude < -180 || longitude > 180) {
+		if (longitude < -180 || longitude > 180) {
 			throw new InvalidLongitudeException(longitude);
 		}
 		this.population = population;
-		if(population < 0) {
+		if (population < 0) {
 			throw new InvalidPopulationCount(population);
 		}
 		this.zips = zips;

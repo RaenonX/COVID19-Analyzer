@@ -13,6 +13,7 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	 * Class static variable to be accessed in the application for Singleton.
 	 */
 	public static UnitedStates current = new UnitedStates(new ArrayList<>());
+
 	private List<State> states; 
 
 	/**p
@@ -63,15 +64,18 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	 * @return county of the given state and name. {@code null} if not found or {@code countyState} is malformed.
 	 * @throws InvalidStateNameException 
 	 */
-	public County getCounty(String countyState) throws InvalidStateNameException {
-		// TODO: Handle malformed string / not exists
+	public County getCounty(String countyState) {
+		if (countyState == null) {
+			return null;
+		}
 		String[] str = countyState.split(",");
+
 		if (str.length != 2) {
 			return null;
 		}
-
 		String countyStr = str[0].strip();
 		String stateStr = str[1].strip();
+
 
 		return getCounty(countyStr, stateStr);
 	}
@@ -125,5 +129,4 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 				.sum();
 	}
 }
-	
- 
+
