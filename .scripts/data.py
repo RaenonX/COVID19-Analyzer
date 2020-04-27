@@ -99,9 +99,6 @@ state_full_to_abbr = {
     "District of Columbia": "DC",
     "D.C.": "DC",
     "Marshall Islands": "MH",
-    "Armed Forces Africa/Canada/Europe/Middle East": "AE",
-    "Armed Forces Americas": "AA",
-    "Armed Forces Pacific": "AP",
     "Chicago": "IL",
     "Grand Princess Cruise Ship": "Grand Princess",
     "U.S.": "Virgin Islands",
@@ -112,6 +109,9 @@ state_full_to_abbr = {
     "NE (From Diamond Princess)": "NE",
     "CA (From Diamond Princess)": "CA"
 }
+
+
+no_convert_counter = {}
 
 
 @dataclass
@@ -231,7 +231,7 @@ class DataEntry:
     def parse(header: Header, date_: date, data: List[str]):
         country = get_list_by_idx(data, header.idx_country, "")
         county = get_list_by_idx(data, header.idx_county, "")
-        state = get_list_by_idx(data, header.idx_state, "")
+        state = get_list_by_idx(data, header.idx_state, "").strip()
 
         # For some legacy data, state and county are not separated yet
         if country == "US":
@@ -241,7 +241,8 @@ class DataEntry:
             elif county.lower() == "madison":
                 county = "Dane"
 
-        state = state_full_to_abbr.get(state.strip(), state)
+        if state in state_full_to_abbr:
+            state = state_full_to_abbr[state]
 
         return DataEntry(
             date_=date_, county=county, state=state, country=country,
