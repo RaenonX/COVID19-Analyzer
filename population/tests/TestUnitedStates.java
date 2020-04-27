@@ -15,7 +15,7 @@ public class TestUnitedStates {
     private static County seattle;
 
     @BeforeAll
-    static void load_data() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
+    static void load_data() throws Exception {
         dane = new County(
                 "Dane", 47.0, -120.0, 50000, Arrays.asList(53714, 53715, 53716));
         laCrosse = new County(

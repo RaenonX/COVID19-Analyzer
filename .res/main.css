@@ -31,6 +31,10 @@
     -fx-font-size: 24;
     -fx-padding: 5;
 }
+
+.label.error {
+    -fx-text-fill: red;
+}
 /* endregion */
 
 /* region Button */

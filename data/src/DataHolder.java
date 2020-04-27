@@ -130,9 +130,10 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
     public int getPopulation() {
         return this.entries
                 .stream()
-                .map(DataEntry::getState)
+                .map(DataEntry::getCounty)
                 .distinct()
-                .mapToInt(State::getPopulation)
+                .filter(Objects::nonNull)
+                .mapToInt(County::getPopulation)
                 .sum();
     }
 

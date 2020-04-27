@@ -58,7 +58,11 @@ public class PopulationDataParser {
 
 		data.keySet().forEach(x -> {
 			List<County> counties = data.get(x);
-			usData.add(new State(x, converter.getFullName(x), counties));
+			try {
+				usData.add(new State(x, converter.getFullName(x), counties));
+			} catch (InvalidStateNameException e) {
+				e.printStackTrace();
+			}
 		});
 
 		UnitedStates.load(usData);

@@ -103,13 +103,13 @@ public class ConditionPredicateConverter {
 
         return e -> {
             State state = e.getState();
-            String val = (String)entity.getVal();
+            State val = (State)entity.getVal();
 
             if (state == null) {
                 return false;
             }
 
-            return compare(fc, state.getAbbr(), val) || compare(fc, state.getName(), val);
+            return compare(fc, state.getAbbr(), val.getAbbr()) || compare(fc, state.getName(), val.getName());
         };
     }
 
@@ -123,12 +123,13 @@ public class ConditionPredicateConverter {
     private static Predicate<DataEntry> convertCountyEntity(FilterConditionEntity entity) {
         return e -> {
             County county = e.getCounty();
+            County val = (County)entity.getVal();
 
-            if (county == null) {
+            if (county == null || val == null) {
                 return false;
             }
 
-            return compare(entity.getComparator(), county.getName(), (String)entity.getVal());
+            return compare(entity.getComparator(), county.getName(), val.getName());
         };
     }
 
@@ -257,7 +258,7 @@ public class ConditionPredicateConverter {
             LocalDate dateOnData = e.getDate();
             LocalDate dateToCompare;
             try {
-                dateToCompare = LocalDate.parse((String)entity.getVal());
+                dateToCompare = (LocalDate)entity.getVal();
             } catch (DateTimeParseException ignored) {
                 return false;
             }
@@ -310,7 +311,7 @@ public class ConditionPredicateConverter {
      * @return a {@code Predicate} ready to be used to filter the data
      */
     public static Predicate<DataEntry> convert(FilterCondition condition) throws FilterSyntaxError {
-        Predicate<DataEntry> predicateOR = e -> true;
+        Predicate<DataEntry> predicateOR = e -> condition.getConditions().size() == 0;
 
         for (List<FilterConditionEntity> entitiesOR : condition.getConditions()) {
             Predicate<DataEntry> predicateAND = e -> true;

@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
  */
 public class DailyCaseCounts implements IGUITableEntry {
     public static final Comparator<DailyCaseCounts> cmpDate = Comparator.comparing(DailyCaseCounts::getDate);
+    public static final Comparator<DailyCaseCounts> cmpDateRev = (x, y) -> -x.getDate().compareTo(y.getDate());
 
     private final LocalDate date;
     private final int confirmed;

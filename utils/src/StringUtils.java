@@ -23,6 +23,83 @@ public class StringUtils {
      * @return if {@code str} only contains alphabets
      */
     public static boolean isAlphabets(String str) {
-        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z '.-]*$"));
+        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z][a-zA-Z '.-]*$"));
+    }
+
+    private static final String[] numUnit = new String[] {"", "K", "M", "G", "T"};
+
+    /**
+     * Simplify a number to be at most 3 digit (if possible) and 1 decimal place with the unit (if applicable).<br>
+     * <br>
+     * Available units are:
+     * <ul>
+     *     <li>K (1000)</li>
+     *     <li>M (1000000)</li>
+     *     <li>G (1000000000)</li>
+     *     <li>T (1000000000000)</li>
+     * </ul>
+     * Examples:
+     * <ul>
+     *     <li>{@code +367} to {@code +367}</li>
+     *     <li>{@code 5007} to {@code 5.0K}</li>
+     *     <li>{@code 105467} to {@code 105.5K}</li>
+     *     <li>{@code 105547878} to {@code 105.5M}</li>
+     * </ul>
+     *
+     * @param num number to be formatted
+     * @param plusSign attach plus sign if {@code num} is positive
+     * @param attachActual attach actual number
+     * @param comma comma formatted for actual number
+     * @param dp decimal place count if {@code num} <= 1000
+     * @return simplified number string
+     */
+    public static String simplifyNumber(Number num, boolean plusSign, boolean attachActual, boolean comma, int dp) {
+        double val = num.doubleValue();
+        int divCount = 0;
+
+        while (val > 1000 && divCount < numUnit.length) {
+            val /= 1000;
+            divCount++;
+        }
+
+        String commaFmt = comma ? "," : "";
+        dp = divCount > 0 ? 1 : dp;
+
+        String str = String.format(
+                "%" + (plusSign ? "+" : "") + commaFmt + "." + dp + "f" + numUnit[divCount],
+                val);
+
+        if (attachActual) {
+            str += String.format(" (%"+ commaFmt + "d)", num.intValue());
+        }
+
+        return str;
+    }
+
+    /**
+     * Simplify a number to be at most 3 digit (if possible) and 1 decimal place with the unit (if applicable).<br>
+     * Call {@code simplifyNumber()} with all the parameters set to {@code true} except {@code plusSign}
+     * and {@code dp} set to 0.<br>
+     * <br>
+     * Available units are:
+     * <ul>
+     *     <li>K (1000)</li>
+     *     <li>M (1000000)</li>
+     *     <li>G (1000000000)</li>
+     *     <li>T (1000000000000)</li>
+     * </ul>
+     * Examples:
+     * <ul>
+     *     <li>{@code +367} to {@code +367}</li>
+     *     <li>{@code 5007} to {@code 5.0K}</li>
+     *     <li>{@code 105467} to {@code 105.5K}</li>
+     *     <li>{@code 105547878} to {@code 105.5M}</li>
+     * </ul>
+     *
+     * @param num number to be formatted
+     * @return simplified number string
+     */
+    public static String simplifyNumber(Number num) {
+        return simplifyNumber(num, false, true, true, 0);
     }
 }

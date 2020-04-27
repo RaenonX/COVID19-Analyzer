@@ -14,7 +14,7 @@ public class TestPopulationDataParser {
     }
 
     @Test
-    void test_parse_pop_file() throws IOException, InvalidStateNameException, InvalidLatitudeException, InvalidLongitudeException {
+    void test_parse_pop_file() throws IOException {
         PopulationDataParser.loadUsPopFile("res/pops.csv", converter);
 
         State wa = UnitedStates.current.getState("WA");
@@ -25,7 +25,7 @@ public class TestPopulationDataParser {
         State wi = UnitedStates.current.getState("WI");
         assertNotNull(wi);
         assertEquals("WI", wi.getAbbr());
-        assertEquals("Wisconsin", wa.getName());
+        assertEquals("Wisconsin", wi.getName());
 
         County pierce = UnitedStates.current.getCounty("Pierce, WA");
         assertNotNull(pierce);
@@ -34,7 +34,7 @@ public class TestPopulationDataParser {
         assertEquals(809950, pierce.getPopulation());
         assertEquals(47.16, pierce.getLatitude());
         assertEquals(-122.41, pierce.getLongitude());
-        assertEquals(new Integer[] {98580, 98387, 98338, 98332, 98335}, pierce.getZips().toArray());
+        assertArrayEquals(new Integer[] {98580, 98387, 98338, 98332, 98335}, pierce.getZips().toArray());
 
         County kittitas = UnitedStates.current.getCounty("Kittitas, WA");
         assertNotNull(kittitas);
@@ -43,7 +43,7 @@ public class TestPopulationDataParser {
         assertEquals(31466, kittitas.getPopulation());
         assertEquals(47.15, kittitas.getLatitude());
         assertEquals(-120.83, kittitas.getLongitude());
-        assertEquals(new Integer[] {98941, 98068, 98925, 98934, 98926}, kittitas.getZips().toArray());
+        assertArrayEquals(new Integer[] {98941, 98068, 98925, 98934, 98926}, kittitas.getZips().toArray());
 
         County dane = UnitedStates.current.getCounty("Dane, WI");
         assertNotNull(pierce);
@@ -52,6 +52,6 @@ public class TestPopulationDataParser {
         assertEquals(30445, dane.getPopulation());
         assertEquals(47.15, dane.getLatitude());
         assertEquals(-120.83, dane.getLongitude());
-        assertEquals(new Integer[] {}, dane.getZips().toArray());
+        assertArrayEquals(new Integer[] {}, dane.getZips().toArray());
     }
 }
