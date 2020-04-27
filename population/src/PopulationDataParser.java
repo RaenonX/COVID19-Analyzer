@@ -41,37 +41,26 @@ public class PopulationDataParser {
                     .map(Integer::valueOf)
                     .collect(Collectors.toList());
 
-            List<County> countyList = data.get(stateAbbr);
+			List<County> countyList = data.get(stateAbbr);
 
-            if (!data.containsKey(stateAbbr)) {
-                countyList = new ArrayList<>();
-                data.put(stateAbbr, countyList);
-            }
-
-            try {
+			if (!data.containsKey(stateAbbr)) {
+				countyList = new ArrayList<>();
+				data.put(stateAbbr, countyList);
+			}
+			try {
 				countyList.add(new County(countyName, latitude, longitude, population, zips));
-			} catch (InvalidCountyNameException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidLatitudeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidLongitudeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidPopulationCount e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-        });
+		});
 
-        List<State> usData = new ArrayList<>();
+		List<State> usData = new ArrayList<>();
 
-        data.keySet().forEach(x -> {
-            List<County> counties = data.get(x);
-            usData.add(new State(x, converter.getFullName(x), counties));
-        });
+		data.keySet().forEach(x -> {
+			List<County> counties = data.get(x);
+			usData.add(new State(x, converter.getFullName(x), counties));
+		});
 
-        UnitedStates.load(usData);
-    }
+		UnitedStates.load(usData);
+	}
 }
