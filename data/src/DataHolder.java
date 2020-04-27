@@ -17,8 +17,8 @@ import java.util.stream.Stream;
  * A class holding multiple {@code DataEntry}.
  */
 public class DataHolder implements IGUITableDataCollection<DataEntry> {
-    private List<DataEntry> entries;
-    private FilterCondition condition;
+    private final List<DataEntry> entries;
+    private final FilterCondition condition;
 
     public DataHolder(Stream<DataEntry> entries) {
         this(entries, new FilterCondition());
@@ -123,7 +123,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
                 this.getConfirmedCasePer100K(), this.getFatalCasePer100K()));
         sb.append("\n");
         sb.append("Data Entries:\n");
-        sb.append(DataEntryFileProcessor.tableHeader() + "\n");
+        sb.append(DataEntryFileProcessor.tableHeader()).append("\n");
         sb.append(this.entries.stream().map(DataEntry::toTableEntry).collect(Collectors.joining("\n")));
 
         return sb;
