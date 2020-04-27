@@ -102,7 +102,7 @@ state_full_to_abbr = {
     "Chicago": "IL",
     "Grand Princess Cruise Ship": "Grand Princess",
     "U.S.": "Virgin Islands",
-    "US": "",
+    "US": "Unassigned",
     "Unassigned Location (From Diamond Princess)": "Diamond Princess",
     "United States Virgin Islands": "Virgin Islands",
     "TX (From Diamond Princess)": "TX",
