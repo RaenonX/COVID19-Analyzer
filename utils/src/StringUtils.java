@@ -52,8 +52,8 @@ public class StringUtils {
      * @param comma comma formatted for actual number
      * @return simplified number string
      */
-    public static String simplifyNumber(long num, boolean plusSign, boolean attachActual, boolean comma) {
-        double val = num;
+    public static String simplifyNumber(Number num, boolean plusSign, boolean attachActual, boolean comma) {
+        double val = num.doubleValue();
         int divCount = 0;
 
         while (val > 1000 && divCount < numUnit.length) {
@@ -65,7 +65,7 @@ public class StringUtils {
         String str = String.format("%" + (plusSign ? "+" : "") + commaFmt + ".1f" + numUnit[divCount], val);
 
         if (attachActual) {
-            str += String.format(" (%"+ commaFmt + "d)", num);
+            str += String.format(" (%"+ commaFmt + "d)", num.intValue());
         }
 
         return str;
@@ -93,7 +93,7 @@ public class StringUtils {
      * @param num number to be formatted
      * @return simplified number string
      */
-    public static String simplifyNumber(long num) {
+    public static String simplifyNumber(Number num) {
         return simplifyNumber(num, false, true, true);
     }
 }
