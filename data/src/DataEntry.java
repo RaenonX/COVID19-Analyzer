@@ -31,26 +31,25 @@ public class DataEntry implements IGUITableEntry {
         if (confirmed < 0)
             throw new InvalidConfirmedCaseCountException();
 
-        // if county != null
-        if (county != null) {
-            int countyPop = county.getPopulation();
-            // confirmed validation check -- 2
-            if (confirmed > countyPop)
-                throw new InvalidConfirmedCaseCountException();
+        // get population
+        int pop;
 
-            if (countyPop == 0) {
-                this.confirmedPer100K = 0;
-                this.fatalPer100K = 0;
-            } else {
-                this.confirmedPer100K = confirmed / (double) countyPop * 100000;
-                this.fatalPer100K = fatal / (double) countyPop * 100000;
-            }
+        if (county != null) {
+            pop = county.getPopulation();
+        } else {
+            pop = state.getPopulation();
         }
 
-        // if county == null
-        else {
-            this.confirmedPer100K = -1.0;
-            this.fatalPer100K = -1.0;
+        // confirmed validation check -- 2
+        if (confirmed > pop || fatal > pop)
+            throw new InvalidConfirmedCaseCountException();
+
+        if (pop == 0) {
+            this.confirmedPer100K = -1;
+            this.fatalPer100K = -1;
+        } else {
+            this.confirmedPer100K = confirmed / (double) pop * 100000;
+            this.fatalPer100K = fatal / (double) pop * 100000;
         }
 
         // fatal validation check
