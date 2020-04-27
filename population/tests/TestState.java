@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class TestState {
     @Test
-    void test_state_properties() {
+    void test_state_properties() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
         County dane = new County(
                 "Dane", 47.0, -120.0, 50000, Arrays.asList(53714, 53715, 53716));
         County laCrosse = new County(
@@ -23,7 +23,7 @@ public class TestState {
         assertEquals("Wisconsin", state.getName());
         assertEquals(120000, state.getPopulation());
         assertEquals(50000, state.getPopulation(x -> x.getName().equals("Dane")));
-        assertEquals(new County[]{dane, laCrosse}, state.getCounties().toArray());
+        assertArrayEquals(new County[]{dane, laCrosse}, state.getCounties().toArray());
     }
 
     @Test

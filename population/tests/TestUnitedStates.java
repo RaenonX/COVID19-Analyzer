@@ -15,7 +15,7 @@ public class TestUnitedStates {
     private static County seattle;
 
     @BeforeAll
-    static void load_data() {
+    static void load_data() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
         dane = new County(
                 "Dane", 47.0, -120.0, 50000, Arrays.asList(53714, 53715, 53716));
         laCrosse = new County(
@@ -41,7 +41,7 @@ public class TestUnitedStates {
 
     @Test
     void test_properties() {
-        assertEquals(new State[] {wa, wi}, UnitedStates.current.getStates().toArray());
+        assertArrayEquals(UnitedStates.current.getStates().toArray(), new State[] {wi, wa});
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TestUnitedStates {
     }
 
     @Test
-    void test_get_county() {
+    void test_get_county() throws InvalidStateNameException {
         assertNull(UnitedStates.current.getCounty(""));
         assertNull(UnitedStates.current.getCounty("Seattle"));
         assertNull(UnitedStates.current.getCounty("Seattle, WI"));
