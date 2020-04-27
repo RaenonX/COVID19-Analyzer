@@ -108,7 +108,9 @@ state_full_to_abbr = {
     "US": "",
     "Unassigned Location (From Diamond Princess)": "Diamond Princess",
     "United States Virgin Islands": "Virgin Islands",
-    "TX (From Diamond Princess)": "TX"
+    "TX (From Diamond Princess)": "TX",
+    "NE (From Diamond Princess)": "NE",
+    "CA (From Diamond Princess)": "CA"
 }
 
 
