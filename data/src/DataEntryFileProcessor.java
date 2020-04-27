@@ -18,8 +18,8 @@ public class DataEntryFileProcessor {
     // region Length including padding of each Data Entry
     public static final int LEN_DATE = 10;
     public static final int LEN_COUNTY = 20;
-    public static final int LEN_STATE = 5; // max(len("State"), <actual state name length>)
-    public static final int LEN_CONFIRMED = 9; // max(len("Confirmed"), <actual state name length>)
+    public static final int LEN_STATE = 20; // max(len("State"), <state name>)
+    public static final int LEN_CONFIRMED = 9; // max(len("Confirmed"), <confirmed case count>)
     public static final int LEN_FATAL = 6;
     public static final int LEN_CONFIRMED_PER_100K = 9;
     public static final int LEN_FATAL_PER_100K = 9;

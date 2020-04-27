@@ -20,6 +20,8 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
     private final List<DataEntry> entries;
     private final FilterCondition condition;
 
+    private final DailyCaseStats dailyCaseStats;
+
     public DataHolder(Stream<DataEntry> entries) {
         this(entries, new FilterCondition());
     }
@@ -27,6 +29,36 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
     public DataHolder(Stream<DataEntry> entries, FilterCondition condition) {
         this.entries = entries.filter(Objects::nonNull).collect(Collectors.toList());
         this.condition = condition;
+
+        this.dailyCaseStats = prepareDailyStats();
+    }
+
+    private DailyCaseStats prepareDailyStats() {
+        int totalPop = getPopulation();
+        List<LocalDate> dates = new ArrayList<>();
+        Map<LocalDate, Integer> confirmedCount = new TreeMap<>();
+        Map<LocalDate, Integer> fatalCount = new TreeMap<>();
+
+        this.entries.forEach(x -> {
+            LocalDate date = x.getDate();
+            if (!dates.contains(date)) {
+                dates.add(date);
+            }
+            confirmedCount.put(date, confirmedCount.getOrDefault(date, 0) + x.getConfirmed());
+            fatalCount.put(date, fatalCount.getOrDefault(date, 0) + x.getFatal());
+        });
+
+        List<DailyCaseCounts> counts = dates.stream()
+                .map(x -> {
+                    int confirmed = confirmedCount.getOrDefault(x, 0);
+                    int confirmedDiff = confirmed - confirmedCount.getOrDefault(x.minusDays(1), 0);
+                    int fatal = fatalCount.getOrDefault(x, 0);
+                    int fatalDiff = fatal - fatalCount.getOrDefault(x.minusDays(1), 0);
+                    return new DailyCaseCounts(x, confirmed, confirmedDiff, fatal, fatalDiff, totalPop);
+                })
+                .collect(Collectors.toList());
+
+        return new DailyCaseStats(counts);
     }
 
     /**
@@ -36,7 +68,9 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      */
     public static DataHolder sampleData() {
         County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
-        State wi = new State("WI", "Wisconsin", new ArrayList<>() {{ add(dane); }});
+        State wi = new State("WI", "Wisconsin", new ArrayList<>() {{
+            add(dane);
+        }});
 
         return new DataHolder(Stream.of(
                 new DataEntry(
@@ -66,20 +100,15 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         return this.entries.size();
     }
 
-    public int getConfirmedCaseCount() {
-        return this.entries
-                .stream()
-                .mapToInt(DataEntry::getConfirmed)
-                .sum();
+    public DailyCaseStats getDailyCaseStats() {
+        return dailyCaseStats;
     }
 
-    public int getFatalCaseCount() {
-        return this.entries
-                .stream()
-                .mapToInt(DataEntry::getFatal)
-                .sum();
-    }
-
+    /**
+     * Get the total population of all entries' location.
+     *
+     * @return total population of all entries' location
+     */
     public int getPopulation() {
         return this.entries
                 .stream()
@@ -87,14 +116,6 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
                 .distinct()
                 .mapToInt(State::getPopulation)
                 .sum();
-    }
-
-    public double getConfirmedCasePer100K() {
-        return this.getConfirmedCaseCount() / (double)this.getPopulation() * 100000;
-    }
-
-    public double getFatalCasePer100K() {
-        return this.getFatalCaseCount() / (double)this.getPopulation() * 100000;
     }
 
     /**
@@ -115,14 +136,11 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
 
         sb.append(String.format(
                 "Condition: %s\n", this.condition.toString()));
-        sb.append(String.format(
-                "Confirmed / Fatal case count: %d / %d\n",
-                this.getConfirmedCaseCount(), this.getFatalCaseCount()));
-        sb.append(String.format(
-                "Confirmed / Fatal case per 100K residents: %.2f / %.2f\n",
-                this.getConfirmedCasePer100K(), this.getFatalCasePer100K()));
         sb.append("\n");
-        sb.append("Data Entries:\n");
+        sb.append("# Daily Case Counts\n");
+        sb.append(DailyStatsTableMaker.tableString(getDailyCaseStats())).append("\n");
+        sb.append("\n");
+        sb.append("# Data Entries\n");
         sb.append(DataEntryFileProcessor.tableHeader()).append("\n");
         sb.append(this.entries.stream().map(DataEntry::toTableEntry).collect(Collectors.joining("\n")));
 
