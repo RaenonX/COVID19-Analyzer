@@ -5,12 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * Layout class to be called if failed to load any file of the program.
@@ -72,7 +67,6 @@ public class ExportPreviewLayout extends LayoutBase {
             addColumn(0, previewTitleLabel(), previewTextArea());
         }};
     }
-
 
     // TODO: Add button to export the file
 

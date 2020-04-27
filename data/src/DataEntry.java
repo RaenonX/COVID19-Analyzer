@@ -90,10 +90,14 @@ public class DataEntry implements IGUITableEntry {
                     String.format("%" + DataEntryFileProcessor.LEN_FATAL + "d", getFatal()));
             put(
                     DataEntryFileProcessor.IDX_CONFIRMED_PER_100K,
-                    String.format("%" + DataEntryFileProcessor.LEN_CONFIRMED_PER_100K + ".2f", getConfirmedPer100K()));
+                    String.format(
+                            "%" + DataEntryFileProcessor.LEN_CONFIRMED_PER_100K + "s",
+                            getConfirmedPer100K() == -1 ? "-" : String.format("%.2f", getConfirmedPer100K())));
             put(
                     DataEntryFileProcessor.IDX_FATAL_PER_100K,
-                    String.format("%" + DataEntryFileProcessor.LEN_FATAL_PER_100K + ".2f", getFatalPer100K()));
+                    String.format(
+                            "%" + DataEntryFileProcessor.LEN_FATAL_PER_100K + "s",
+                            getFatalPer100K() == -1 ? "-" : String.format("%.2f", getFatalPer100K())));
         }};
 
         return IntStream
