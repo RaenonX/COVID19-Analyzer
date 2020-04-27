@@ -69,9 +69,9 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * Returns a {@code DataHolder} which contains some sample data.
      *
      * @return {@code DataHolder} which contains some sample data
-     * @throws InvalidPopulationCount thrown if population count is invalid
-     * @throws InvalidLongitudeException thrown if longitude is invalid
-     * @throws InvalidLatitudeException thrown if latitude is invalid
+     * @throws InvalidPopulationCount     thrown if population count is invalid
+     * @throws InvalidLongitudeException  thrown if longitude is invalid
+     * @throws InvalidLatitudeException   thrown if latitude is invalid
      * @throws InvalidCountyNameException thrown if county name is invalid
      */
     public static DataHolder sampleData()
@@ -231,10 +231,13 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * @return parsed {@code DataHolder}
      * @throws IOException thrown if file does not exist or occupied
      */
-    public static DataHolder parseFile(String path) throws IOException {
-        return new DataHolder(
-                Files.lines(Paths.get(path))
-                        .map(x -> x.split(","))
-                        .map(DataEntryFileProcessor::parse));
+    public static DataHolder parseFile(String path) throws IOException, InvalidFatalCaseException {
+        return new DataHolder(Files.lines(Paths.get(path)).map(x -> x.split(",")).map(lineEntry -> {
+            try {
+                return DataEntryFileProcessor.parse(lineEntry);
+            } catch (Exception e) {
+                return null;
+            }
+        }).filter(Objects::nonNull));
     }
 }
