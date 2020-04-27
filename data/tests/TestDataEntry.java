@@ -15,9 +15,8 @@ public class TestDataEntry {
   private static County county;
   private static State state;
 
-  @SuppressWarnings("serial")
   @BeforeAll
-  static void prepare() {
+  static void prepare() throws Exception{
 
     // String name, double latitude, double longitude, int population, List<Integer> zipcodes
     county = new County("Dane", 47.3, -120.1, 10000, new ArrayList<>() {
@@ -143,9 +142,6 @@ public class TestDataEntry {
       fail(String.format("Unexpected exception in test005_invalid_date: %s", e));
       e.printStackTrace();
     }
-    // date in the future
-    assertThrows(InvalidDateException.class,
-        () -> new DataEntry(LocalDate.of(2023, Month.APRIL, 20), state, county, 100, 10));
   }
 
   /**

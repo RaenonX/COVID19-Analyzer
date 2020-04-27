@@ -36,9 +36,7 @@ public class Main extends Application {
         } catch (IOException e) {
             ml = new FileLoadFailedLayout(primaryStage, APP_TITLE, 600, 600, e);
         } 
-        ml.applyLayout();
-
-        primaryStage.show();
+        ml.applyAndShow();
     }
 
     public static void main(String[] args) {

@@ -5,57 +5,62 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PopulationDataParser {
-    private static final int IDX_STATE = 0;
-    private static final int IDX_COUNTY = 1;
-    private static final int IDX_POPULATION = 2;
-    private static final int IDX_LAT = 3;
-    private static final int IDX_LON = 4;
-    private static final int IDX_ZIPS = 5;
+	private static final int IDX_STATE = 0;
+	private static final int IDX_COUNTY = 1;
+	private static final int IDX_POPULATION = 2;
+	private static final int IDX_LAT = 3;
+	private static final int IDX_LON = 4;
+	private static final int IDX_ZIPS = 5;
 
-    /**
-     * Load the US population data to {@code UnitedStates.current}.
-     *
-     * @param path path of US population data file
-     * @param converter converter class to convert state name abbreviation to full name
-     * @throws IOException thrown if file not found
-     */
-    public static void loadUsPopFile(String path, StateNameConverter converter) throws IOException {
-        Map<String, List<County>> data = new HashMap<>();  // State abbr and list of counties
+	/**
+	 * Load the US population data to {@code UnitedStates.current}.
+	 *
+	 * @param path path of US population data file
+	 * @param converter converter class to convert state name abbreviation to full name
+	 * @throws IOException thrown if file not found
+	 */
+	public static void loadUsPopFile(String path, StateNameConverter converter) throws IOException {
+		Map<String, List<County>> data = new HashMap<>();  // State abbr and list of counties
 
-        Files.lines(Paths.get(path)).map(line -> line.split(",")).forEach(line -> {
-            String stateAbbr = line[IDX_STATE];
-            String countyName = line[IDX_COUNTY];
-            int population = Integer.parseInt(line[IDX_POPULATION]);
-            double latitude = Double.parseDouble(line[IDX_LAT]);
-            double longitude = Double.parseDouble(line[IDX_LON]);
-            List<Integer> zips = new ArrayList<>();
-            try {
-              if (line[IDX_ZIPS] != null) {
-                zips = Arrays.stream(line[IDX_ZIPS].split(" "))
-                    .filter(x -> x.length() > 0)
-                    .map(Integer::valueOf)
-                    .collect(Collectors.toList());
-              }
-            } catch (Exception e) { /* ignore if zipcode is missing */ }
-            
+		Files.lines(Paths.get(path)).map(line -> line.split(",")).forEach(line -> {
+			String stateAbbr = line[IDX_STATE];
+			String countyName = line[IDX_COUNTY];
+			int population = Integer.parseInt(line[IDX_POPULATION]);
+			double latitude = Double.parseDouble(line[IDX_LAT]);
+			double longitude = Double.parseDouble(line[IDX_LON]);
 
-            List<County> countyList = data.get(stateAbbr);
+			String[] zipcodes;
+			if (line.length > IDX_ZIPS) {
+				zipcodes = line[IDX_ZIPS].split(" ");
+			} else {
+				zipcodes = new String[] {};
+			}
 
-            if (!data.containsKey(stateAbbr)) {
-                countyList = new ArrayList<>();
-                data.put(stateAbbr, countyList);
-            }
+			List<Integer> zips = Arrays.stream(zipcodes)
+					.filter(x -> x.length() > 0)
+					.map(Integer::valueOf)
+					.collect(Collectors.toList());
 
-            countyList.add(new County(countyName, latitude, longitude, population, zips));
-        });
+			List<County> countyList = data.get(stateAbbr);
 
-        List<State> usData = new ArrayList<>();
+			if (!data.containsKey(stateAbbr)) {
+				countyList = new ArrayList<>();
+				data.put(stateAbbr, countyList);
+			}
+			try {
+				countyList.add(new County(countyName, latitude, longitude, population, zips));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 
-        data.keySet().forEach(x -> {
-            List<County> counties = data.get(x);
-            usData.add(new State(x, converter.getFullName(x), counties));
-        });
+		List<State> usData = new ArrayList<>();
 
-        UnitedStates.load(usData);
-    }
+		data.keySet().forEach(x -> {
+			List<County> counties = data.get(x);
+			usData.add(new State(x, converter.getFullName(x), counties));
+		});
+
+		UnitedStates.load(usData);
+	}
 }

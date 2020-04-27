@@ -1,4 +1,8 @@
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Represents a single data entry.
@@ -14,15 +18,15 @@ public class DataEntry implements IGUITableEntry {
 
   /**
    * 
-   * @param date - 
+   * @param date      -
    * @param state
    * @param county
    * @param confirmed - confirmed case count
    * @param fatal
    * @throws InvalidStateException
-   * @throws InvalidDateException 
+   * @throws InvalidDateException
    * @throws InvalidCountyException
-   * @throws InvalidConfirmedCaseCountException 
+   * @throws InvalidConfirmedCaseCountException
    */
   public DataEntry(LocalDate date, State state, County county, int confirmed, int fatal)
       throws Exception {
@@ -30,42 +34,41 @@ public class DataEntry implements IGUITableEntry {
     // date validation check
     if (date == null || date.compareTo(LocalDate.now()) > 0)
       throw new InvalidDateException();
-    
+
     // state validation check
     // 如果有 invalid state name 要throw InvalidStateException吧? -- andy
     if (state == null)
       throw new InvalidStateException();
-    
+
     // confirmed validation check -- 1
     if (confirmed < 0)
       throw new InvalidConfirmedCaseCountException();
-    
+
     // if county != null
     if (county != null) {
       int countyPop = county.getPopulation();
       // confirmed validation check -- 2
       if (confirmed > countyPop)
         throw new InvalidConfirmedCaseCountException();
-      
+
       if (countyPop == 0) {
         this.confirmedPer100K = 0;
         this.fatalPer100K = 0;
       } else {
-        this.confirmedPer100K = confirmed / (double)countyPop * 100000;
-        this.fatalPer100K = fatal / (double)countyPop * 100000;
+        this.confirmedPer100K = confirmed / (double) countyPop * 100000;
+        this.fatalPer100K = fatal / (double) countyPop * 100000;
       }
-    } 
-    
+    }
     // if count == null
     else {
       this.confirmedPer100K = -1.0;
       this.fatalPer100K = -1.0;
     }
-    
+
     // fatal validation check
     if (fatal > confirmed || fatal < 0)
       throw new InvalidFatalCaseException();
-    
+
     // initialization of private fields
     this.date = date;
     this.state = state;
@@ -74,6 +77,7 @@ public class DataEntry implements IGUITableEntry {
     this.fatal = fatal;
   }
 
+  /* accessors */
   public LocalDate getDate() {
     return date;
   }
@@ -100,5 +104,39 @@ public class DataEntry implements IGUITableEntry {
 
   public double getFatalPer100K() {
     return fatalPer100K;
+  }
+  /* end of accessors */
+
+  /**
+   * Convert the data entry to a line of string following the convention in {@code DataEntryParser}.
+   *
+   * @return collated and prepared table entry string representing this data entry
+   */
+  public String toTableEntry() {
+    Map<Integer, String> dataMap = new HashMap<>() {
+      {
+        put(DataEntryFileProcessor.IDX_DATE,
+            String.format("%" + DataEntryFileProcessor.LEN_DATE + "s", getDate().toString()));
+        put(DataEntryFileProcessor.IDX_COUNTY,
+            String.format("%" + DataEntryFileProcessor.LEN_COUNTY + "s",
+                getCounty() == null ? "" : getCounty().getName()));
+        put(DataEntryFileProcessor.IDX_STATE,
+            String.format("%" + DataEntryFileProcessor.LEN_STATE + "s",
+                getState() == null ? "" : getState().getAbbr()));
+        put(DataEntryFileProcessor.IDX_CONFIRMED,
+            String.format("%" + DataEntryFileProcessor.LEN_CONFIRMED + "d", getConfirmed()));
+        put(DataEntryFileProcessor.IDX_FATAL,
+            String.format("%" + DataEntryFileProcessor.LEN_FATAL + "d", getFatal()));
+        put(DataEntryFileProcessor.IDX_CONFIRMED_PER_100K,
+            String.format("%" + DataEntryFileProcessor.LEN_CONFIRMED_PER_100K + "s",
+                getConfirmedPer100K() == -1 ? "-" : String.format("%.2f", getConfirmedPer100K())));
+        put(DataEntryFileProcessor.IDX_FATAL_PER_100K,
+            String.format("%" + DataEntryFileProcessor.LEN_FATAL_PER_100K + "s",
+                getFatalPer100K() == -1 ? "-" : String.format("%.2f", getFatalPer100K())));
+      }
+    };
+
+    return IntStream.range(0, dataMap.size()).mapToObj(dataMap::get)
+        .collect(Collectors.joining(DataEntryFileProcessor.TBL_SPLITTER));
   }
 }

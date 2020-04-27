@@ -34,7 +34,6 @@ public class TestDataHolder {
         UnitedStates.current.getCounty("King"), 300, 40);
   }
 
-  @SuppressWarnings("serial")
   @BeforeEach
   void load_data() {
     main = new DataHolder(new ArrayList<DataEntry>() {
@@ -48,7 +47,6 @@ public class TestDataHolder {
     }.stream());
   }
 
-  @SuppressWarnings("serial")
   @Test
   void test_filter_1() throws FilterSyntaxError {
     FilterCondition condition = new FilterCondition();
@@ -62,7 +60,6 @@ public class TestDataHolder {
     assertEquals(3, holder.getDataCount());
   }
 
-  @SuppressWarnings("serial")
   @Test
   void test_filter_2() throws FilterSyntaxError {
     FilterCondition condition = new FilterCondition();

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCounty {
     @Test
-    void test_county_properties() {
+    void test_county_properties() throws InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount, InvalidCountyNameException {
         County county = new County(
                 "Dane", 47.36, -120.88, 10000, Arrays.asList(53714, 53715, 53716));
         assertEquals("Dane", county.getName());
@@ -22,7 +22,7 @@ public class TestCounty {
         assertThrows(
                 InvalidLatitudeException.class,
                 () -> new County(
-                        "Dane", 90.36, -120.88,
+                        "Dane", 90.36, -120.88, //-90~90 ; -180~180
                         10000, Arrays.asList(53714, 53715, 53716)
                 )
         );
@@ -65,7 +65,7 @@ public class TestCounty {
     }
 
     @Test
-    void test_county_empty_zip_codes() {
+    void test_county_empty_zip_codes() throws InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount, InvalidCountyNameException {
         new County("Dane", 0.36, 120.88, 1, Collections.emptyList());
     }
 
@@ -74,7 +74,7 @@ public class TestCounty {
         assertThrows(
                 InvalidCountyNameException.class,
                 () -> new County(
-                        null, 0.36, -120.88,
+                        null, 0.36, -120.88, //cant be null
                         1000, Arrays.asList(53714, 53715, 53716)
                 )
         );

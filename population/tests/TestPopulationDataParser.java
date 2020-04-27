@@ -14,7 +14,7 @@ public class TestPopulationDataParser {
     }
 
     @Test
-    void test_parse_pop_file() throws IOException {
+    void test_parse_pop_file() throws IOException, InvalidStateNameException, InvalidLatitudeException, InvalidLongitudeException {
         PopulationDataParser.loadUsPopFile("res/pops.csv", converter);
 
         State wa = UnitedStates.current.getState("WA");

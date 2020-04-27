@@ -7,7 +7,7 @@ import java.io.IOException;
 public class TestStateNameConverter {
     @Test
     void test_state_name() throws IOException {
-        StateNameConverter converter = new StateNameConverter("res/states.csv");
+        StateNameConverter converter = new StateNameConverter("res/states.csv"); 
 
         assertEquals("Washington", converter.getFullName("WA"));
         assertEquals("Wisconsin", converter.getFullName("WI"));

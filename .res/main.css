@@ -60,6 +60,12 @@ VBox.summary-section {
 }
 /* endregion */
 
+/* region TextArea */
+.text-area.export-preview {
+    -fx-font-family: Consolas, monospace;
+}
+/* endregion */
+
 /* region Miscellaneous */
 .section {
     -fx-padding: 5;
