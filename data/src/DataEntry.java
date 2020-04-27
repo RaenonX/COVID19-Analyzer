@@ -19,7 +19,6 @@ public class DataEntry implements IGUITableEntry {
 
     public DataEntry(LocalDate date, State state, County county, int confirmed, int fatal)
             throws Exception {
-
         // date validation check
         if (date == null || date.compareTo(LocalDate.now()) > 0)
             throw new InvalidDateException();
@@ -47,6 +46,7 @@ public class DataEntry implements IGUITableEntry {
                 this.fatalPer100K = fatal / (double) countyPop * 100000;
             }
         }
+
         // if county == null
         else {
             this.confirmedPer100K = -1.0;
