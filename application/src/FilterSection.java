@@ -18,6 +18,8 @@ public class FilterSection implements IGuiUnit {
 
     private final FilterPrompt prompt;
 
+    private final DataTableGUI<DataHolder, DataEntry> tableGUI;
+
     private final VBox box;
 
     // region Class/GUI constructions
@@ -46,6 +48,8 @@ public class FilterSection implements IGuiUnit {
 
         this.prompt = new FilterPrompt(width, x -> onFilterEntered());
 
+        this.tableGUI = new DataTableGUI<>(defaultDataHolder);
+
         Pane gp = Utils.generateHGridPane(
                 width,
                 new VBox() {{
@@ -55,7 +59,7 @@ public class FilterSection implements IGuiUnit {
                             ChartMaker.sampleChart()
                     );
                 }},
-                TableMaker.makeTable(this.currentHolder)
+                tableGUI.getGuiElement()
         );
 
         // Main GUI element
@@ -147,10 +151,18 @@ public class FilterSection implements IGuiUnit {
     }
 
     /**
+     * Update the data tables with the current data.
+     */
+    private void updateTables() {
+        tableGUI.updateItems(currentHolder);
+    }
+
+    /**
      * Update all layout elements.
      */
     private void updateLayout() {
         updateLayoutData();
+        updateTables();
     }
 
     public DataHolder getCurrentHolder() {
