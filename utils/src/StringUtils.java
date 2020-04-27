@@ -23,7 +23,6 @@ public class StringUtils {
      * @return if {@code str} only contains alphabets
      */
     public static boolean isAlphabets(String str) {
-        // TODO: Could be used for checking both state and county names
-        return false;
+        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]*$"));
     }
 }
