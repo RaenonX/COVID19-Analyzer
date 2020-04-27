@@ -33,17 +33,21 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         this.dailyCaseStats = prepareDailyStats();
     }
 
+    public List<LocalDate> sortedListOfDates() {
+        return this.entries.stream()
+                .map(DataEntry::getDate)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     private DailyCaseStats prepareDailyStats() {
         int totalPop = getPopulation();
-        List<LocalDate> dates = new ArrayList<>();
+        List<LocalDate> dates = sortedListOfDates();
         Map<LocalDate, Integer> confirmedCount = new TreeMap<>();
         Map<LocalDate, Integer> fatalCount = new TreeMap<>();
 
         this.entries.forEach(x -> {
             LocalDate date = x.getDate();
-            if (!dates.contains(date)) {
-                dates.add(date);
-            }
             confirmedCount.put(date, confirmedCount.getOrDefault(date, 0) + x.getConfirmed());
             fatalCount.put(date, fatalCount.getOrDefault(date, 0) + x.getFatal());
         });
@@ -65,12 +69,14 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * Returns a {@code DataHolder} which contains some sample data.
      *
      * @return {@code DataHolder} which contains some sample data
-     * @throws InvalidPopulationCount 
-     * @throws InvalidLongitudeException 
-     * @throws InvalidLatitudeException 
-     * @throws InvalidCountyNameException 
+     * @throws InvalidPopulationCount thrown if population count is invalid
+     * @throws InvalidLongitudeException thrown if longitude is invalid
+     * @throws InvalidLatitudeException thrown if latitude is invalid
+     * @throws InvalidCountyNameException thrown if county name is invalid
      */
-    public static DataHolder sampleData() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
+    public static DataHolder sampleData()
+            throws InvalidCountyNameException, InvalidLatitudeException,
+            InvalidLongitudeException, InvalidPopulationCount {
         County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
         State wi = new State("WI", "Wisconsin", new ArrayList<>() {{
             add(dane);

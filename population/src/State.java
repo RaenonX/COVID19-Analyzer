@@ -2,9 +2,9 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class State implements IPopulation, IPopulationCondition<County> {
-	private String abbr;
-	private String name;
-	private List<County> counties;
+	private final String abbr;
+	private final String name;
+	private final List<County> counties;
 
 	/**
 	 * Construct a state.

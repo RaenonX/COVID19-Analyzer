@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
  * A class represents the case counts of a single day.
  */
 public class DailyCaseCounts implements IGUITableEntry {
-    public static Comparator<DailyCaseCounts> cmpDate = (o1, o2) -> o1.getDate().compareTo(o2.getDate());
+    public static final Comparator<DailyCaseCounts> cmpDate = Comparator.comparing(DailyCaseCounts::getDate);
 
     private final LocalDate date;
     private final int confirmed;

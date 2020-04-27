@@ -7,13 +7,13 @@ import java.util.function.Predicate;
  *
  * Access this through the static class variable {@code current} for Singleton.
  */
-public class UnitedStates implements IPopulation, IPopulationCondition<State>{
-
+public class UnitedStates implements IPopulation, IPopulationCondition<State> {
 	/**
 	 * Class static variable to be accessed in the application for Singleton.
 	 */
 	public static UnitedStates current = new UnitedStates(new ArrayList<>());
-	private List<State> states; 
+
+	private final List<State> states;
 
 	/**p
 	 * Construct an object which holds all population data of the United States.
@@ -61,7 +61,6 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	 *
 	 * @param countyState string to get the county (Example: Dane, WI)
 	 * @return county of the given state and name. {@code null} if not found or {@code countyState} is malformed.
-	 * @throws InvalidStateNameException 
 	 */
 	public County getCounty(String countyState) {
 		if (countyState == null) {
@@ -109,10 +108,9 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	@Override
 	public int getPopulation() {
 		return states.stream()				
-				.mapToInt(x -> x.getPopulation())
+				.mapToInt(State::getPopulation)
 				.sum();	
 	}
-
 
 	/**
 	 * Get the total population of the filtered states using {@code predicate}.
@@ -124,7 +122,7 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State>{
 	public int getPopulation(Predicate<? super State> predicate) {
 		return states.stream()
 				.filter(predicate)
-				.mapToInt(x -> x.getPopulation())
+				.mapToInt(State::getPopulation)
 				.sum();
 	}
 }

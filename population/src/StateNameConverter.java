@@ -11,7 +11,7 @@ public class StateNameConverter {
     private static final int IDX_ABBR = 0;
     private static final int IDX_NAME = 1;
 
-    private Map<String, String> dict;  // abbr, full name
+    private final Map<String, String> dict;  // abbr, full name
 
     /**
      * Construct the converter.
@@ -21,9 +21,9 @@ public class StateNameConverter {
     public StateNameConverter(String filePath) throws IOException {
         this.dict = new TreeMap<>();
 
-        Files.lines(Paths.get(filePath)).map(x -> x.split(",")).forEach(x -> {
-            dict.put(x[IDX_ABBR], x[IDX_NAME]);
-        });
+        Files.lines(Paths.get(filePath))
+                .map(x -> x.split(","))
+                .forEach(x -> dict.put(x[IDX_ABBR], x[IDX_NAME]));
     }
 
     /**

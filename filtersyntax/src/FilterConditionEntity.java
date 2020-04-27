@@ -2,9 +2,9 @@
  * A class represents a single filter condition.
  */
 public class FilterConditionEntity {
-    private FilterParameter parameter;
-    private FilterComparator comparator;
-    private String val;
+    private final FilterParameter parameter;
+    private final FilterComparator comparator;
+    private final String val;
 
     /**
      * @param parameter parameter to be compared

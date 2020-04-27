@@ -26,7 +26,7 @@ public class FilterCondition {
      *     </li>
      * </ul>
      */
-    List<List<FilterConditionEntity>> conditions;
+    private final List<List<FilterConditionEntity>> conditions;
 
     public FilterCondition() {
         this.conditions = new ArrayList<>();
