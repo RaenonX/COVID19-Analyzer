@@ -106,9 +106,12 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * @param condition condition to be used to filter the data
      * @return a {@code DataHolder} containing the filtered data
      */
-    public DataHolder filterData(FilterCondition condition) {
-        // TODO: Filter the data
-        return null;
+    public DataHolder filterData(FilterCondition condition) throws FilterSyntaxError {
+        return new DataHolder(
+                this.entries
+                        .stream()
+                        .filter(ConditionPredicateConverter.convert(condition)),
+                condition);
     }
 
     public int getDataCount() {
@@ -226,6 +229,12 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
             table.getColumns().add(this);
         }};
 
+        new TableColumn<DataEntry, Double>("Death %") {{
+            setCellValueFactory(new PropertyValueFactory<>("deathRatePercent"));
+            setCellFactory(factory);
+            table.getColumns().add(this);
+        }};
+
         table.getColumns().forEach(x -> x.setReorderable(false));
     }
 
@@ -236,7 +245,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * @return parsed {@code DataHolder}
      * @throws IOException thrown if file does not exist or occupied
      */
-    public static DataHolder parseFile(String path) throws IOException, InvalidFatalCaseException {
+    public static DataHolder parseFile(String path) throws IOException {
         return new DataHolder(Files.lines(Paths.get(path)).map(x -> x.split(",")).map(lineEntry -> {
             try {
                 return DataEntryFileProcessor.parse(lineEntry);

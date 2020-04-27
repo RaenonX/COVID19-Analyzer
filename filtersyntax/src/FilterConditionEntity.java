@@ -18,12 +18,31 @@ public class FilterConditionEntity {
         this.comparator = comparator;
         this.val = val;
 
+        // TODO: Check validity of the comparator
+        //  - Only EQ is valid for zip code
+
         try {
             this.parameter.cast(this.val);
         } catch (Exception e) {
             throw new FilterSyntaxError(
                     FilterSyntaxErrorReason.PARAMETER_VALUE_UNCASTABLE,
                     String.format("Parameter: %s (%s)", this.parameter, this.val));
+        }
+    }
+
+    public FilterParameter getParameter() {
+        return parameter;
+    }
+
+    public FilterComparator getComparator() {
+        return comparator;
+    }
+
+    public Object getVal() {
+        try {
+            return this.parameter.cast(val);
+        } catch (FilterSyntaxError filterSyntaxError) {
+            return null;  // This should not happen as `val` is checked during construction
         }
     }
 

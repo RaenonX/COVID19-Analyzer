@@ -79,5 +79,10 @@ public enum FilterSyntaxErrorReason {
     /**
      * Date string unparsable.
      */
-    DATE_UNPARSABLE
+    DATE_UNPARSABLE,
+
+    /**
+     * Code to process the filter parameter not handled.
+     */
+    FILTER_PARAMETER_NOT_HANDLED
 }

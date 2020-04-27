@@ -21,8 +21,6 @@ public class FilterSyntaxDocGUI {
      * @return GUI element which contains the documentation of {@code FilterSyntax}
      */
     private static Node loadDocHtml() {
-        // TODO: Handle the case where the doc html file does not exist
-
         String htmlPath;
         try {
             htmlPath = new File(".res/filterdoc.html").toURI().toURL().toString();
