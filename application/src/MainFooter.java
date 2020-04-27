@@ -4,6 +4,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 
 public class MainFooter implements IGuiUnit {
@@ -11,6 +13,7 @@ public class MainFooter implements IGuiUnit {
 
     // region GUI elements
     private final HBox box;
+    private final Label status;
 
     private final Supplier<DataHolder> fnGetHolder;
     // endregion
@@ -28,9 +31,11 @@ public class MainFooter implements IGuiUnit {
             getStyleClass().add("section");
         }};
 
-        Label status = new Label(DEFAULT_STATUS_MSG) {{
+        this.status = new Label() {{
             setId("status");
         }};
+        updateStatus(DEFAULT_STATUS_MSG);
+
         Button b1_doc = new Button("Filter Syntax Manual") {{
             setId("doc");
             setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(mainStage).show());
@@ -60,6 +65,18 @@ public class MainFooter implements IGuiUnit {
         }
     }
     // endregion
+
+    /**
+     * Update the status.
+     *
+     * @param status status string to replace
+     */
+    public void updateStatus(String status) {
+        this.status.setText(
+                String.format("%s: %s",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()),
+                        status));
+    }
 
     @Override
     public Pane getGuiElement() {

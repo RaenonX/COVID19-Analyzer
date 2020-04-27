@@ -19,6 +19,7 @@ public class MainLayout extends LayoutBase {
         this.filterSection = new FilterSection(width, defaultHolder);
 
         this.footer = new MainFooter(stage, filterSection::getCurrentHolder);
+        this.filterSection.onStatusUpdate(this.footer::updateStatus);
     }
 
     /**

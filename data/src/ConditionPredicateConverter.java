@@ -311,7 +311,7 @@ public class ConditionPredicateConverter {
      * @return a {@code Predicate} ready to be used to filter the data
      */
     public static Predicate<DataEntry> convert(FilterCondition condition) throws FilterSyntaxError {
-        Predicate<DataEntry> predicateOR = e -> false;
+        Predicate<DataEntry> predicateOR = e -> condition.getConditions().size() == 0;
 
         for (List<FilterConditionEntity> entitiesOR : condition.getConditions()) {
             Predicate<DataEntry> predicateAND = e -> true;

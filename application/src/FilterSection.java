@@ -3,6 +3,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
+
 public class FilterSection implements IGuiUnit {
     private static final String TITLE_OVERALL = "Latest Overall";
     private static final String TITLE_PER_100K = "Latest Per 100K residents";
@@ -10,6 +14,8 @@ public class FilterSection implements IGuiUnit {
     // Data
     private final DataHolder defaultHolder;
     private DataHolder currentHolder;
+
+    private Consumer<String> onStatusUpdate;
 
     // GUI
     private final CaseSection overall;
@@ -73,20 +79,39 @@ public class FilterSection implements IGuiUnit {
     }
     // endregion
 
+    // region Events
     /**
      * Method to be called when `Enter` is clicked in filter prompt.
      */
-    // region Events
     private void onFilterEntered() {
         try {
             FilterCondition condition = FilterQueryParser.parse(prompt.getTextInput());
             updateHolder(defaultHolder.filterData(condition));
             prompt.hideErrorMessage();
+
+            updateStatus("Filter successfully applied.");
         } catch (FilterSyntaxError filterSyntaxError) {
             prompt.updateErrorMessage(filterSyntaxError.getMessage());
+
+            updateStatus("Failed to apply the filter.");
         }
     }
+
+    public void onStatusUpdate(Consumer<String> action) {
+        this.onStatusUpdate = action;
+    }
     // endregion
+
+    /**
+     * Execute {@code onStatusUpdate} with the given new status {@code String}.
+     *
+     * @param status new status
+     */
+    private void updateStatus(String status) {
+        if (onStatusUpdate != null) {
+            onStatusUpdate.accept(status);
+        }
+    }
 
     /**
      * Update the {@code DataHolder} of the filtered data, triggering all layout updates.
