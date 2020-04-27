@@ -40,8 +40,8 @@ public class MainLayout extends LayoutBase {
 
         // Data layout
         // region Filtered
-        this.filteredOverall = new CaseSection(width, "Overall");
-        this.filteredPer100K = new CaseSection(width, "Per 100K residents");
+        this.filteredOverall = new CaseSection(width, "Latest Overall");
+        this.filteredPer100K = new CaseSection(width, "Latest Per 100K residents");
         // endregion
 
         // region Summary
@@ -52,15 +52,19 @@ public class MainLayout extends LayoutBase {
         DailyCaseCounts last7thDay = holder.getDailyCaseStats().getLatestCountsNdays(7);
 
         if (latestCounts != null) {
-            this.summaryOverall.updateConfirmed(String.valueOf(latestCounts.getConfirmed()));
-            this.summaryOverall.updateFatal(String.valueOf(latestCounts.getFatal()));
+            this.summaryOverall.updateConfirmed(StringUtils.simplifyNumber(latestCounts.getConfirmed()));
+            this.summaryOverall.updateFatal(StringUtils.simplifyNumber(latestCounts.getFatal()));
             this.summaryOverall.updateTitle(String.format("Overall - %s", latestCounts.getDate().toString()));
 
             if (last7thDay != null) {
                 this.summary7dDiff.updateConfirmed(
-                        String.valueOf(latestCounts.getConfirmed() - last7thDay.getConfirmed()));
+                        StringUtils.simplifyNumber(
+                                latestCounts.getConfirmed() - last7thDay.getConfirmed(),
+                                true, true, true));
                 this.summary7dDiff.updateFatal(
-                        String.valueOf(latestCounts.getFatal() - last7thDay.getFatal()));
+                        StringUtils.simplifyNumber(
+                                latestCounts.getFatal() - last7thDay.getFatal(),
+                                true, true, true));
                 this.summary7dDiff.updateTitle(String.format("7 Days Difference - %s", last7thDay.getDate().toString()));
             }
         }
