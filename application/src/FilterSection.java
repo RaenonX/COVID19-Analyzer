@@ -4,6 +4,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class FilterSection implements IGuiUnit {
+    private static final String TITLE_OVERALL = "Latest Overall";
+    private static final String TITLE_PER_100K = "Latest Per 100K residents";
+
     // Data
     private final DataHolder defaultHolder;
     private DataHolder currentHolder;
@@ -37,8 +40,8 @@ public class FilterSection implements IGuiUnit {
         this.currentHolder = defaultDataHolder;
 
         // Initialize GUI elements
-        this.overall = new CaseSection(width, "Latest Overall");
-        this.per100K = new CaseSection(width, "Latest Per 100K residents");
+        this.overall = new CaseSection(width, TITLE_OVERALL);
+        this.per100K = new CaseSection(width, TITLE_PER_100K);
 
         this.prompt = new FilterPrompt(width, x -> onFilterEntered());
 
@@ -101,24 +104,26 @@ public class FilterSection implements IGuiUnit {
     private void updateLayoutData() {
         DailyCaseCounts latestCounts = currentHolder.getDailyCaseStats().getLatest();
 
-        // TODO: Update filter section label
-
         if (latestCounts != null) {
             this.overall.updateConfirmed(
                     StringUtils.simplifyNumber(latestCounts.getConfirmed(), false, false, false, 0));
             this.overall.updateFatal(
                     StringUtils.simplifyNumber(latestCounts.getFatal(), false, false, false, 0));
+            this.overall.updateTitle(String.format("%s - %s", TITLE_OVERALL, latestCounts.getDate().toString()));
 
             this.per100K.updateConfirmed(
                     StringUtils.simplifyNumber(latestCounts.getConfirmedPer100K(), false, false, false, 2));
             this.per100K.updateFatal(
                     StringUtils.simplifyNumber(latestCounts.getFatalPer100K(), false, false, false, 2));
+            this.per100K.updateTitle(String.format("%s - %s", TITLE_PER_100K, latestCounts.getDate().toString()));
         } else {
             this.overall.updateConfirmed("-");
             this.overall.updateFatal("-");
+            this.overall.updateTitle(TITLE_OVERALL);
 
             this.per100K.updateConfirmed("-");
             this.per100K.updateFatal("-");
+            this.per100K.updateTitle(TITLE_PER_100K);
         }
     }
 
