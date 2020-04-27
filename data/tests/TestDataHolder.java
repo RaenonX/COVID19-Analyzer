@@ -71,6 +71,6 @@ public class TestDataHolder {
         });
         DataHolder holder = main.filterData(condition);
 
-        assertEquals(2, holder.getDataCount());
+        assertEquals(1, holder.getDataCount());
     }
 }

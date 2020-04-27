@@ -258,7 +258,7 @@ public class ConditionPredicateConverter {
             LocalDate dateOnData = e.getDate();
             LocalDate dateToCompare;
             try {
-                dateToCompare = LocalDate.parse((String)entity.getVal());
+                dateToCompare = (LocalDate)entity.getVal();
             } catch (DateTimeParseException ignored) {
                 return false;
             }
