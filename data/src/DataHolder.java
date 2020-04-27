@@ -33,13 +33,24 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         this.dailyCaseStats = prepareDailyStats();
     }
 
+    /**
+     * Get the list of dates of the data entries in sorted order (ASC).
+     *
+     * @return sorted list of dates
+     */
     public List<LocalDate> sortedListOfDates() {
         return this.entries.stream()
                 .map(DataEntry::getDate)
+                .distinct()
                 .sorted()
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Function to be called when to create daily count stats of the data entries in this {@code DataHolder}.
+     *
+     * @return daily stats of the data entries
+     */
     private DailyCaseStats prepareDailyStats() {
         int totalPop = getPopulation();
         List<LocalDate> dates = sortedListOfDates();
