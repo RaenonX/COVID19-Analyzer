@@ -4,8 +4,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class CaseSection implements IGuiUnit {
-    private CaseUnit confirmed;
-    private CaseUnit fatal;
+    private final Label title;
+
+    private final CaseUnit confirmed;
+    private final CaseUnit fatal;
 
     private final VBox box;
 
@@ -14,7 +16,7 @@ public class CaseSection implements IGuiUnit {
     }
 
     public CaseSection(int width, String sectionTitle, String defaultConfirmed, String defaultFatal) {
-        Label title = new Label(sectionTitle);
+        this.title = new Label(sectionTitle);
 
         this.confirmed = new CaseUnit("Confirmed Cases", "confirmed", defaultConfirmed);
         this.fatal = new CaseUnit("Fatal Cases", "fatal", defaultFatal);
@@ -42,6 +44,15 @@ public class CaseSection implements IGuiUnit {
      */
     public void updateFatal(String val) {
         fatal.updateCount(val);
+    }
+
+    /**
+     * Update the title.
+     *
+     * @param titleText title to replace
+     */
+    public void updateTitle(String titleText) {
+        title.setText(titleText);
     }
 
     /**

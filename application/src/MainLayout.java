@@ -5,9 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class MainLayout extends LayoutBase {
     private static final String DEFAULT_STATUS_MSG = "Ready";
 
@@ -42,14 +39,32 @@ public class MainLayout extends LayoutBase {
         HBox.setHgrow(growRegion, Priority.ALWAYS);
 
         // Data layout
-        DailyCaseCounts latestCounts = holder.getDailyCaseStats().getLatest();
-
-        this.summaryOverall = new CaseSection(
-                width, "Overall",
-                String.valueOf(latestCounts.getConfirmed()), String.valueOf(latestCounts.getFatal()));
-        this.summary7dDiff = new CaseSection(width, "7 Days Difference");
+        // region Filtered
         this.filteredOverall = new CaseSection(width, "Overall");
         this.filteredPer100K = new CaseSection(width, "Per 100K residents");
+        // endregion
+
+        // region Summary
+        this.summaryOverall = new CaseSection(width, "Overall");
+        this.summary7dDiff = new CaseSection(width, "7 Days Difference");
+
+        DailyCaseCounts latestCounts = holder.getDailyCaseStats().getLatest();
+        DailyCaseCounts last7thDay = holder.getDailyCaseStats().getLatestCountsNdays(7);
+
+        if (latestCounts != null) {
+            this.summaryOverall.updateConfirmed(String.valueOf(latestCounts.getConfirmed()));
+            this.summaryOverall.updateFatal(String.valueOf(latestCounts.getFatal()));
+            this.summaryOverall.updateTitle(String.format("Overall - %s", latestCounts.getDate().toString()));
+
+            if (last7thDay != null) {
+                this.summary7dDiff.updateConfirmed(
+                        String.valueOf(latestCounts.getConfirmed() - last7thDay.getConfirmed()));
+                this.summary7dDiff.updateFatal(
+                        String.valueOf(latestCounts.getFatal() - last7thDay.getFatal()));
+                this.summary7dDiff.updateTitle(String.format("7 Days Difference - %s", last7thDay.getDate().toString()));
+            }
+        }
+        // endregion
     }
 
     /**
