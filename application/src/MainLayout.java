@@ -94,7 +94,6 @@ public class MainLayout extends LayoutBase {
             setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(stage).show());
         }};
         Button b2_export = new Button("Export Result") {{
-            // FIXME: Display a summary text preview dialog
             setId("export");
             setOnAction(e -> onExportClicked());
         }};
