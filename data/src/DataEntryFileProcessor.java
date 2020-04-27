@@ -24,7 +24,7 @@ public class DataEntryFileProcessor {
     public static final int LEN_FATAL = 6;
     public static final int LEN_CONFIRMED_PER_100K = 9;
     public static final int LEN_FATAL_PER_100K = 9;
-    public static final int LEN_DEATH_RATE = 7; // max(len("Death %"), <death rate % with 2 floating points>)
+    public static final int LEN_DEATH_RATE = 7; // max(len("Death %"), <death rate % with 2 decimal places>)
     // endregion
 
     public static final String TBL_SPLITTER = " | ";

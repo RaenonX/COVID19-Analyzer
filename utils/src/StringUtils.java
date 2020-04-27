@@ -50,9 +50,10 @@ public class StringUtils {
      * @param plusSign attach plus sign if {@code num} is positive
      * @param attachActual attach actual number
      * @param comma comma formatted for actual number
+     * @param dp decimal place count if {@code num} <= 1000
      * @return simplified number string
      */
-    public static String simplifyNumber(Number num, boolean plusSign, boolean attachActual, boolean comma) {
+    public static String simplifyNumber(Number num, boolean plusSign, boolean attachActual, boolean comma, int dp) {
         double val = num.doubleValue();
         int divCount = 0;
 
@@ -62,7 +63,11 @@ public class StringUtils {
         }
 
         String commaFmt = comma ? "," : "";
-        String str = String.format("%" + (plusSign ? "+" : "") + commaFmt + ".1f" + numUnit[divCount], val);
+        dp = divCount > 0 ? 1 : dp;
+
+        String str = String.format(
+                "%" + (plusSign ? "+" : "") + commaFmt + "." + dp + "f" + numUnit[divCount],
+                val);
 
         if (attachActual) {
             str += String.format(" (%"+ commaFmt + "d)", num.intValue());
@@ -73,7 +78,8 @@ public class StringUtils {
 
     /**
      * Simplify a number to be at most 3 digit (if possible) and 1 decimal place with the unit (if applicable).<br>
-     * Call {@code simplifyNumber()} with all the parameters set to {@code true} except {@code plusSign}.<br>
+     * Call {@code simplifyNumber()} with all the parameters set to {@code true} except {@code plusSign}
+     * and {@code dp} set to 0.<br>
      * <br>
      * Available units are:
      * <ul>
@@ -94,6 +100,6 @@ public class StringUtils {
      * @return simplified number string
      */
     public static String simplifyNumber(Number num) {
-        return simplifyNumber(num, false, true, true);
+        return simplifyNumber(num, false, true, true, 0);
     }
 }
