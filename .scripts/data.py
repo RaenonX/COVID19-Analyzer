@@ -111,6 +111,9 @@ state_full_to_abbr = {
 }
 
 
+no_convert_counter = {}
+
+
 @dataclass
 class Header:
     idx_state: int
