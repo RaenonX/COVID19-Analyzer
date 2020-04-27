@@ -12,7 +12,7 @@ public class TestDataEntry {
     private static State state;
 
     @BeforeAll
-    static void prepare() {
+    static void prepare() throws InvalidCountyNameException, InvalidLatitudeException, InvalidLongitudeException, InvalidPopulationCount {
         county = new County(
                 "Dane", 47.3, -120.1, 10000,
                 new ArrayList<>() {{ add(53714); add(53715); add(53716); }});

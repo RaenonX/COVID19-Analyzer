@@ -19,7 +19,7 @@ public class TestDataHolder {
     private static DataEntry d5;
 
     @BeforeAll
-    static void prepare() throws IOException {
+    static void prepare() throws IOException, InvalidStateNameException {
         PopulationDataParser.loadUsPopFile("res/pops.csv", new StateNameConverter("res/states.csv"));
 
         d1 = new DataEntry(

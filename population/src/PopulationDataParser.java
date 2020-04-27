@@ -40,7 +40,21 @@ public class PopulationDataParser {
                 data.put(stateAbbr, countyList);
             }
 
-            countyList.add(new County(countyName, latitude, longitude, population, zips));
+            try {
+				countyList.add(new County(countyName, latitude, longitude, population, zips));
+			} catch (InvalidCountyNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidLatitudeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidLongitudeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidPopulationCount e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         });
 
         List<State> usData = new ArrayList<>();

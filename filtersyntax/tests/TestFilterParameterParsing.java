@@ -30,7 +30,7 @@ class TestFilterParameterParsing {
     }
 
     @Test
-    void test_cast() throws FilterSyntaxError {
+    void test_cast() throws FilterSyntaxError, InvalidStateNameException {
         State state = (State)FilterParameter.STATE.cast("WI");
         assertEquals("WI", state.getAbbr());
         state = (State)FilterParameter.STATE.cast("Wisconsin");
@@ -61,13 +61,13 @@ class TestFilterParameterParsing {
     }
 
     @Test
-    void test_cast_malformed_state() throws FilterSyntaxError {
+    void test_cast_malformed_state() throws FilterSyntaxError, InvalidStateNameException {
         assertNull(FilterParameter.STATE.cast("7"));
         assertNull(FilterParameter.STATE.cast("AMP"));
     }
 
     @Test
-    void test_cast_malformed_county() throws FilterSyntaxError {
+    void test_cast_malformed_county() throws FilterSyntaxError, InvalidStateNameException {
         assertNull(FilterParameter.COUNTY.cast("9"));
         assertNull(FilterParameter.COUNTY.cast("AMP"));
     }
