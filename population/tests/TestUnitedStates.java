@@ -41,7 +41,7 @@ public class TestUnitedStates {
 
     @Test
     void test_properties() {
-        assertArrayEquals(new State[] {wi, wa},UnitedStates.current.getStates().toArray());
+        assertArrayEquals(new State[] {wi, wa}, UnitedStates.current.getStates().toArray());
     }
 
     @Test

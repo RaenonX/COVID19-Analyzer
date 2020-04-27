@@ -44,8 +44,7 @@ public class PopulationDataParser {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-				);
+		});
 
 		List<State> usData = new ArrayList<>();
 
