@@ -32,6 +32,10 @@ def main():
         # f.write("state,county,population,lat,lon,zips\n")
 
         for state, county_pop in pop_count.items():
+            if state == "PR":
+                # Skipping Puerto Rico because the data from JHU counts PR cases as a whole
+                continue
+
             print(f"Writing {state}...")
             s = ""
             for county, data in county_pop.items():

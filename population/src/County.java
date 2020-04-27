@@ -27,7 +27,7 @@ public class County implements IPopulation {
 	InvalidPopulationCount, InvalidCountyNameException {
 		this.name = name;
 		if (name == null || name.strip().equals("") || !StringUtils.isAlphabets(name))  {
- 			throw new InvalidCountyNameException();
+ 			throw new InvalidCountyNameException(name);
 		}
 		this.latitude = latitude;
 		if (latitude < -90 || latitude > 90) {

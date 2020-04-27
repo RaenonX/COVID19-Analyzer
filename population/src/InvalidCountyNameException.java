@@ -1,2 +1,5 @@
-@SuppressWarnings("serial")
-public class InvalidCountyNameException extends InvalidNameException {}
+public class InvalidCountyNameException extends InvalidNameException {
+    public InvalidCountyNameException(String name) {
+        super(name);
+    }
+}

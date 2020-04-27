@@ -69,14 +69,8 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * Returns a {@code DataHolder} which contains some sample data.
      *
      * @return {@code DataHolder} which contains some sample data
-     * @throws InvalidPopulationCount     thrown if population count is invalid
-     * @throws InvalidLongitudeException  thrown if longitude is invalid
-     * @throws InvalidLatitudeException   thrown if latitude is invalid
-     * @throws InvalidCountyNameException thrown if county name is invalid
      */
-    public static DataHolder sampleData()
-            throws InvalidCountyNameException, InvalidLatitudeException,
-            InvalidLongitudeException, InvalidPopulationCount {
+    public static DataHolder sampleData() throws Exception {
         County dane = new County("Dane", 45, 120, 435337, new ArrayList<>());
         State wi = new State("WI", "Wisconsin", new ArrayList<>() {{
             add(dane);

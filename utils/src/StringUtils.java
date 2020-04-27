@@ -23,6 +23,6 @@ public class StringUtils {
      * @return if {@code str} only contains alphabets
      */
     public static boolean isAlphabets(String str) {
-        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]*$"));
+        return (str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z '.-]*$"));
     }
 }
