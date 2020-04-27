@@ -14,6 +14,8 @@ public class MainLayout extends LayoutBase {
     public MainLayout(Stage stage, String title, int width, int height, DataHolder defaultHolder) {
         super(stage, title, width, height, true);
 
+        // TODO: Create summary section class
+
         // Store & set layout helping GUI elements
         VBox.setVgrow(Utils.growRegion, Priority.ALWAYS);
         HBox.setHgrow(Utils.growRegion, Priority.ALWAYS);
@@ -37,11 +39,11 @@ public class MainLayout extends LayoutBase {
                 this.summary7dDiff.updateConfirmed(
                         StringUtils.simplifyNumber(
                                 latestCounts.getConfirmed() - last7thDay.getConfirmed(),
-                                true, true, true));
+                                true, true, true, 0));
                 this.summary7dDiff.updateFatal(
                         StringUtils.simplifyNumber(
                                 latestCounts.getFatal() - last7thDay.getFatal(),
-                                true, true, true));
+                                true, true, true, 0));
                 this.summary7dDiff.updateTitle(String.format("7 Days Difference - %s", last7thDay.getDate().toString()));
             }
         }

@@ -16,7 +16,7 @@ public class FilterSection implements IGuiUnit {
 
     private final VBox box;
 
-    // region Class/GUi constructions
+    // region Class/GUI constructions
     /**
      * {@code HBox} containing the data in the filter section.
      */
@@ -70,6 +70,9 @@ public class FilterSection implements IGuiUnit {
     }
     // endregion
 
+    /**
+     * Method to be called when `Enter` is clicked in filter prompt.
+     */
     // region Events
     private void onFilterEntered() {
         try {
@@ -98,15 +101,25 @@ public class FilterSection implements IGuiUnit {
     private void updateLayoutData() {
         DailyCaseCounts latestCounts = currentHolder.getDailyCaseStats().getLatest();
 
-        this.overall.updateConfirmed(
-                StringUtils.simplifyNumber(latestCounts.getConfirmed(), false, false, false));
-        this.overall.updateFatal(
-                StringUtils.simplifyNumber(latestCounts.getFatal(), false, false, false));
+        // TODO: Update filter section label
 
-        this.per100K.updateConfirmed(
-                StringUtils.simplifyNumber(latestCounts.getConfirmedPer100K(), false, false, false));
-        this.per100K.updateFatal(
-                StringUtils.simplifyNumber(latestCounts.getFatalPer100K(), false, false, false));
+        if (latestCounts != null) {
+            this.overall.updateConfirmed(
+                    StringUtils.simplifyNumber(latestCounts.getConfirmed(), false, false, false, 0));
+            this.overall.updateFatal(
+                    StringUtils.simplifyNumber(latestCounts.getFatal(), false, false, false, 0));
+
+            this.per100K.updateConfirmed(
+                    StringUtils.simplifyNumber(latestCounts.getConfirmedPer100K(), false, false, false, 2));
+            this.per100K.updateFatal(
+                    StringUtils.simplifyNumber(latestCounts.getFatalPer100K(), false, false, false, 2));
+        } else {
+            this.overall.updateConfirmed("-");
+            this.overall.updateFatal("-");
+
+            this.per100K.updateConfirmed("-");
+            this.per100K.updateFatal("-");
+        }
     }
 
     /**

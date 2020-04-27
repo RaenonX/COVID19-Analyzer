@@ -28,9 +28,9 @@ public class FilterQueryParser {
 
             while (scAND.hasNext()) {
                 String exprStr = scAND.next().strip();
-                String[] expr = exprStr.split(" ");
+                String[] expr = exprStr.split(" ", 3);
 
-                if (expr.length != 3) {
+                if (expr.length < 3) {
                     throw new FilterSyntaxError(FilterSyntaxErrorReason.INCOMPLETE_EXPRESSION, exprStr);
                 }
 
