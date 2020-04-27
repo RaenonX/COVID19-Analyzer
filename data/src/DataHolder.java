@@ -210,7 +210,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
                     @Override
                     protected void updateItem(Double confirmed, boolean empty) {
                         super.updateItem(confirmed, empty);
-                        if (empty) {
+                        if (empty || confirmed == -1) {
                             setText(null);
                         } else {
                             setText(String.format("%.2f", confirmed));
