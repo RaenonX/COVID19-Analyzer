@@ -18,9 +18,14 @@ public class FilterConditionEntity {
         this.comparator = comparator;
         this.val = val;
 
-        // TODO: Check validity of the comparator
-        //  - Only EQ is valid for zip code
+        // Check comparator validity
+        if (parameter == FilterParameter.ZIP_CODE && comparator != FilterComparator.EQ) {
+            throw new FilterSyntaxError(
+                    FilterSyntaxErrorReason.ZIP_CODE_UNCOMPARABLE,
+                    String.format("ZIP code should not be compared. The only valid comparator is %s", FilterComparator.EQ));
+        }
 
+        // Check value castable
         try {
             this.parameter.cast(this.val);
         } catch (Exception e) {

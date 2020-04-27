@@ -57,6 +57,10 @@ public enum FilterSyntaxErrorReason {
      * ZIP code is uncastable.
      */
     ZIP_CODE_UNCASTABLE,
+    /**
+     * ZIP code should not be compared.
+     */
+    ZIP_CODE_UNCOMPARABLE,
 
     /**
      * Latitude number out of range (valid -90~90).
