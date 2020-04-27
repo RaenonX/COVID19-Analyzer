@@ -17,11 +17,29 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts> 
         this.caseCounts = caseCounts;
     }
 
+    /**
+     * Get the latest {@code DailyCaseCount}. Return {@code null} if no stats.
+     *
+     * @return latest {@code DailyCaseCount}
+     */
+    public DailyCaseCounts getLatest() {
+        return this.caseCounts
+                .stream()
+                .max(DailyCaseCounts.cmpDate)
+                .orElse(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<DailyCaseCounts> getTableDataEntry() {
         return caseCounts;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setTableColumns(TableView<DailyCaseCounts> table) {
         new TableColumn<DailyCaseCounts, LocalDate>("Date") {{

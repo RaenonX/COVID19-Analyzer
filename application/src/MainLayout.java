@@ -9,14 +9,20 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MainLayout extends LayoutBase {
-    // TODO: needs a local variable storing the case data label to update the data
-    //  Mechanism of how the layout needs to be changed to accomplish the above
     private static final String DEFAULT_STATUS_MSG = "Ready";
-    private static final String DEFAULT_TEXT = "30.3K";
 
+    // region Data
     private final DataHolder holder;
+    // endregion
 
+    // region GUI-related elements
     private final Region growRegion;
+
+    private final CaseSection summaryOverall;
+    private final CaseSection summary7dDiff;
+    private final CaseSection filteredOverall;
+    private final CaseSection filteredPer100K;
+    // endregion
 
     /**
      * Flag to indicate if the export dialog has been called
@@ -27,12 +33,23 @@ public class MainLayout extends LayoutBase {
     public MainLayout(Stage stage, String title, int width, int height, DataHolder holder) {
         super(stage, title, width, height, true);
 
+        // Store data
         this.holder = holder;
 
+        // Store & set layout helping GUI elements
         this.growRegion = new Region();
-
         VBox.setVgrow(growRegion, Priority.ALWAYS);
         HBox.setHgrow(growRegion, Priority.ALWAYS);
+
+        // Data layout
+        DailyCaseCounts latestCounts = holder.getDailyCaseStats().getLatest();
+
+        this.summaryOverall = new CaseSection(
+                width, "Overall",
+                String.valueOf(latestCounts.getConfirmed()), String.valueOf(latestCounts.getFatal()));
+        this.summary7dDiff = new CaseSection(width, "7 Days Difference");
+        this.filteredOverall = new CaseSection(width, "Overall");
+        this.filteredPer100K = new CaseSection(width, "Per 100K residents");
     }
 
     /**
@@ -43,21 +60,7 @@ public class MainLayout extends LayoutBase {
      * @return processed {@code GridPane}
      */
     private GridPane generateHGridPane(Node... items) {
-        GridPane gp = new GridPane();
-        int count = items.length;
-
-        gp.getColumnConstraints().addAll(
-                IntStream
-                        .range(0, count)
-                        .mapToObj(x -> new ColumnConstraints() {{
-                            setPrefWidth(width / (double) count);
-                            setPercentWidth(100 / (double) count);
-                            setHgrow(Priority.ALWAYS);
-                        }})
-                        .collect(Collectors.toList()));
-        gp.addRow(0, items);
-
-        return gp;
+        return Utils.generateHGridPane(width, items);
     }
 
     /**
@@ -117,55 +120,13 @@ public class MainLayout extends LayoutBase {
     }
 
     /**
-     * A {@code VBox} unit containing the case type and the case data.
-     *
-     * @param titleText  case type title text
-     * @param styleClass css class to style
-     * @return a prepared {@code VBox} unit
-     */
-    private VBox caseUnit(String titleText, String styleClass) {
-        Label title = new Label(titleText) {{
-            getStyleClass().addAll("summary-type", styleClass);
-        }};
-        Label data = new Label(DEFAULT_TEXT) {{
-            getStyleClass().addAll("summary-count", styleClass);
-        }};
-        VBox box = new VBox();
-        box.getStyleClass().add("case");
-        box.getChildren().addAll(title, data);
-
-        return box;
-    }
-
-    /**
-     * A {@code Pane} containing various type of case units.
-     *
-     * @param titleText title text
-     * @return a {@code Pane} containing various type of case units
-     */
-    public Pane caseSection(String titleText) {
-        Label title = new Label(titleText);
-
-        VBox confirmed = caseUnit("Confirmed Cases", "confirmed");
-        VBox fatal = caseUnit("Fatal Cases", "fatal");
-
-        GridPane gp = generateHGridPane(confirmed, fatal);
-
-        VBox main = new VBox();
-        main.getStyleClass().addAll("summary-section", "section");
-        main.getChildren().addAll(title, gp);
-
-        return main;
-    }
-
-    /**
      * {@code HBox} containing the data in the summary section.
      */
     public HBox summaryDataSection() {
         HBox hBox = new HBox();
         hBox.getChildren().addAll(
-                caseSection("Overall"),
-                caseSection("Difference in 7 Days")
+                this.summaryOverall.getGuiElement(),
+                this.summary7dDiff.getGuiElement()
         );
         hBox.getStyleClass().add("section");
 
@@ -194,8 +155,8 @@ public class MainLayout extends LayoutBase {
     public HBox filterDataSection() {
         HBox hBox = new HBox();
         hBox.getChildren().addAll(
-                caseSection("Overall"),
-                caseSection("Per 100K residents")
+                this.filteredOverall.getGuiElement(),
+                this.filteredPer100K.getGuiElement()
         );
         hBox.getStyleClass().add("section");
 
