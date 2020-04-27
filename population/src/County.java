@@ -26,7 +26,8 @@ public class County implements IPopulation {
 	public County(String name, double latitude, double longitude, int population, List<Integer> zips) throws InvalidLatitudeException, InvalidLongitudeException, 
 	InvalidPopulationCount, InvalidCountyNameException {
 		this.name = name;
-		if(name == null||name == "" || name == " ")  { //! County.isAlphabets(name)
+		//TODO: check isAlphabets()
+		if(name == null||name == "" || name == " ")  { 
  			throw new InvalidCountyNameException();
 		}
 		this.latitude = latitude;
