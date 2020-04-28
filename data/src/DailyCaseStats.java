@@ -70,48 +70,69 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>,
             table.getColumns().add(this);
         }};
 
+        Callback<TableColumn<DailyCaseCounts, Integer>, TableCell<DailyCaseCounts, Integer>> numPlusSignFactory =
+                tc -> new TableCell<>() {
+                    @Override
+                    protected void updateItem(Integer num, boolean empty) {
+                        super.updateItem(num, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            setText(String.format("%+d", num));
+                        }
+                    }
+                };
+
         new TableColumn<DailyCaseCounts, Integer>("Confirmed") {{
             setCellValueFactory(new PropertyValueFactory<>("confirmed"));
+            setMinWidth(100);
             table.getColumns().add(this);
         }};
 
         new TableColumn<DailyCaseCounts, Integer>("+/-") {{
             setCellValueFactory(new PropertyValueFactory<>("confirmedDiff"));
+            setMinWidth(100);
+            setCellFactory(numPlusSignFactory);
             table.getColumns().add(this);
         }};
 
         new TableColumn<DailyCaseCounts, Integer>("Fatal") {{
             setCellValueFactory(new PropertyValueFactory<>("fatal"));
+            setMinWidth(100);
             table.getColumns().add(this);
         }};
 
         new TableColumn<DailyCaseCounts, Integer>("+/-") {{
             setCellValueFactory(new PropertyValueFactory<>("fatalDiff"));
+            setMinWidth(100);
+            setCellFactory(numPlusSignFactory);
             table.getColumns().add(this);
         }};
 
-        Callback<TableColumn<DailyCaseCounts, Double>, TableCell<DailyCaseCounts, Double>> factory =
+        Callback<TableColumn<DailyCaseCounts, Double>, TableCell<DailyCaseCounts, Double>> doubleFactory =
                 tc -> new TableCell<>() {
                     @Override
-                    protected void updateItem(Double confirmed, boolean empty) {
-                        super.updateItem(confirmed, empty);
+                    protected void updateItem(Double num, boolean empty) {
+                        super.updateItem(num, empty);
                         if (empty) {
                             setText(null);
                         } else {
-                            setText(String.format("%.2f", confirmed));
+                            setText(String.format("%.2f", num));
                         }
                     }
                 };
 
         new TableColumn<DailyCaseCounts, Double>("Confirmed / 100K") {{
             setCellValueFactory(new PropertyValueFactory<>("confirmedPer100K"));
-            setCellFactory(factory);
+            setMinWidth(100);
+            setCellFactory(doubleFactory);
             table.getColumns().add(this);
         }};
 
         new TableColumn<DailyCaseCounts, Double>("Fatal / 100K") {{
             setCellValueFactory(new PropertyValueFactory<>("fatalPer100K"));
-            setCellFactory(factory);
+            setMinWidth(100);
+            setCellFactory(doubleFactory);
             table.getColumns().add(this);
         }};
 

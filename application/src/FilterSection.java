@@ -1,3 +1,5 @@
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 
 import java.util.function.Consumer;
@@ -18,12 +20,14 @@ public class FilterSection implements IGuiUnit {
 
     private final FilterPrompt prompt;
 
-    private final DataTableGUI<DataHolder, DataEntry> tableGUI;
+    private final DataTableGUI<DataHolder, DataEntry> dataEntryGUI;
+    private final DataTableGUI<DailyCaseStats, DailyCaseCounts> dailyCaseGUI;
     private final DataChartGUI<DailyCaseStats> chartGUI;
 
     private final VBox box;
 
     // region Class/GUI constructions
+
     /**
      * {@code HBox} containing the data in the filter section.
      */
@@ -49,7 +53,8 @@ public class FilterSection implements IGuiUnit {
 
         this.prompt = new FilterPrompt(width, x -> onFilterEntered());
 
-        this.tableGUI = new DataTableGUI<>(defaultDataHolder);
+        this.dataEntryGUI = new DataTableGUI<>(defaultDataHolder);
+        this.dailyCaseGUI = new DataTableGUI<>(defaultDataHolder.getDailyCaseStats());
         this.chartGUI = new DataChartGUI<>(defaultDataHolder.getDailyCaseStats());
 
         Pane gp = Utils.generateHGridPane(
@@ -61,7 +66,17 @@ public class FilterSection implements IGuiUnit {
                             chartGUI.getGuiElement()
                     );
                 }},
-                tableGUI.getGuiElement()
+                new TabPane() {{
+                    getTabs().addAll(
+                            new Tab("Data Entry") {{
+                                setContent(dataEntryGUI.getGuiElement());
+                                setClosable(false);
+                            }},
+                            new Tab("Daily Case") {{
+                                setContent(dailyCaseGUI.getGuiElement());
+                                setClosable(false);
+                            }});
+                }}
         );
 
         // Main GUI element
@@ -80,6 +95,7 @@ public class FilterSection implements IGuiUnit {
     // endregion
 
     // region Events
+
     /**
      * Method to be called when `Enter` is clicked in filter prompt.
      */
@@ -156,7 +172,8 @@ public class FilterSection implements IGuiUnit {
      * Update the data tables with the current data.
      */
     private void updateTables() {
-        tableGUI.updateItems(currentHolder);
+        dataEntryGUI.updateItems(currentHolder);
+        dailyCaseGUI.updateItems(currentHolder.getDailyCaseStats());
     }
 
     /**

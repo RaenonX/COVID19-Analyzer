@@ -208,12 +208,12 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         Callback<TableColumn<DataEntry, Double>, TableCell<DataEntry, Double>> factory =
                 tc -> new TableCell<>() {
                     @Override
-                    protected void updateItem(Double confirmed, boolean empty) {
-                        super.updateItem(confirmed, empty);
-                        if (empty || confirmed == -1) {
+                    protected void updateItem(Double num, boolean empty) {
+                        super.updateItem(num, empty);
+                        if (empty || num == -1) {
                             setText(null);
                         } else {
-                            setText(String.format("%.2f", confirmed));
+                            setText(String.format("%.2f", num));
                         }
                     }
                 };
