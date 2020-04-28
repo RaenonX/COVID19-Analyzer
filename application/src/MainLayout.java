@@ -29,11 +29,12 @@ public class MainLayout extends LayoutBase {
         BorderPane main = new BorderPane();
 
         // Main part
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(
-                summarySection.getGuiElement(),
-                filterSection.getGuiElement()
-        );
+        VBox vBox = new VBox() {{
+            getChildren().addAll(
+                    summarySection.getGuiElement(),
+                    filterSection.getGuiElement()
+            );
+        }};
 
         // Status bar
         main.setCenter(vBox);

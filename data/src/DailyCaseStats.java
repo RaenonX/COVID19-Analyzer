@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * A class which holds multiple {@code DailyCaseCounts}.
  */
-public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>, IGUIChartSeries<String, Number> {
+public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>, IGUIChartSeriesCollection<String, Number> {
     private final List<DailyCaseCounts> caseCounts;
 
     public DailyCaseStats(List<DailyCaseCounts> caseCounts) {
@@ -118,31 +118,41 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>,
         table.getColumns().forEach(x -> x.setReorderable(false));
     }
 
-    private XYChart.Series<String, Number> makeSeries(String name, Function<DailyCaseCounts, Number> numberFunction) {
+    /**
+     * Make a chart series with the given name and a function to get the number for Y axis.
+     *
+     * @param name series name
+     * @param styleClass style class to be applied to the chart series
+     * @param numberFunction function to get the number for Y axis
+     * @return a data-filled {@code XYChart.Series}
+     */
+    private ChartSeriesData<String, Number> makeSeries(
+            String name, String styleClass, Function<DailyCaseCounts, Number> numberFunction) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
 
+        // https://stackoverflow.com/a/47954566/11571888
         series.getData().addAll(caseCounts
                 .stream()
                 .map(x -> new XYChart.Data<>(x.getDate().toString(), numberFunction.apply(x)))
                 .collect(Collectors.toList()));
         series.setName(name);
 
-        return series;
+        return new ChartSeriesData<>(series, styleClass);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<XYChart.Series<String, Number>> getSeries() {
-        List<XYChart.Series<String, Number>> series = new ArrayList<>();
+    public List<ChartSeriesData<String, Number>> getSeriesCollection() {
+        List<ChartSeriesData<String, Number>> series = new ArrayList<>();
 
-        series.add(makeSeries("Confirmed Case", DailyCaseCounts::getConfirmed));
-        series.add(makeSeries("Fatal Case", DailyCaseCounts::getFatal));
-        series.add(makeSeries("Confirmed +/-", DailyCaseCounts::getConfirmedDiff));
-        series.add(makeSeries("Fatal +/-", DailyCaseCounts::getFatalDiff));
-        series.add(makeSeries("Confirmed / 100K", DailyCaseCounts::getConfirmedPer100K));
-        series.add(makeSeries("Fatal / 100K", DailyCaseCounts::getFatalPer100K));
+        series.add(makeSeries("Confirmed Case", "line-confirmed", DailyCaseCounts::getConfirmed));
+        series.add(makeSeries("Fatal Case", "line-fatal", DailyCaseCounts::getFatal));
+        series.add(makeSeries("Confirmed +/-", "line-confirmed-diff", DailyCaseCounts::getConfirmedDiff));
+        series.add(makeSeries("Fatal +/-", "line-fatal-diff", DailyCaseCounts::getFatalDiff));
+        series.add(makeSeries("Confirmed / 100K", "line-confirmed-100k", DailyCaseCounts::getConfirmedPer100K));
+        series.add(makeSeries("Fatal / 100K", "line-fatal-100k", DailyCaseCounts::getFatalPer100K));
 
         return series;
     }

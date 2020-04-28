@@ -1,5 +1,3 @@
-import javafx.scene.chart.XYChart;
-
 import java.util.List;
 
 /**
@@ -8,11 +6,11 @@ import java.util.List;
  * @param <X> X axis type
  * @param <Y> Y axis type
  */
-public interface IGUIChartSeries<X, Y> {
+public interface IGUIChartSeriesCollection<X, Y> {
     /**
      * Get the series for GUI chart.
      *
      * @return series for GUI chart
      */
-    List<XYChart.Series<X, Y>> getSeries();
+    List<ChartSeriesData<X, Y>> getSeriesCollection();
 }
