@@ -74,6 +74,38 @@ VBox.summary-section {
 }
 /* endregion */
 
+/* region Chart Line */
+#line-confirmed, .line-confirmed {
+    -fx-stroke: #001989;
+    -fx-background-color: #001989;
+}
+
+#line-fatal, .line-fatal {
+    -fx-stroke: #72000f;
+    -fx-background-color: #72000f;
+}
+
+#line-confirmed-diff, .line-confirmed-diff {
+    -fx-stroke: #0024C6;
+    -fx-background-color: #0024C6;
+}
+
+#line-fatal-diff, .line-fatal-diff {
+    -fx-stroke: #C60035;
+    -fx-background-color: #C60035;
+}
+
+#line-confirmed-100k, .line-confirmed-100k {
+    -fx-stroke: #002EFF;
+    -fx-background-color: #002EFF;
+}
+
+#line-fatal-100k, .line-fatal-100k {
+    -fx-stroke: #FF0015;
+    -fx-background-color: #FF0015;
+}
+/* endregion */
+
 /* region Miscellaneous */
 .section {
     -fx-padding: 5;
