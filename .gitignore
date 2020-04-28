@@ -15,3 +15,6 @@ bin
 
 # Python
 venv
+
+# Application output
+*.txt

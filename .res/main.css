@@ -47,8 +47,12 @@
     -fx-background-color: black;
 }
 
-.button#export {
+.button#export-preview {
     -fx-background-color: grey;
+}
+
+.button#export {
+    -fx-background-color: midnightblue;
 }
 /* endregion */
 

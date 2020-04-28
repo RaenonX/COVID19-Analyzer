@@ -41,7 +41,7 @@ public class MainFooter implements IGuiUnit {
             setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(mainStage).show());
         }};
         Button b2_export = new Button("Export Result") {{
-            setId("export");
+            setId("export-preview");
             setOnAction(e -> onExportClicked());
         }};
 
