@@ -1,4 +1,4 @@
-s# COVID-19 Analyzer
+# COVID-19 Analyzer
 
 COVID-19 data analyzer for the final project of UW-Madison CS 400 Spring 2020 ateam #87.
 
