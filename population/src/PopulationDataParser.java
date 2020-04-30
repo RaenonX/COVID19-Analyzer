@@ -22,16 +22,20 @@ public class PopulationDataParser {
 	public static void loadUsPopFile(String path, StateNameConverter converter) throws IOException {
 		Map<String, List<County>> data = new HashMap<>();  // State abbr and list of counties
 
-		Files.lines(Paths.get(path)).map(line -> line.split(",")).forEach(line -> {
-			String stateAbbr = line[IDX_STATE];
-			String countyName = line[IDX_COUNTY];
-			int population = Integer.parseInt(line[IDX_POPULATION]);
-			double latitude = Double.parseDouble(line[IDX_LAT]);
-			double longitude = Double.parseDouble(line[IDX_LON]);
+		Files.lines(Paths.get(path)).map(line -> line.split(",", 6)).forEach(lineEntry -> {
+			if (lineEntry.length < 5) {
+				return;
+			}
+
+			String stateAbbr = lineEntry[IDX_STATE];
+			String countyName = lineEntry[IDX_COUNTY];
+			int population = Integer.parseInt(lineEntry[IDX_POPULATION]);
+			double latitude = Double.parseDouble(lineEntry[IDX_LAT]);
+			double longitude = Double.parseDouble(lineEntry[IDX_LON]);
 
 			String[] zipcodes;
-			if (line.length > IDX_ZIPS) {
-				zipcodes = line[IDX_ZIPS].split(" ");
+			if (lineEntry.length > IDX_ZIPS) {
+				zipcodes = lineEntry[IDX_ZIPS].split(" ");
 			} else {
 				zipcodes = new String[] {};
 			}

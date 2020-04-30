@@ -2,7 +2,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -32,8 +31,24 @@ public class Config {
 
     public static String PATH_CONFIG = "config.cfg";
 
-    private static String toAbsolutePath(String relativePath) {
-        return new File(relativePath).getAbsolutePath();
+    /**
+     * Force the file path {@code path} to be the absolute path.
+     *
+     * @param path path to be converted
+     * @return absolute file path of {@code path}
+     */
+    private static String toAbsolutePath(String path) {
+        return new File(path).getAbsolutePath();
+    }
+
+    /**
+     * Check if the file at {@code path} exists.
+     *
+     * @param path file path to be checked the existence
+     * @return if the file exists
+     */
+    private static boolean isFileExists(String path) {
+        return new File(path).exists();
     }
 
     /**
@@ -105,11 +120,12 @@ public class Config {
      * Constructor of default config.
      */
     private Config() {
-        this.dataPath = toAbsolutePath(PATH_DATA);
-        this.usPopsPath = toAbsolutePath(PATH_US_POPS);
-        this.usStatesPath = toAbsolutePath(PATH_US_STATES);
-        this.filterDocPath = toAbsolutePath(PATH_FILTER_DOC);
-        this.stylePath = toAbsolutePath(PATH_STYLE);
+        this(
+                toAbsolutePath(PATH_DATA),
+                toAbsolutePath(PATH_US_POPS),
+                toAbsolutePath(PATH_US_STATES),
+                toAbsolutePath(PATH_FILTER_DOC),
+                toAbsolutePath(PATH_STYLE));
     }
 
     /**
@@ -123,10 +139,31 @@ public class Config {
      */
     private Config(String dataPath, String usPopsPath, String usStatesPath, String filterDocPath, String stylePath) {
         this.dataPath = dataPath;
+        if (!isFileExists(this.dataPath)) {
+            this.dataPath = toAbsolutePath(PATH_DATA);
+        }
+
         this.usPopsPath = usPopsPath;
+        if (!isFileExists(this.usPopsPath)) {
+            this.usPopsPath = toAbsolutePath(PATH_US_POPS);
+        }
+
         this.usStatesPath = usStatesPath;
+        if (!isFileExists(this.usStatesPath)) {
+            this.usStatesPath = toAbsolutePath(PATH_US_STATES);
+        }
+
         this.filterDocPath = filterDocPath;
+        if (!isFileExists(this.filterDocPath)) {
+            this.filterDocPath = toAbsolutePath(PATH_FILTER_DOC);
+        }
+
         this.stylePath = stylePath;
+        if (!isFileExists(this.stylePath)) {
+            this.stylePath = toAbsolutePath(PATH_STYLE);
+        }
+
+        this.writeConfigFile();
     }
 
     public String getDataPath() {

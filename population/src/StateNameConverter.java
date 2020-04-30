@@ -27,6 +27,7 @@ public class StateNameConverter {
                     if (lineEntry.length < 2) {
                         return;
                     }
+
                     dict.put(lineEntry[IDX_ABBR], lineEntry[IDX_NAME]);
                 });
     }
