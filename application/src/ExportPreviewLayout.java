@@ -22,8 +22,16 @@ public class ExportPreviewLayout extends LayoutBase {
 
     private final StringBuilder stringBuilder;
 
-    public ExportPreviewLayout(Stage stage, String title, int width, int height, StringBuilder stringBuilder) {
-        super(stage, title, width, height, true);
+    /**
+     * @param stage owner stage of the layout
+     * @param appConfig application config object
+     * @param title title of the layout
+     * @param width width of the layout in pixels (px)
+     * @param height height of the layout in pixels (px)
+     * @param stringBuilder {@code StringBuilder} to be used when previewing and exporting the data file
+     */
+    public ExportPreviewLayout(Stage stage, Config appConfig, String title, int width, int height, StringBuilder stringBuilder) {
+        super(stage, appConfig, title, width, height, true);
 
         this.stringBuilder = stringBuilder;
     }

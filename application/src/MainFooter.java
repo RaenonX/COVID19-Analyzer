@@ -24,8 +24,11 @@ public class MainFooter implements IGuiUnit {
      */
     private boolean exportDialogOpened;
 
-    public MainFooter(Stage mainStage, Supplier<DataHolder> fnGetHolder) {
+    private final Config appConfig;
+
+    public MainFooter(Stage mainStage, Config appConfig, Supplier<DataHolder> fnGetHolder) {
         this.fnGetHolder = fnGetHolder;
+        this.appConfig = appConfig;
 
         this.box = new HBox() {{
             getStyleClass().add("section");
@@ -38,7 +41,7 @@ public class MainFooter implements IGuiUnit {
 
         Button b1_doc = new Button("Filter Syntax Manual") {{
             setId("doc");
-            setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(mainStage).show());
+            setOnAction(e -> FilterSyntaxDocGUI.documentationPopup(appConfig.getFilterDocPath(), mainStage).show());
         }};
         Button b2_export = new Button("Export Result") {{
             setId("export-preview");
@@ -58,7 +61,7 @@ public class MainFooter implements IGuiUnit {
             stage.setOnHiding(event -> exportDialogOpened = false);
 
             LayoutBase layoutBase = new ExportPreviewLayout(
-                    stage, "Export Preview", 1000, 600, fnGetHolder.get().summaryString());
+                    stage, this.appConfig, "Export Preview", 1000, 600, fnGetHolder.get().summaryString());
 
             layoutBase.applyAndShow();
             exportDialogOpened = true;

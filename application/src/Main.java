@@ -11,32 +11,30 @@ public class Main extends Application {
     /**
      * Load the necessary data files.
      *
+     * @param config config object of the application
      * @throws IOException thrown if any of the resource file does not exist
      */
-    private void loadFile() throws IOException {
-        StateNameConverter converter = new StateNameConverter(".res/data/usstates.csv");
-        PopulationDataParser.loadUsPopFile(".res/data/uspops.csv", converter);
+    private void loadFile(Config config) throws IOException {
+                StateNameConverter converter = new StateNameConverter(config.getUsStatesPath());
+        PopulationDataParser.loadUsPopFile(config.getUsPopsPath(), converter);
 
         try {
-          mainData = DataHolder.parseFile(".res/data/data.csv");
+            mainData = DataHolder.parseFile(config.getDataPath());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {
-          e.printStackTrace();
-        }
-        
     }
 
     @Override
     public void start(Stage primaryStage) {
-        LayoutBase ml;
+        Config config = Config.parse(Config.PATH_CONFIG);
 
         try {
-            loadFile();
-            ml = new MainLayout(primaryStage, APP_TITLE, 1500, 800, mainData);
+            loadFile(config);
+            new MainLayout(primaryStage, config, APP_TITLE, 1500, 800, mainData).applyAndShow();
         } catch (IOException e) {
-            ml = new FileLoadFailedLayout(primaryStage, APP_TITLE, 600, 600, e);
-        } 
-        ml.applyAndShow();
+            FileLoadFailedLayout.displayAlert(e);
+        }
     }
 
     public static void main(String[] args) {

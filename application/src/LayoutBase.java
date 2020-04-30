@@ -11,13 +11,23 @@ public abstract class LayoutBase {
      * {@code Stage} for the layout to attach.
      */
     protected final Stage stage;
+    protected final Config appConfig;
     protected final String title;
     protected final int width;
     protected final int height;
     protected final boolean resizable;
 
-    protected LayoutBase(Stage stage, String title, int width, int height, boolean resizable) {
+    /**
+     * @param stage owner stage of the layout
+     * @param appConfig application config object
+     * @param title title of the layout
+     * @param width width of the layout in pixels (px)
+     * @param height height of the layout in pixels (px)
+     * @param resizable if this layout should be resizable
+     */
+    protected LayoutBase(Stage stage, Config appConfig, String title, int width, int height, boolean resizable) {
         this.stage = stage;
+        this.appConfig = appConfig;
         this.title = title;
         this.width = width;
         this.height = height;
@@ -39,7 +49,7 @@ public abstract class LayoutBase {
     private void loadStylesheet(Scene scene) {
         String cssPath;
         try {
-            cssPath = new File(".res/main.css").toURI().toURL().toString();
+            cssPath = new File(appConfig.getStylePath()).toURI().toURL().toString();
         } catch (MalformedURLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
 
