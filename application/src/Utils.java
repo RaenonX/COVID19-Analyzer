@@ -22,7 +22,7 @@ public class Utils {
         gp.getColumnConstraints().addAll(
                 IntStream
                         .range(0, count)
-                        .mapToObj(x -> new ColumnConstraints() {{
+                        .mapToObj(i -> new ColumnConstraints() {{
                             setPrefWidth(width / (double) count);
                             setPercentWidth(100 / (double) count);
                             setHgrow(Priority.ALWAYS);

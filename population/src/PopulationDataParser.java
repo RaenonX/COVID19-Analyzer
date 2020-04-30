@@ -37,7 +37,7 @@ public class PopulationDataParser {
 			}
 
 			List<Integer> zips = Arrays.stream(zipcodes)
-					.filter(x -> x.length() > 0)
+					.filter(codes -> codes.length() > 0)
 					.map(Integer::valueOf)
 					.collect(Collectors.toList());
 
@@ -56,10 +56,10 @@ public class PopulationDataParser {
 
 		List<State> usData = new ArrayList<>();
 
-		data.keySet().forEach(x -> {
-			List<County> counties = data.get(x);
+		data.keySet().forEach(abbr -> {
+			List<County> counties = data.get(abbr);
 			try {
-				usData.add(new State(x, converter.getFullName(x), counties));
+				usData.add(new State(abbr, converter.getFullName(abbr), counties));
 			} catch (InvalidStateNameException e) {
 				e.printStackTrace();
 			}

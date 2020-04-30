@@ -38,12 +38,12 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State> {
 	/**
 	 * Get the state with the given abbreviation or the full name.
 	 *
-	 * @param state state abbreviation or the full name
+	 * @param stateAbbrName state abbreviation or the full name
 	 * @return {@code State} which matches the condition. {@code null} if not found.
 	 */
-	public State getState(String state) {
+	public State getState(String stateAbbrName) {
 		return states.stream()
-				.filter(x -> x.getAbbr().equalsIgnoreCase(state) || x.getName().equalsIgnoreCase(state))
+				.filter(state -> state.getAbbr().equalsIgnoreCase(stateAbbrName) || state.getName().equalsIgnoreCase(stateAbbrName))
 				.findFirst()
 				.orElse(null);
 	}
@@ -93,7 +93,7 @@ public class UnitedStates implements IPopulation, IPopulationCondition<State> {
 
 		return stateObj.getCounties()
 				.stream()
-				.filter(x -> x.getName().equalsIgnoreCase(county))
+				.filter(countyObj -> countyObj.getName().equalsIgnoreCase(county))
 				.findFirst()
 				.orElse(null);
 	}

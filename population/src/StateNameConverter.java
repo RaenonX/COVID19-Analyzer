@@ -22,8 +22,8 @@ public class StateNameConverter {
         this.dict = new TreeMap<>();
 
         Files.lines(Paths.get(filePath))
-                .map(x -> x.split(","))
-                .forEach(x -> dict.put(x[IDX_ABBR], x[IDX_NAME]));
+                .map(line -> line.split(","))
+                .forEach(lineArr -> dict.put(lineArr[IDX_ABBR], lineArr[IDX_NAME]));
     }
 
     /**

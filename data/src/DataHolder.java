@@ -57,19 +57,19 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
         Map<LocalDate, Integer> confirmedCount = new TreeMap<>();
         Map<LocalDate, Integer> fatalCount = new TreeMap<>();
 
-        this.entries.forEach(x -> {
-            LocalDate date = x.getDate();
-            confirmedCount.put(date, confirmedCount.getOrDefault(date, 0) + x.getConfirmed());
-            fatalCount.put(date, fatalCount.getOrDefault(date, 0) + x.getFatal());
+        this.entries.forEach(entry -> {
+            LocalDate date = entry.getDate();
+            confirmedCount.put(date, confirmedCount.getOrDefault(date, 0) + entry.getConfirmed());
+            fatalCount.put(date, fatalCount.getOrDefault(date, 0) + entry.getFatal());
         });
 
         List<DailyCaseCounts> counts = dates.stream()
-                .map(x -> {
-                    int confirmed = confirmedCount.getOrDefault(x, 0);
-                    int confirmedDiff = confirmed - confirmedCount.getOrDefault(x.minusDays(1), 0);
-                    int fatal = fatalCount.getOrDefault(x, 0);
-                    int fatalDiff = fatal - fatalCount.getOrDefault(x.minusDays(1), 0);
-                    return new DailyCaseCounts(x, confirmed, confirmedDiff, fatal, fatalDiff, totalPop);
+                .map(date -> {
+                    int confirmed = confirmedCount.getOrDefault(date, 0);
+                    int confirmedDiff = confirmed - confirmedCount.getOrDefault(date.minusDays(1), 0);
+                    int fatal = fatalCount.getOrDefault(date, 0);
+                    int fatalDiff = fatal - fatalCount.getOrDefault(date.minusDays(1), 0);
+                    return new DailyCaseCounts(date, confirmed, confirmedDiff, fatal, fatalDiff, totalPop);
                 })
                 .collect(Collectors.toList());
 
@@ -236,7 +236,7 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
             table.getColumns().add(this);
         }};
 
-        table.getColumns().forEach(x -> x.setReorderable(false));
+        table.getColumns().forEach(col -> col.setReorderable(false));
     }
 
     /**
@@ -247,12 +247,15 @@ public class DataHolder implements IGUITableDataCollection<DataEntry> {
      * @throws IOException thrown if file does not exist or occupied
      */
     public static DataHolder parseFile(String path) throws IOException {
-        return new DataHolder(Files.lines(Paths.get(path)).map(x -> x.split(",")).map(lineEntry -> {
-            try {
-                return DataEntryFileProcessor.parse(lineEntry);
-            } catch (Exception e) {
-                return null;
-            }
-        }).filter(Objects::nonNull));
+        return new DataHolder(Files.lines(Paths.get(path))
+                .map(line -> line.split(","))
+                .map(lineEntry -> {
+                    try {
+                        return DataEntryFileProcessor.parse(lineEntry);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull));
     }
 }

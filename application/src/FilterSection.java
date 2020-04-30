@@ -51,7 +51,7 @@ public class FilterSection implements IGuiUnit {
         this.overall = new CaseSection(width, TITLE_OVERALL);
         this.per100K = new CaseSection(width, TITLE_PER_100K);
 
-        this.prompt = new FilterPrompt(width, x -> onFilterEntered());
+        this.prompt = new FilterPrompt(width, e -> onFilterEntered());
 
         this.dataEntryGUI = new DataTableGUI<>(defaultDataHolder);
         this.dailyCaseGUI = new DataTableGUI<>(defaultDataHolder.getDailyCaseStats());

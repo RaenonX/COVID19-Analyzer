@@ -136,7 +136,7 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>,
             table.getColumns().add(this);
         }};
 
-        table.getColumns().forEach(x -> x.setReorderable(false));
+        table.getColumns().forEach(col -> col.setReorderable(false));
     }
 
     /**
@@ -154,7 +154,7 @@ public class DailyCaseStats implements IGUITableDataCollection<DailyCaseCounts>,
         // https://stackoverflow.com/a/47954566/11571888
         series.getData().addAll(caseCounts
                 .stream()
-                .map(x -> new XYChart.Data<>(x.getDate().toString(), numberFunction.apply(x)))
+                .map(caseCount -> new XYChart.Data<>(caseCount.getDate().toString(), numberFunction.apply(caseCount)))
                 .collect(Collectors.toList()));
         series.setName(name);
 

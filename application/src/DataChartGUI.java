@@ -34,7 +34,7 @@ public class DataChartGUI<T extends IGUIChartSeriesCollection<String, Number>> i
         chartSeries = data.getSeriesCollection();
 
         chart.getData().clear();
-        chartSeries.forEach(x -> x.applyChartSeries(chart));
+        chartSeries.forEach(series -> series.applyChartSeries(chart));
     }
 
     public HBox legendHBox() {

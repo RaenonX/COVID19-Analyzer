@@ -49,7 +49,7 @@ public class FilterCondition {
     public String toString() {
         return conditions
                 .stream()
-                .map(x -> x
+                .map(entity -> entity
                         .stream()
                         .map(FilterConditionEntity::toString)
                         .collect(Collectors.joining(" AND ")))

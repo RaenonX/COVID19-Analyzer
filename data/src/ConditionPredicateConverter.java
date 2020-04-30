@@ -101,8 +101,8 @@ public class ConditionPredicateConverter {
     private static Predicate<DataEntry> convertStateEntity(FilterConditionEntity entity) {
         FilterComparator fc = entity.getComparator();
 
-        return e -> {
-            State state = e.getState();
+        return entry -> {
+            State state = entry.getState();
             State val = (State)entity.getVal();
 
             if (state == null) {
@@ -121,8 +121,8 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertCountyEntity(FilterConditionEntity entity) {
-        return e -> {
-            County county = e.getCounty();
+        return entry -> {
+            County county = entry.getCounty();
             County val = (County)entity.getVal();
 
             if (county == null || val == null) {
@@ -141,7 +141,7 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertConfirmedEntity(FilterConditionEntity entity) {
-        return e -> compare(entity.getComparator(), e.getConfirmed(), (int)entity.getVal());
+        return entry -> compare(entity.getComparator(), entry.getConfirmed(), (int)entity.getVal());
     }
 
     /**
@@ -152,7 +152,7 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertFatalEntity(FilterConditionEntity entity) {
-        return e -> compare(entity.getComparator(), e.getFatal(), (int)entity.getVal());
+        return entry -> compare(entity.getComparator(), entry.getFatal(), (int)entity.getVal());
     }
 
     /**
@@ -163,7 +163,7 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertConfirmedPer100KEntity(FilterConditionEntity entity) {
-        return e -> compare(entity.getComparator(), e.getConfirmedPer100K(), (double)entity.getVal());
+        return entry -> compare(entity.getComparator(), entry.getConfirmedPer100K(), (double)entity.getVal());
     }
 
     /**
@@ -174,7 +174,7 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertFatalPer100KEntity(FilterConditionEntity entity) {
-        return e -> compare(entity.getComparator(), e.getFatalPer100K(), (double)entity.getVal());
+        return entry -> compare(entity.getComparator(), entry.getFatalPer100K(), (double)entity.getVal());
     }
 
     /**
@@ -185,7 +185,7 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertDeathRateEntity(FilterConditionEntity entity) {
-        return e -> compare(entity.getComparator(), e.getDeathRatePercent(), (double)entity.getVal());
+        return entry -> compare(entity.getComparator(), entry.getDeathRatePercent(), (double)entity.getVal());
     }
 
     /**
@@ -196,8 +196,8 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertLatitudeEntity(FilterConditionEntity entity) {
-        return e -> {
-            County county = e.getCounty();
+        return entry -> {
+            County county = entry.getCounty();
 
             if (county == null) {
                 return false;
@@ -215,8 +215,8 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertLongitudeEntity(FilterConditionEntity entity) {
-        return e -> {
-            County county = e.getCounty();
+        return entry -> {
+            County county = entry.getCounty();
 
             if (county == null) {
                 return false;
@@ -234,8 +234,8 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertZipCodeEntity(FilterConditionEntity entity) {
-        return e -> {
-            County county = e.getCounty();
+        return entry -> {
+            County county = entry.getCounty();
             int zipCode = (int)entity.getVal();
 
             if (county == null) {
@@ -254,8 +254,8 @@ public class ConditionPredicateConverter {
      * @return {@code Predicate} to be used to filter data
      */
     private static Predicate<DataEntry> convertDateEntity(FilterConditionEntity entity) {
-        return e -> {
-            LocalDate dateOnData = e.getDate();
+        return entry -> {
+            LocalDate dateOnData = entry.getDate();
             LocalDate dateToCompare;
             try {
                 dateToCompare = (LocalDate)entity.getVal();
